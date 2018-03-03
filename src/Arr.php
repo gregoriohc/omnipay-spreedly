@@ -23,45 +23,6 @@ class Arr {
     }
 
     /**
-     * Build a new array using a callback.
-     *
-     * @param  array  $array
-     * @param  callable  $callback
-     * @return array
-     */
-    public static function build($array, callable $callback)
-    {
-        $results = [];
-
-        foreach ($array as $key => $value)
-        {
-            list($innerKey, $innerValue) = call_user_func($callback, $key, $value);
-
-            $results[$innerKey] = $innerValue;
-        }
-
-        return $results;
-    }
-
-    /**
-     * Collapse an array of arrays into a single array.
-     *
-     * @param  array|\ArrayAccess  $array
-     * @return array
-     */
-    public static function collapse($array)
-    {
-        $results = [];
-
-        foreach ($array as $values)
-        {
-            $results = array_merge($results, $values);
-        }
-
-        return $results;
-    }
-
-    /**
      * Divide an array into two arrays. One with keys and the other with values.
      *
      * @param  array  $array
@@ -110,33 +71,6 @@ class Arr {
         static::forget($array, $keys);
 
         return $array;
-    }
-
-    /**
-     * Fetch a flattened array of a nested array element.
-     *
-     * @param  array   $array
-     * @param  string  $key
-     * @return array
-     */
-    public static function fetch($array, $key)
-    {
-        $results = [];
-
-        foreach (explode('.', $key) as $segment)
-        {
-            foreach ($array as $value)
-            {
-                if (array_key_exists($segment, $value = (array) $value))
-                {
-                    $results[] = $value[$segment];
-                }
-            }
-
-            $array = array_values($results);
-        }
-
-        return array_values($results);
     }
 
     /**
