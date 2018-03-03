@@ -7,6 +7,11 @@ use Omnipay\Common\CreditCard;
 
 class GatewayTest extends GatewayTestCase
 {
+    /**
+     * @var Gateway
+     */
+    protected $gateway;
+
     public function setUp()
     {
         parent::setUp();
@@ -157,5 +162,14 @@ class GatewayTest extends GatewayTestCase
 
         /** @var Message\Response $response */
         $response = $this->gateway->listGateways()->send();
+    }
+
+    public function testLoadGateways()
+    {
+        $this->setMockHttpResponse('ListGatewaysSuccess.txt');
+
+        $this->gateway->loadGateways();
+
+        $this->assertEquals('7NTzuQfnaNU2Jr4cVgOt7jfTVGq', $this->gateway->getGatewaysTokens()['test']->getToken());
     }
 }

@@ -67,23 +67,6 @@ class Gateway extends AbstractGateway
         return $this->setParameter('gateways_tokens', $value);
     }
 
-    /**
-     * @param GatewayToken|array $gatewayToken
-     * @return $this
-     */
-    public function addGatewayToken($gatewayToken)
-    {
-        if (is_array($gatewayToken)) {
-            $gatewayToken = new GatewayToken($gatewayToken);
-        }
-
-        $tokens = $this->getParameter('gateways_tokens');
-
-        $tokens[$gatewayToken->getType()] = $gatewayToken;
-
-        return $this->setParameter('gateways_tokens', $tokens);
-    }
-
     public function getTimeout()
     {
         return $this->getParameter('timeout');
@@ -195,6 +178,23 @@ class Gateway extends AbstractGateway
     }
 
     /**
+     * @param GatewayToken|array $gatewayToken
+     * @return $this
+     */
+    public function addGatewayToken($gatewayToken)
+    {
+        if (is_array($gatewayToken)) {
+            $gatewayToken = new GatewayToken($gatewayToken);
+        }
+
+        $tokens = $this->getParameter('gateways_tokens');
+
+        $tokens[$gatewayToken->getType()] = $gatewayToken;
+
+        return $this->setParameter('gateways_tokens', $tokens);
+    }
+
+    /**
      * @param array $options
      * @return array|bool
      */
@@ -220,5 +220,22 @@ class Gateway extends AbstractGateway
         }
 
         return false;
+    }
+
+    /**
+     * Load previously created gateways
+     */
+    public function loadGateways()
+    {
+        $response = $this->listGateways()->send();
+
+        if ($response->isSuccessful()) {
+            foreach ($response->getData() as $gateway) {
+                $this->addGatewayToken([
+                    'type' => $gateway['gateway_type'],
+                    'token' => $gateway['token'],
+                ]);
+            }
+        }
     }
 }
