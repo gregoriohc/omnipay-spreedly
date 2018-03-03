@@ -41,6 +41,14 @@ class ResponseTest extends TestCase
         });
 
         $this->assertEquals(200, $value);
+
+        $array = [100, 200, 300];
+
+        $value = Arr::first($array, function ($key, $value) {
+            return $value == 150;
+        }, 0);
+
+        $this->assertEquals(0, $value);
     }
 
     public function testLast()
@@ -94,7 +102,9 @@ class ResponseTest extends TestCase
     {
         $array = ['products' => ['desk' => ['price' => 100]]];
         Arr::set($array, 'products.desk.price', 200);
-        $this->assertEquals(['products' => ['desk' => ['price' => 200]]], $array);
+        Arr::set($array, 'products.desk.name', 'Magnum');
+        Arr::set($array, 'foo.bar', 'test');
+        $this->assertEquals(['products' => ['desk' => ['price' => 200, 'name' => 'Magnum']], 'foo' => ['bar' => 'test']], $array);
     }
 
     public function testWhere()
