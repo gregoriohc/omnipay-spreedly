@@ -123,7 +123,7 @@ class GatewayTest extends GatewayTestCase
     {
         $this->setMockHttpResponse('PurchaseSuccess.txt');
 
-        $response = $this->gateway->authorize([
+        $response = $this->gateway->purchase([
             'amount' => '1.00',
             'currency' => 'USD',
             'card' => new CreditCard([
@@ -143,12 +143,45 @@ class GatewayTest extends GatewayTestCase
         $this->assertEquals(100, $response->getAmountInteger());
     }
 
+    public function testRefundFull()
+    {
+        $this->setMockHttpResponse('RefundFullSuccess.txt');
+
+        $response = $this->gateway->refund([
+            'token' => '1234',
+        ])->send();
+
+        $this->assertTrue($response->isSuccessful());
+        $this->assertEquals('TBuWJz3OyvaDgcHyEhmY1hv9InB', $response->getTransactionReference());
+        $this->assertEquals('succeeded', $response->getCode());
+        $this->assertEquals('1.00', $response->getAmount());
+        $this->assertEquals(100, $response->getAmountInteger());
+    }
+
+    public function testRefundPartial()
+    {
+        $this->setMockHttpResponse('RefundPartialSuccess.txt');
+
+        $response = $this->gateway->refund([
+            'token' => '1234',
+            'amount' => '0.50',
+            'currency' => 'USD',
+        ])->send();
+
+        $this->assertTrue($response->isSuccessful());
+        $this->assertEquals('RpJnRjeZFxJyUVLmFJ7hQAqKntx', $response->getTransactionReference());
+        $this->assertEquals('succeeded', $response->getCode());
+        $this->assertEquals('0.50', $response->getAmount());
+        $this->assertEquals(50, $response->getAmountInteger());
+    }
+
     public function testCreateGateway()
     {
         $this->setMockHttpResponse('CreateGatewaySuccess.txt');
 
         $response = $this->gateway->createGateway([
-            'type' => 'test'
+            'type' => 'test',
+            'config' => [],
         ])->send();
 
         $this->assertTrue($response->isSuccessful());

@@ -1,0 +1,65 @@
+HTTP/1.1 201 Created
+Server: Apache
+Date: Sun, 11 May 2014 21:17:31 GMT
+Content-Type: application/json; charset=utf-8
+Status: 201 Created
+
+{
+  "transaction": {
+    "on_test_gateway": true,
+    "created_at": "2017-11-21T15:17:42Z",
+    "updated_at": "2017-11-21T15:17:42Z",
+    "succeeded": true,
+    "state": "succeeded",
+    "token": "TBuWJz3OyvaDgcHyEhmY1hv9InB",
+    "transaction_type": "Credit",
+    "order_id": null,
+    "ip": null,
+    "description": null,
+    "email": null,
+    "merchant_name_descriptor": null,
+    "merchant_location_descriptor": null,
+    "gateway_specific_fields": {
+    },
+    "gateway_specific_response_fields": {
+    },
+    "gateway_transaction_id": "54",
+    "gateway_latency_ms": 0,
+    "amount": 100,
+    "currency_code": "USD",
+    "message_key": "messages.transaction_succeeded",
+    "message": "Succeeded!",
+    "gateway_token": "Zi0OHhR0fn1dSGym1Wol302ajDY",
+    "gateway_type": "test",
+    "response": {
+      "success": true,
+      "message": "Successful credit",
+      "avs_code": null,
+      "avs_message": null,
+      "cvv_code": null,
+      "cvv_message": null,
+      "pending": false,
+      "result_unknown": false,
+      "error_code": "",
+      "error_detail": null,
+      "cancelled": false,
+      "fraud_review": null,
+      "created_at": "2017-11-21T15:17:42Z",
+      "updated_at": "2017-11-21T15:17:42Z"
+    },
+    "shipping_address": {
+      "name": null,
+      "address1": null,
+      "address2": null,
+      "city": null,
+      "state": null,
+      "zip": null,
+      "country": null,
+      "phone_number": null
+    },
+    "api_urls": [
+
+    ],
+    "reference_token": "BE3lL76bUzUSIbFF4w7VBJtvxCW"
+  }
+}
