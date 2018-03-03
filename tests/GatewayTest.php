@@ -156,6 +156,8 @@ class GatewayTest extends GatewayTestCase
         $this->assertEquals('succeeded', $response->getCode());
         $this->assertEquals('1.00', $response->getAmount());
         $this->assertEquals(100, $response->getAmountInteger());
+        $this->assertNull($response->getTransactionId());
+        $this->assertArrayHasKey('transaction', $response->getRawData());
     }
 
     public function testRefundFull()
