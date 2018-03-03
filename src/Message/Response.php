@@ -33,15 +33,21 @@ class Response extends AbstractResponse
     public function isSuccessful()
     {
         // Check for succeeded parameter
-        $value = Arr::get($this->data, 'succeeded');
-        if ($value) {
-            return $value == true;
+        $succeeded = Arr::get($this->data, 'succeeded');
+        if (!is_null($succeeded)) {
+            return $succeeded == true;
         }
 
         // Check for state parameter
-        $value = Arr::get($this->data, 'state');
-        if ($value) {
-            return $value == 'retained';
+        $state = Arr::get($this->data, 'state');
+        if (!is_null($state)) {
+            return $state == 'retained';
+        }
+
+        // Check for errors array
+        $errors = Arr::get($this->data, 'errors');
+        if (!is_null($errors)) {
+            return is_array($errors) && !count($errors);
         }
 
         // Check if it's an indexed array (lists)
