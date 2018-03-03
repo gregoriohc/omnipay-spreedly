@@ -203,6 +203,18 @@ class GatewayTest extends GatewayTestCase
         $this->assertTrue($response->isSuccessful());
         $this->assertEquals('9IstHnD1haMTBWkIjlYWb5TwuO0', $response->getTransactionReference());
         $this->assertEquals('succeeded', $response->getCode());
+        $this->assertNull($response->getAmount());
+    }
+
+    public function testVoidError()
+    {
+        $this->setMockHttpResponse('VoidError.txt');
+
+        $response = $this->gateway->void([
+            'token' => '1234',
+        ])->send();
+
+        $this->assertFalse($response->isSuccessful());
     }
 
     public function testCreateGateway()
@@ -249,5 +261,14 @@ class GatewayTest extends GatewayTestCase
         $this->gateway->loadGateways();
 
         $this->assertEquals('7NTzuQfnaNU2Jr4cVgOt7jfTVGq', $this->gateway->getGatewaysTokens()['test']->getToken());
+    }
+
+    public function testTooManyRequestsError()
+    {
+        $this->setMockHttpResponse('TooManyRequestsError.txt');
+
+        $this->setExpectedException(\Guzzle\Http\Exception\ClientErrorResponseException::class);
+
+        $this->gateway->listGateways()->send();
     }
 }
