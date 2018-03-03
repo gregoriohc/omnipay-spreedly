@@ -97,6 +97,10 @@ abstract class AbstractRequest extends BaseAbstractRequest
             $gateway = $this->getDefaultGateway();
         }
 
+        if ($this->getTestMode()) {
+            $gateway = 'test';
+        }
+
         $tokens = $this->getParameter('gateways_tokens');
 
         $gatewayToken = Arr::get($tokens, $gateway);
