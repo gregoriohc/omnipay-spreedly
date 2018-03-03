@@ -9,11 +9,13 @@ class VoidRequest extends AbstractRequest
 {
     public function getData()
     {
-        return [];
+        $this->validate('token');
+
+        return null;
     }
 
     public function getEndpoint()
     {
-        return $this->getGatewayEndpoint() . '';
+        return $this->endpoint . 'transactions/' . $this->getToken() . '/void';
     }
 }

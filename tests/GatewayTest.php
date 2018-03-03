@@ -190,6 +190,19 @@ class GatewayTest extends GatewayTestCase
         $this->assertEquals(50, $response->getAmountInteger());
     }
 
+    public function testVoid()
+    {
+        $this->setMockHttpResponse('VoidSuccess.txt');
+
+        $response = $this->gateway->void([
+            'token' => '1234',
+        ])->send();
+
+        $this->assertTrue($response->isSuccessful());
+        $this->assertEquals('9IstHnD1haMTBWkIjlYWb5TwuO0', $response->getTransactionReference());
+        $this->assertEquals('succeeded', $response->getCode());
+    }
+
     public function testCreateGateway()
     {
         $this->setMockHttpResponse('CreateGatewaySuccess.txt');
