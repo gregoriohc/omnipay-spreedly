@@ -1,0 +1,53 @@
+HTTP/1.1 200 OK
+Server: Apache
+Date: Sun, 11 May 2014 21:17:31 GMT
+Content-Type: application/json; charset=utf-8
+Status: 200 OK
+
+{
+  "payment_method": {
+    "token": "1rpKvP8zOUhj4Y9EDrIoIYQzzD5",
+    "created_at": "2017-06-26T17:04:38Z",
+    "updated_at": "2017-07-27T17:55:12Z",
+    "email": "joey@example.com",
+    "data": {
+      "my_payment_method_identifier": "448",
+      "extra_stuff": {
+        "some_other_things": "Can be anything really"
+      }
+    },
+    "storage_state": "retained",
+    "test": true,
+    "last_four_digits": "1111",
+    "first_six_digits": "411111",
+    "card_type": "visa",
+    "first_name": "Newfirst",
+    "last_name": "Newlast",
+    "month": 3,
+    "year": 2032,
+    "address1": null,
+    "address2": null,
+    "city": null,
+    "state": null,
+    "zip": null,
+    "country": null,
+    "phone_number": null,
+    "company": null,
+    "full_name": "Newfirst Newlast",
+    "eligible_for_card_updater": true,
+    "shipping_address1": null,
+    "shipping_address2": null,
+    "shipping_city": null,
+    "shipping_state": null,
+    "shipping_zip": null,
+    "shipping_country": null,
+    "shipping_phone_number": null,
+    "payment_method_type": "credit_card",
+    "errors": [
+
+    ],
+    "fingerprint": "e3cef43464fc832f6e04f187df25af497994",
+    "verification_value": "XXX",
+    "number": "XXXX-XXXX-XXXX-1111"
+  }
+}
