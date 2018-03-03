@@ -196,7 +196,7 @@ class Gateway extends AbstractGateway
 
     /**
      * @param array $options
-     * @return array|bool
+     * @return GatewayToken|null
      */
     public function addGateway(array $options = array())
     {
@@ -216,10 +216,10 @@ class Gateway extends AbstractGateway
 
             $this->addGatewayToken($gatewayToken);
 
-            return $data;
+            return $gatewayToken;
         }
 
-        return false;
+        return null;
     }
 
     /**

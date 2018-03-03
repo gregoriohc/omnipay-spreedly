@@ -231,6 +231,19 @@ class GatewayTest extends GatewayTestCase
         $this->assertNull($response->getMessage());
     }
 
+    public function testAddGateway()
+    {
+        $this->setMockHttpResponse('CreateGatewaySuccess.txt');
+
+        $gatewayToken = $this->gateway->addGateway([
+            'type' => 'test',
+            'config' => [],
+        ]);
+
+        $this->assertEquals('test', $gatewayToken->getType());
+        $this->assertEquals('6DqX57I6fHgIuUkVN2HGszjDSu1', $gatewayToken->getToken());
+    }
+
     public function testListGateways()
     {
         $this->setMockHttpResponse('ListGatewaysSuccess.txt');
