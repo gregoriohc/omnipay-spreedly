@@ -39,7 +39,7 @@ class GatewayTest extends GatewayTestCase
 
         $this->assertTrue($response->isSuccessful());
         $this->assertEquals('RAK67yYv2ZRUyBRcYxLkh3PalNj', $response->getTransactionReference());
-        $this->assertEquals('Succeeded!', $response->getMessage());
+        $this->assertEquals('succeeded', $response->getCode());
         $this->assertEquals('1.00', $response->getAmount());
     }
 
@@ -53,7 +53,7 @@ class GatewayTest extends GatewayTestCase
 
         $this->assertTrue($response->isSuccessful());
         $this->assertEquals('UAooev0WJDbSyuh0CqwHGi8WDML', $response->getTransactionReference());
-        $this->assertEquals('Succeeded!', $response->getMessage());
+        $this->assertEquals('succeeded', $response->getCode());
         $this->assertEquals('1.00', $response->getAmount());
         $this->assertEquals(100, $response->getAmountInteger());
     }
@@ -70,9 +70,34 @@ class GatewayTest extends GatewayTestCase
 
         $this->assertTrue($response->isSuccessful());
         $this->assertEquals('S3VrIobz0gC0AI771ml1CndOLs5', $response->getTransactionReference());
-        $this->assertEquals('Succeeded!', $response->getMessage());
+        $this->assertEquals('succeeded', $response->getCode());
         $this->assertEquals('0.50', $response->getAmount());
         $this->assertEquals(50, $response->getAmountInteger());
+    }
+
+    public function testCreateCard()
+    {
+        $this->setMockHttpResponse('CreateCardSuccess.txt');
+
+        $response = $this->gateway->createCard([
+            'card' => new CreditCard([
+                'firstName' => 'Example',
+                'lastName' => 'User',
+                'number' => '4111111111111111',
+                'expiryMonth' => '12',
+                'expiryYear' => '2020',
+                'cvv' => '123',
+            ]),
+            'email' => 'user@example.com',
+            'retained' => false,
+            'allow_blank_name' => false,
+            'allow_expired_date' => false,
+            'allow_blank_date' => false,
+        ])->send();
+
+        $this->assertTrue($response->isSuccessful());
+        $this->assertEquals('MsTBXc7aXHVnnTeIJX2LfgtfPqh', $response->getTransactionReference());
+        $this->assertEquals('succeeded', $response->getCode());
     }
 
     public function testPurchase()
@@ -94,7 +119,7 @@ class GatewayTest extends GatewayTestCase
 
         $this->assertTrue($response->isSuccessful());
         $this->assertEquals('8I4jCc5E0UR6MkO3zs8I88ERUHq', $response->getTransactionReference());
-        $this->assertEquals('Succeeded!', $response->getMessage());
+        $this->assertEquals('succeeded', $response->getCode());
         $this->assertEquals('1.00', $response->getAmount());
         $this->assertEquals(100, $response->getAmountInteger());
     }

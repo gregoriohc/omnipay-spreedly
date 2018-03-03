@@ -17,13 +17,10 @@ class AuthorizeRequestTest extends TestCase
         parent::setUp();
 
         $this->request = new AuthorizeRequest($this->getHttpClient(), $this->getHttpRequest());
-        $this->request->initialize(
-            array(
-                'amount' => '10.00',
-                'currency' => 'USD',
-                //'card' => $this->getValidCard(),
-            )
-        );
+        $this->request->initialize([
+            'amount' => '10.00',
+            'currency' => 'USD',
+        ]);
     }
 
     public function testGetData()
