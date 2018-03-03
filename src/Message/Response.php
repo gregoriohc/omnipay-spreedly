@@ -4,6 +4,7 @@ namespace Omnipay\Spreedly\Message;
 
 use Omnipay\Common\Message\AbstractResponse;
 use Omnipay\Common\Message\RequestInterface;
+use Omnipay\Spreedly\Arr;
 
 /**
  * Response
@@ -32,13 +33,15 @@ class Response extends AbstractResponse
     public function isSuccessful()
     {
         // Check for succeeded parameter
-        if (array_key_exists('succeeded', $this->data)) {
-            return $this->data['succeeded'] == true;
+        $value = Arr::get($this->data, 'succeeded');
+        if ($value) {
+            return $value == true;
         }
 
         // Check for state parameter
-        if (array_key_exists('state', $this->data)) {
-            return $this->data['state'] == 'retained';
+        $value = Arr::get($this->data, 'state');
+        if ($value) {
+            return $value == 'retained';
         }
 
         // Check if it's an indexed array (lists)
@@ -66,11 +69,7 @@ class Response extends AbstractResponse
      */
     public function getMessage()
     {
-        if (array_key_exists('message', $this->data)) {
-            return $this->data['message'];
-        }
-
-        return null;
+        return Arr::get($this->data, 'message');
     }
 
     /**
@@ -80,11 +79,7 @@ class Response extends AbstractResponse
      */
     public function getCode()
     {
-        if (array_key_exists('state', $this->data)) {
-            return $this->data['state'];
-        }
-
-        return null;
+        return Arr::get($this->data, 'state');
     }
 
     /**
@@ -94,11 +89,7 @@ class Response extends AbstractResponse
      */
     public function getTransactionReference()
     {
-        if (array_key_exists('token', $this->data)) {
-            return $this->data['token'];
-        }
-
-        return null;
+        return Arr::get($this->data, 'token');
     }
 
     /**
@@ -108,11 +99,7 @@ class Response extends AbstractResponse
      */
     public function getTransactionId()
     {
-        if (array_key_exists('order_id', $this->data)) {
-            return $this->data['order_id'];
-        }
-
-        return null;
+        return Arr::get($this->data, 'order_id');
     }
 
     /**
@@ -122,11 +109,13 @@ class Response extends AbstractResponse
      */
     public function getAmount()
     {
-        if (array_key_exists('amount', $this->data)) {
-            return strval(floor($this->data['amount'] / 100)) . '.' . strval($this->data['amount'] % 100);
+        $amount = Arr::get($this->data, 'amount');
+
+        if (!is_numeric($amount)) {
+            return null;
         }
 
-        return null;
+        return strval(floor($amount / 100)) . '.' . strval($amount % 100);
     }
 
     /**
@@ -136,11 +125,17 @@ class Response extends AbstractResponse
      */
     public function getAmountInteger()
     {
-        if (array_key_exists('amount', $this->data)) {
-            return $this->data['amount'];
-        }
+        return Arr::get($this->data, 'amount');
+    }
 
-        return null;
+    /**
+     * Payment method token
+     *
+     * @return null|string The payment method token
+     */
+    public function getPaymentMethodToken()
+    {
+        return Arr::get($this->data, 'payment_method.token');
     }
 
 }

@@ -5,6 +5,8 @@ namespace Omnipay\Spreedly\Message;
 use Omnipay\Common\Exception\InvalidRequestException;
 use Omnipay\Common\Helper;
 use Omnipay\Common\Message\AbstractRequest as BaseAbstractRequest;
+use Omnipay\Spreedly\Arr;
+use Omnipay\Spreedly\GatewayToken;
 
 /**
  * Abstract Request
@@ -97,8 +99,10 @@ abstract class AbstractRequest extends BaseAbstractRequest
 
         $tokens = $this->getParameter('gateways_tokens');
 
-        if (isset($tokens[$gateway])) {
-            return $tokens[$gateway]->getToken();
+        $gatewayToken = Arr::get($tokens, $gateway);
+        if ($gatewayToken) {
+            /** @var GatewayToken $gatewayToken */
+            return $gatewayToken->getToken();
         }
 
         throw new InvalidRequestException("Missing '$gateway' gateway token.");
