@@ -224,7 +224,22 @@ class GatewayTest extends GatewayTestCase
         $this->setMockHttpResponse('ListGatewaysSuccess.txt');
 
         /** @var Message\Response $response */
-        $response = $this->gateway->listGateways()->send();
+        $response = $this->gateway->listGateways([
+            'order' => 'asc',
+        ])->send();
+
+        $this->assertCount(2, $response->getData());
+
+        $this->setMockHttpResponse('ListGatewaysPage2Success.txt');
+
+        /** @var Message\Response $response */
+        $response = $this->gateway->listGateways([
+            'order' => 'asc',
+            'since_token' => $response->getSinceToken(),
+        ])->send();
+
+        $this->assertCount(0, $response->getData());
+        $this->assertNull($response->getSinceToken());
     }
 
     public function testLoadGateways()

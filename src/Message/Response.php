@@ -144,4 +144,20 @@ class Response extends AbstractResponse
         return Arr::get($this->data, 'payment_method.token');
     }
 
+    /**
+     * Since token
+     *
+     * @return null|string The since token of a paginated list
+     */
+    public function getSinceToken()
+    {
+        if (is_array($this->data)) {
+            if ($last = array_pop($this->data)) {
+                return Arr::get($last, 'token');
+            }
+        }
+
+        return null;
+    }
+
 }

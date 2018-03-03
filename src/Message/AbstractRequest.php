@@ -86,6 +86,26 @@ abstract class AbstractRequest extends BaseAbstractRequest
         return $this->setParameter('gateway', $value);
     }
 
+    public function getOrder()
+    {
+        return $this->getParameter('order');
+    }
+
+    public function setOrder($value)
+    {
+        return $this->setParameter('order', $value);
+    }
+
+    public function getSinceToken()
+    {
+        return $this->getParameter('since_token');
+    }
+
+    public function setSinceToken($value)
+    {
+        return $this->setParameter('since_token', $value);
+    }
+
     /**
      * @return string
      * @throws InvalidRequestException
@@ -188,7 +208,7 @@ abstract class AbstractRequest extends BaseAbstractRequest
      *
      * @param array $data
      * @param array $map
-     * @return mixed
+     * @return array
      */
     protected function fillExistingParameters($data, $map)
     {
@@ -199,6 +219,25 @@ abstract class AbstractRequest extends BaseAbstractRequest
             } elseif ($this->parameters->has($parameter)) {
                 $data[$key] = $this->parameters->get($parameter);
             }
+        }
+
+        return $data;
+    }
+
+    /**
+     * Map data with existing parameters
+     *
+     * @param array $data
+     * @return array
+     */
+    protected function fillPaginationParameters($data)
+    {
+        if ($order = $this->getOrder()) {
+            $data['order'] = $order;
+        }
+
+        if ($sinceToken = $this->getSinceToken()) {
+            $data['since_token'] = $sinceToken;
         }
 
         return $data;

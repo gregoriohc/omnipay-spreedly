@@ -9,7 +9,7 @@ class ListGatewaysRequest extends AbstractRequest
 {
     public function getData()
     {
-        return [];
+        return $this->fillPaginationParameters([]);
     }
 
     public function getEndpoint()
