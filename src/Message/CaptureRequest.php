@@ -14,12 +14,12 @@ class CaptureRequest extends AbstractRequest
         if ($this->parameters->has('amount')) {
             $this->validate('amount', 'currency');
 
-            return [
-                'transaction' => [
-                    'amount' => $this->getAmountInteger(),
-                    'currency_code' => $this->getCurrency(),
-                ],
-            ];
+            $data = $this->fillExistingParameters([], [
+                'amount' => 'amount_integer',
+                'currency_code' => 'currency',
+            ]);
+
+            return ['transaction' => $data];
         }
 
         return null;

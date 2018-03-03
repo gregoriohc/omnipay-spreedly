@@ -3,6 +3,7 @@
 namespace Omnipay\Spreedly\Message;
 
 use Omnipay\Common\Exception\InvalidRequestException;
+use Omnipay\Common\Helper;
 use Omnipay\Common\Message\AbstractRequest as BaseAbstractRequest;
 
 /**
@@ -169,6 +170,27 @@ abstract class AbstractRequest extends BaseAbstractRequest
         } else {
             // ToDo: Implement Android and Apple Pay
             throw new InvalidRequestException("Missing payment method.");
+        }
+
+        return $data;
+    }
+
+    /**
+     * Map data with existing parameters
+     *
+     * @param array $data
+     * @param array $map
+     * @return mixed
+     */
+    protected function fillExistingParameters($data, $map)
+    {
+        foreach ($map as $key => $parameter) {
+            $method = 'get'.ucfirst(Helper::camelCase($parameter));
+            if (method_exists($this, $method)) {
+                $data[$key] = $this->$method();
+            } elseif ($this->parameters->has($parameter)) {
+                $data[$key] = $this->parameters->get($parameter);
+            }
         }
 
         return $data;

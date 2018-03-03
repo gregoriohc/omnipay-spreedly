@@ -15,12 +15,12 @@ class AuthorizeRequest extends AbstractRequest
 
         $data = $this->validateAndGetPaymentMethodData();
 
-        $data['amount'] = $this->getAmountInteger();
-        $data['currency_code'] = $this->getCurrency();
+        $data = $this->fillExistingParameters($data, [
+            'amount' => 'amount_integer',
+            'currency_code' => 'currency',
+        ]);
 
-        return [
-            'transaction' => $data,
-        ];
+        return ['transaction' => $data];
     }
 
     public function getEndpoint()
