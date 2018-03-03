@@ -1,0 +1,51 @@
+HTTP/1.1 201 OK
+Server: Apache
+Date: Sun, 11 May 2014 21:17:31 GMT
+Content-Type: application/json; charset=utf-8
+Status: 201 Created
+
+{
+  "gateway": {
+    "token": "6DqX57I6fHgIuUkVN2HGszjDSu1",
+    "gateway_type": "test",
+    "description": null,
+    "payment_methods": [
+      "credit_card",
+      "sprel",
+      "third_party_token",
+      "bank_account",
+      "apple_pay",
+      "android_pay"
+    ],
+    "state": "retained",
+    "created_at": "2017-07-27T17:54:39Z",
+    "updated_at": "2017-07-27T17:54:39Z",
+    "name": "Spreedly Test",
+    "characteristics": [
+      "purchase",
+      "authorize",
+      "capture",
+      "credit",
+      "general_credit",
+      "void",
+      "verify",
+      "reference_purchase",
+      "purchase_via_preauthorization",
+      "offsite_purchase",
+      "offsite_authorize",
+      "3dsecure_purchase",
+      "3dsecure_authorize",
+      "store",
+      "remove",
+      "disburse",
+      "reference_authorization"
+    ],
+    "credentials": [
+
+    ],
+    "gateway_specific_fields": [
+
+    ],
+    "redacted": false
+  }
+}

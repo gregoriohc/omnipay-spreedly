@@ -1,0 +1,45 @@
+{
+    "name": "gregoriohc/omnipay-spreedly",
+    "description": "Spreedly driver for the Omnipay payment processing library",
+    "keywords": [
+        "omnipay",
+        "spreedly"
+    ],
+    "homepage": "https://github.com/gregoriohc/omnipay-spreedly",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Gregorio Hernández Caso",
+            "email": "gregoriohc@gmail.com",
+            "homepage": "https://github.com/gregoriohc",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php" : ">=5.3.0",
+        "omnipay/common": "~2.0",
+        "tuurbo/spreedly": "^2.3"
+    },
+    "require-dev": {
+        "omnipay/tests": "~2.0",
+        "scrutinizer/ocular": "~1.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "Omnipay\\Spreedly\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Omnipay\\Spreedly\\Test\\": "tests"
+        }
+    },
+    "scripts": {
+        "test": "phpunit"
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0-dev"
+        }
+    }
+}

@@ -1,0 +1,109 @@
+HTTP/1.1 201 Created
+Server: Apache
+Date: Sun, 11 May 2014 21:17:31 GMT
+Content-Type: application/json; charset=utf-8
+Status: 201 Created
+
+{
+  "transaction": {
+    "on_test_gateway": true,
+    "created_at": "2017-11-21T15:31:58Z",
+    "updated_at": "2017-11-21T15:31:59Z",
+    "succeeded": true,
+    "state": "succeeded",
+    "token": "RAK67yYv2ZRUyBRcYxLkh3PalNj",
+    "transaction_type": "Authorization",
+    "order_id": null,
+    "ip": null,
+    "description": null,
+    "email": null,
+    "merchant_name_descriptor": null,
+    "merchant_location_descriptor": null,
+    "gateway_specific_fields": null,
+    "gateway_specific_response_fields": {
+    },
+    "gateway_transaction_id": "50",
+    "gateway_latency_ms": 3,
+    "amount": 100,
+    "currency_code": "USD",
+    "retain_on_success": false,
+    "payment_method_added": false,
+    "message_key": "messages.transaction_succeeded",
+    "message": "Succeeded!",
+    "gateway_token": "Zi0OHhR0fn1dSGym1Wol302ajDY",
+    "gateway_type": "test",
+    "response": {
+      "success": true,
+      "message": "Successful authorize",
+      "avs_code": null,
+      "avs_message": null,
+      "cvv_code": null,
+      "cvv_message": null,
+      "pending": false,
+      "result_unknown": false,
+      "error_code": "",
+      "error_detail": null,
+      "cancelled": false,
+      "fraud_review": null,
+      "created_at": "2017-11-21T15:31:59Z",
+      "updated_at": "2017-11-21T15:31:59Z"
+    },
+    "shipping_address": {
+      "name": "Jannie MacGyver",
+      "address1": null,
+      "address2": null,
+      "city": null,
+      "state": null,
+      "zip": null,
+      "country": null,
+      "phone_number": null
+    },
+    "api_urls": [
+      {
+        "referencing_transaction": [
+
+        ]
+      }
+    ],
+    "payment_method": {
+      "token": "8YtLewbQEDe8RsIY4XCEjiEg1OB",
+      "created_at": "2017-10-13T11:42:31Z",
+      "updated_at": "2017-11-21T15:31:58Z",
+      "email": null,
+      "data": null,
+      "storage_state": "retained",
+      "test": true,
+      "last_four_digits": "1111",
+      "first_six_digits": "411111",
+      "card_type": "visa",
+      "first_name": "Jannie",
+      "last_name": "MacGyver",
+      "month": 4,
+      "year": 2020,
+      "address1": null,
+      "address2": null,
+      "city": null,
+      "state": null,
+      "zip": null,
+      "country": null,
+      "phone_number": null,
+      "company": null,
+      "full_name": "Jannie MacGyver",
+      "eligible_for_card_updater": null,
+      "shipping_address1": null,
+      "shipping_address2": null,
+      "shipping_city": null,
+      "shipping_state": null,
+      "shipping_zip": null,
+      "shipping_country": null,
+      "shipping_phone_number": null,
+      "payment_method_type": "credit_card",
+      "errors": [
+
+      ],
+      "fingerprint": null,
+      "verification_value": "",
+      "number": "XXXX-XXXX-XXXX-1111"
+    }
+  }
+}
