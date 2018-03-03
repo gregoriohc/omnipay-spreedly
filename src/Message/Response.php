@@ -108,7 +108,11 @@ class Response extends AbstractResponse
      */
     public function getTransactionId()
     {
-        return $this->getTransactionReference();
+        if (array_key_exists('order_id', $this->data)) {
+            return $this->data['order_id'];
+        }
+
+        return null;
     }
 
     /**
