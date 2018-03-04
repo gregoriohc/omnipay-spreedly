@@ -145,6 +145,16 @@ class Response extends AbstractResponse
     }
 
     /**
+     * Payment method type
+     *
+     * @return null|string The payment method type
+     */
+    public function getPaymentMethodType()
+    {
+        return Arr::get($this->data, 'payment_method.payment_method_type', Arr::get($this->rawData, 'payment_method.payment_method_type'));
+    }
+
+    /**
      * Since token
      *
      * @return null|string The since token of a paginated list
