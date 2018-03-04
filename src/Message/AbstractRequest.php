@@ -6,6 +6,7 @@ use Omnipay\Common\Exception\InvalidRequestException;
 use Omnipay\Common\Helper;
 use Omnipay\Common\Message\AbstractRequest as BaseAbstractRequest;
 use Omnipay\Spreedly\Arr;
+use Omnipay\Spreedly\BankAccount;
 use Omnipay\Spreedly\GatewayToken;
 
 /**
@@ -107,6 +108,31 @@ abstract class AbstractRequest extends BaseAbstractRequest
     }
 
     /**
+     * Get the bank account.
+     *
+     * @return BankAccount
+     */
+    public function getBankAccount()
+    {
+        return $this->getParameter('bank_account');
+    }
+
+    /**
+     * Sets the card.
+     *
+     * @param BankAccount $value
+     * @return AbstractRequest Provides a fluent interface
+     */
+    public function setBankAccount($value)
+    {
+        if ($value && !$value instanceof BankAccount) {
+            $value = new BankAccount($value);
+        }
+
+        return $this->setParameter('bank_account', $value);
+    }
+
+    /**
      * @return string
      * @throws InvalidRequestException
      */
@@ -176,6 +202,7 @@ abstract class AbstractRequest extends BaseAbstractRequest
      * @return array
      * @throws InvalidRequestException
      * @throws \Omnipay\Common\Exception\InvalidCreditCardException
+     * @throws \Omnipay\Spreedly\Exception\InvalidPaymentMethodException
      */
     protected function validateAndGetPaymentMethodData()
     {
@@ -194,6 +221,18 @@ abstract class AbstractRequest extends BaseAbstractRequest
                 'verification_value' => $card->getCvv(),
                 'month' => $card->getExpiryMonth(),
                 'year' => $card->getExpiryYear(),
+            ];
+        } elseif ($this->parameters->has('bank_account')) {
+            $bankAccount = $this->getBankAccount();
+            $bankAccount->validate();
+
+            $data['bank_account'] = [
+                'first_name' => $bankAccount->getFirstName(),
+                'last_name' => $bankAccount->getLastName(),
+                'bank_account_number' => $bankAccount->getNumber(),
+                'bank_routing_number' => $bankAccount->getRoutingNumber(),
+                'bank_account_type' => $bankAccount->getType(),
+                'bank_account_holder_type' => $bankAccount->getHolderType(),
             ];
         } else {
             // ToDo: Implement Android and Apple Pay

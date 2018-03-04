@@ -175,14 +175,14 @@ class GatewayTest extends GatewayTestCase
         $this->setMockHttpResponse('CreatePaymentMethodBankAccountSuccess.txt');
 
         $response = $this->gateway->createPaymentMethod([
-            'card' => new CreditCard([
-                'firstName' => 'Example',
-                'lastName' => 'User',
-                'number' => '4111111111111111',
-                'expiryMonth' => '12',
-                'expiryYear' => '2020',
-                'cvv' => '123',
-            ]),
+            'bank_account' => [
+                'first_name' => 'Jon',
+                'last_name' => 'Doe',
+                'number' => '9876543210',
+                'routing_number' => '021000021',
+                'type' => BankAccount::TYPE_CHECKING,
+                'holder_type' => BankAccount::HOLDER_TYPE_PERSONAL,
+            ],
             'email' => 'user@example.com',
             'retained' => false,
             'allow_blank_name' => false,
@@ -191,8 +191,10 @@ class GatewayTest extends GatewayTestCase
         ])->send();
 
         $this->assertTrue($response->isSuccessful());
-        $this->assertEquals('MsTBXc7aXHVnnTeIJX2LfgtfPqh', $response->getTransactionReference());
+        $this->assertEquals('7cndznvjrSZ8BF7EmgHQVN3TRKL', $response->getTransactionReference());
         $this->assertEquals('succeeded', $response->getCode());
+        $this->assertEquals('QzbtsFbvQdzHbJDuDUJ9itBr7jP', $response->getPaymentMethodToken());
+        $this->assertEquals('bank_account', $response->getPaymentMethodType());
     }
 
     public function testDeletePaymentMethod()
