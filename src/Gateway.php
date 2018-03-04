@@ -161,6 +161,15 @@ class Gateway extends AbstractGateway
 
     /**
      * @param array $options
+     * @return Message\FetchCardRequest
+     */
+    public function fetchCard(array $options = array())
+    {
+        return $this->createRequest(Message\FetchCardRequest::class, $options);
+    }
+
+    /**
+     * @param array $options
      * @return Message\ListGatewaysRequest
      */
     public function listGateways(array $options = array())

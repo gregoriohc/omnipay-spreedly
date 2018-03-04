@@ -119,6 +119,19 @@ class GatewayTest extends GatewayTestCase
         $this->assertEquals('FT6P5qwEI1MArhD8nydJpnHP1uV', $response->getPaymentMethodToken());
     }
 
+    public function testFetchCard()
+    {
+        $this->setMockHttpResponse('FetchCardSuccess.txt');
+
+        $response = $this->gateway->fetchCard([
+            'payment_method_token' => '1rpKvP8zOUhj4Y9EDrIoIYQzzD5',
+        ])->send();
+
+        $this->assertTrue($response->isSuccessful());
+        $this->assertEquals('1rpKvP8zOUhj4Y9EDrIoIYQzzD5', $response->getTransactionReference());
+        $this->assertEquals('1rpKvP8zOUhj4Y9EDrIoIYQzzD5', $response->getPaymentMethodToken());
+    }
+
     public function testUpdateCard()
     {
         $this->setMockHttpResponse('UpdateCardSuccess.txt');

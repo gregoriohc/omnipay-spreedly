@@ -141,7 +141,7 @@ class Response extends AbstractResponse
      */
     public function getPaymentMethodToken()
     {
-        return Arr::get($this->data, 'payment_method.token');
+        return Arr::get($this->data, 'payment_method.token', Arr::get($this->rawData, 'payment_method.token'));
     }
 
     /**
