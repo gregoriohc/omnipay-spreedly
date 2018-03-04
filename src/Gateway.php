@@ -170,6 +170,15 @@ class Gateway extends AbstractGateway
 
     /**
      * @param array $options
+     * @return Message\ListCardsRequest
+     */
+    public function listCards(array $options = array())
+    {
+        return $this->createRequest(Message\ListCardsRequest::class, $options);
+    }
+
+    /**
+     * @param array $options
      * @return Message\ListGatewaysRequest
      */
     public function listGateways(array $options = array())

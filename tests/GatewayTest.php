@@ -147,6 +147,29 @@ class GatewayTest extends GatewayTestCase
         $this->assertEquals('1rpKvP8zOUhj4Y9EDrIoIYQzzD5', $response->getTransactionReference());
     }
 
+    public function testListCards()
+    {
+        $this->setMockHttpResponse('ListCardsSuccess.txt');
+
+        /** @var Message\Response $response */
+        $response = $this->gateway->listCards([
+            'order' => 'asc',
+        ])->send();
+
+        $this->assertCount(2, $response->getData());
+
+        $this->setMockHttpResponse('ListCardsPage2Success.txt');
+
+        /** @var Message\Response $response */
+        $response = $this->gateway->listGateways([
+            'order' => 'asc',
+            'since_token' => $response->getSinceToken(),
+        ])->send();
+
+        $this->assertCount(0, $response->getData());
+        $this->assertNull($response->getSinceToken());
+    }
+
     public function testPurchase()
     {
         $this->setMockHttpResponse('PurchaseSuccess.txt');
