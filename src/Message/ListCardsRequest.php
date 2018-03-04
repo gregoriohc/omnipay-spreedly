@@ -5,20 +5,6 @@ namespace Omnipay\Spreedly\Message;
  *
  * @method Response send()
  */
-class ListCardsRequest extends AbstractRequest
+class ListCardsRequest extends ListPaymentMethodsRequest
 {
-    public function getData()
-    {
-        return $this->fillPaginationParameters([]);
-    }
-
-    public function getEndpoint()
-    {
-        return $this->endpoint . 'payment_methods';
-    }
-
-    public function getHttpMethod()
-    {
-        return 'GET';
-    }
 }

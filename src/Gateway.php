@@ -179,6 +179,51 @@ class Gateway extends AbstractGateway
 
     /**
      * @param array $options
+     * @return Message\CreatePaymentMethodRequest
+     */
+    public function createPaymentMethod(array $options = array())
+    {
+        return $this->createRequest(Message\CreatePaymentMethodRequest::class, $options);
+    }
+
+    /**
+     * @param array $options
+     * @return Message\UpdatePaymentMethodRequest
+     */
+    public function updatePaymentMethod(array $options = array())
+    {
+        return $this->createRequest(Message\UpdatePaymentMethodRequest::class, $options);
+    }
+
+    /**
+     * @param array $options
+     * @return Message\DeletePaymentMethodRequest
+     */
+    public function deletePaymentMethod(array $options = array())
+    {
+        return $this->createRequest(Message\DeletePaymentMethodRequest::class, $options);
+    }
+
+    /**
+     * @param array $options
+     * @return Message\FetchPaymentMethodRequest
+     */
+    public function fetchPaymentMethod(array $options = array())
+    {
+        return $this->createRequest(Message\FetchPaymentMethodRequest::class, $options);
+    }
+
+    /**
+     * @param array $options
+     * @return Message\ListPaymentMethodsRequest
+     */
+    public function listPaymentMethods(array $options = array())
+    {
+        return $this->createRequest(Message\ListPaymentMethodsRequest::class, $options);
+    }
+
+    /**
+     * @param array $options
      * @return Message\ListGatewaysRequest
      */
     public function listGateways(array $options = array())

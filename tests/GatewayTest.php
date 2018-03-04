@@ -170,6 +170,96 @@ class GatewayTest extends GatewayTestCase
         $this->assertNull($response->getSinceToken());
     }
 
+    public function testCreatePaymentMethod()
+    {
+        $this->setMockHttpResponse('CreatePaymentMethodBankAccountSuccess.txt');
+
+        $response = $this->gateway->createPaymentMethod([
+            'card' => new CreditCard([
+                'firstName' => 'Example',
+                'lastName' => 'User',
+                'number' => '4111111111111111',
+                'expiryMonth' => '12',
+                'expiryYear' => '2020',
+                'cvv' => '123',
+            ]),
+            'email' => 'user@example.com',
+            'retained' => false,
+            'allow_blank_name' => false,
+            'allow_expired_date' => false,
+            'allow_blank_date' => false,
+        ])->send();
+
+        $this->assertTrue($response->isSuccessful());
+        $this->assertEquals('MsTBXc7aXHVnnTeIJX2LfgtfPqh', $response->getTransactionReference());
+        $this->assertEquals('succeeded', $response->getCode());
+    }
+
+    public function testDeletePaymentMethod()
+    {
+        $this->setMockHttpResponse('DeletePaymentMethodSuccess.txt');
+
+        $response = $this->gateway->deletePaymentMethod([
+            'payment_method_token' => 'FT6P5qwEI1MArhD8nydJpnHP1uV',
+        ])->send();
+
+        $this->assertTrue($response->isSuccessful());
+        $this->assertEquals('XN5Lm2COxcqP7xFKaZIWDI0CVuh', $response->getTransactionReference());
+        $this->assertEquals('succeeded', $response->getCode());
+        $this->assertEquals('FT6P5qwEI1MArhD8nydJpnHP1uV', $response->getPaymentMethodToken());
+    }
+
+    public function testFetchPaymentMethod()
+    {
+        $this->setMockHttpResponse('FetchPaymentMethodSuccess.txt');
+
+        $response = $this->gateway->fetchPaymentMethod([
+            'payment_method_token' => '1rpKvP8zOUhj4Y9EDrIoIYQzzD5',
+        ])->send();
+
+        $this->assertTrue($response->isSuccessful());
+        $this->assertEquals('1rpKvP8zOUhj4Y9EDrIoIYQzzD5', $response->getTransactionReference());
+        $this->assertEquals('1rpKvP8zOUhj4Y9EDrIoIYQzzD5', $response->getPaymentMethodToken());
+    }
+
+    public function testUpdatePaymentMethod()
+    {
+        $this->setMockHttpResponse('UpdatePaymentMethodSuccess.txt');
+
+        $response = $this->gateway->updatePaymentMethod([
+            'payment_method_token' => '1rpKvP8zOUhj4Y9EDrIoIYQzzD5',
+            'allow_blank_name' => false,
+            'allow_expired_date' => false,
+            'allow_blank_date' => false,
+        ])->send();
+
+        $this->assertTrue($response->isSuccessful());
+        $this->assertEquals('1rpKvP8zOUhj4Y9EDrIoIYQzzD5', $response->getTransactionReference());
+    }
+
+    public function testListPaymentMethods()
+    {
+        $this->setMockHttpResponse('ListPaymentMethodsSuccess.txt');
+
+        /** @var Message\Response $response */
+        $response = $this->gateway->listPaymentMethods([
+            'order' => 'asc',
+        ])->send();
+
+        $this->assertCount(2, $response->getData());
+
+        $this->setMockHttpResponse('ListPaymentMethodsPage2Success.txt');
+
+        /** @var Message\Response $response */
+        $response = $this->gateway->listGateways([
+            'order' => 'asc',
+            'since_token' => $response->getSinceToken(),
+        ])->send();
+
+        $this->assertCount(0, $response->getData());
+        $this->assertNull($response->getSinceToken());
+    }
+
     public function testPurchase()
     {
         $this->setMockHttpResponse('PurchaseSuccess.txt');
