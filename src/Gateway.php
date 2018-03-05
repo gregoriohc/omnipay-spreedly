@@ -256,7 +256,7 @@ class Gateway extends AbstractGateway
     {
         $tokens = $this->getGatewaysTokens();
 
-        $tokens[$gatewayToken->getType()] = $gatewayToken;
+        $tokens[$gatewayToken['type']] = $gatewayToken;
 
         return $this->setGatewaysTokens($tokens);
     }
@@ -304,5 +304,7 @@ class Gateway extends AbstractGateway
                 ]);
             }
         }
+
+        return $this;
     }
 }

@@ -252,11 +252,15 @@ abstract class AbstractRequest extends BaseAbstractRequest
     protected function fillExistingParameters($data, $map)
     {
         foreach ($map as $key => $parameter) {
+            $value = null;
             $method = 'get'.ucfirst(Helper::camelCase($parameter));
             if (method_exists($this, $method)) {
-                $data[$key] = $this->$method();
+                $value = $this->$method();
             } elseif ($this->parameters->has($parameter)) {
-                $data[$key] = $this->parameters->get($parameter);
+                $value = $this->parameters->get($parameter);
+            }
+            if (!is_null($value)) {
+                $data[$key] = $value;
             }
         }
 
