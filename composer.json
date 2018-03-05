@@ -17,8 +17,7 @@
     ],
     "require": {
         "php" : ">=5.3.0",
-        "omnipay/common": "~2.0",
-        "tuurbo/spreedly": "^2.3"
+        "omnipay/common": "~2.0"
     },
     "require-dev": {
         "omnipay/tests": "~2.0",
