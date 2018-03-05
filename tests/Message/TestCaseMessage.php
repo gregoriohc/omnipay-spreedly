@@ -6,21 +6,48 @@ use Guzzle\Http\Message\EntityEnclosingRequest;
 use Guzzle\Http\QueryString;
 use Guzzle\Http\Url;
 use Guzzle\Parser\ParserRegistry;
-use Omnipay\Spreedly\GatewayToken;
-use Omnipay\Spreedly\Message\AbstractRequest;
+use Omnipay\Spreedly\Gateway;
 use Omnipay\Tests\TestCase;
 
 class TestCaseMessage extends TestCase
 {
     /**
-     * @var AbstractRequest
+     * @var Gateway
      */
-    protected $request;
+    protected $gateway;
 
+    public function setUp()
+    {
+        parent::setUp();
+
+        $this->gateway = new Gateway($this->getHttpClient(), $this->getHttpRequest());
+        $this->gateway->setApiKey('API_KEY');
+        $this->gateway->setApiSecret('API_SECRET');
+        $this->gateway->setDefaultGateway('test');
+        $this->gateway->setGatewaysTokens([
+            [
+                'type' => 'test',
+                'token' => '1234',
+            ],
+            [
+                'type' => 'fake',
+                'token' => '1234',
+            ],
+            [
+                'type' => 'conekta',
+                'token' => '1234',
+            ],
+        ]);
+    }
+
+    /**
+     * @param \Omnipay\Spreedly\Message\AbstractRequest $request
+     * @return mixed
+     */
     protected function setTestGateway($request)
     {
-        $this->request->setGatewaysTokens([['type' => 'test', 'token' => '1234']]);
-        $this->request->setGateway('test');
+        $request->setGatewaysTokens([['type' => 'test', 'token' => '1234']]);
+        $request->setGateway('test');
 
         return $request;
     }
@@ -49,7 +76,7 @@ class TestCaseMessage extends TestCase
 
         $request = new EntityEnclosingRequest($data['method'], $url, $data['headers']);
         $request->setBody($data['body']);
-        $request->setScheme($data['protocol']);
+        $request->setScheme(strtolower($data['protocol']));
         $request->setProtocolVersion($data['version']);
 
         return $request;

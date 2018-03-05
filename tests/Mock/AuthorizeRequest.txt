@@ -1,7 +1,7 @@
-POST /v1/gateways/<gateway_token>/authorize.json HTTPS/1.1
+POST /v1/gateways/1234/authorize.json HTTPS/1.1
 Host: core.spreedly.com
 Authorization: Basic QWxhZGRpbjpvcGVuIHNlc2FtZQ==
-Content-Type: application/<format>
+Content-Type: application/json
 
 {
   "transaction": {

@@ -1,0 +1,12 @@
+POST /v1/transactions/UAooev0WJDbSyuh0CqwHGi8WDML/capture.json HTTPS/1.1
+Host: core.spreedly.com
+Authorization: Basic QWxhZGRpbjpvcGVuIHNlc2FtZQ==
+Content-Type: application/json
+
+
+{
+  "transaction": {
+    "amount": 50,
+    "currency_code": "USD"
+  }
+}

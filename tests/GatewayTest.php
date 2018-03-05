@@ -6,6 +6,8 @@ use Guzzle\Http\Exception\ClientErrorResponseException;
 use Omnipay\Spreedly\Arr;
 use Omnipay\Spreedly\BankAccount;
 use Omnipay\Spreedly\Gateway;
+use Omnipay\Spreedly\Message\AuthorizeRequest;
+use Omnipay\Spreedly\Message\CaptureRequest;
 use Omnipay\Tests\GatewayTestCase;
 use Omnipay\Common\CreditCard;
 
@@ -42,77 +44,16 @@ class GatewayTest extends GatewayTestCase
 
     public function testAuthorize()
     {
-        $this->setMockHttpResponse('AuthorizeSuccess.txt');
+        $request = $this->gateway->authorize();
 
-        $response = $this->gateway->authorize([
-            'amount' => '1.00',
-            'currency' => 'USD',
-            'card' => new CreditCard([
-                'firstName' => 'Example',
-                'lastName' => 'User',
-                'number' => '4111111111111111',
-                'expiryMonth' => '12',
-                'expiryYear' => '2020',
-                'cvv' => '123',
-            ]),
-        ])->send();
-
-        $this->assertTrue($response->isSuccessful());
-        $this->assertEquals('RAK67yYv2ZRUyBRcYxLkh3PalNj', $response->getTransactionReference());
-        $this->assertEquals('succeeded', $response->getCode());
-        $this->assertEquals('1.00', $response->getAmount());
+        $this->assertInstanceOf(AuthorizeRequest::class, $request);
     }
 
-    public function testCaptureFull()
+    public function testCapture()
     {
-        $this->setMockHttpResponse('CaptureFullSuccess.txt');
+        $request = $this->gateway->capture();
 
-        $response = $this->gateway->capture([
-            'transactionReference' => '1234',
-        ])->send();
-
-        $this->assertTrue($response->isSuccessful());
-        $this->assertEquals('UAooev0WJDbSyuh0CqwHGi8WDML', $response->getTransactionReference());
-        $this->assertEquals('succeeded', $response->getCode());
-        $this->assertEquals('1.00', $response->getAmount());
-        $this->assertEquals(100, $response->getAmountInteger());
-    }
-
-    public function testCapturePartial()
-    {
-        $this->setMockHttpResponse('CapturePartialSuccess.txt');
-
-        $response = $this->gateway->capture([
-            'transactionReference' => '1234',
-            'amount' => '0.50',
-            'currency' => 'USD',
-        ])->send();
-
-        $this->assertTrue($response->isSuccessful());
-        $this->assertEquals('S3VrIobz0gC0AI771ml1CndOLs5', $response->getTransactionReference());
-        $this->assertEquals('succeeded', $response->getCode());
-        $this->assertEquals('0.50', $response->getAmount());
-        $this->assertEquals(50, $response->getAmountInteger());
-    }
-
-    public function testCaptureWithGatewaySpecificFields()
-    {
-        $this->setMockHttpResponse('CaptureFullSuccess.txt');
-
-        $response = $this->gateway->capture([
-            'gateway' => 'fake',
-            'transactionReference' => '1234',
-            'gateway_specific_fields' => [
-                'foo' => '123',
-                'bar' => 'abc',
-            ],
-        ])->send();
-
-        $this->assertTrue($response->isSuccessful());
-        $this->assertEquals('UAooev0WJDbSyuh0CqwHGi8WDML', $response->getTransactionReference());
-        $this->assertEquals('succeeded', $response->getCode());
-        $this->assertEquals('1.00', $response->getAmount());
-        $this->assertEquals(100, $response->getAmountInteger());
+        $this->assertInstanceOf(CaptureRequest::class, $request);
     }
 
     public function testCreateCard()

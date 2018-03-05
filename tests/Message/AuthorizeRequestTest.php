@@ -7,43 +7,49 @@ use Omnipay\Spreedly\Message\AuthorizeRequest;
 
 class AuthorizeRequestTest extends TestCaseMessage
 {
-    /**
-     * @var AuthorizeRequest
-     */
-    protected $request;
-
-    public function setUp()
-    {
-        parent::setUp();
-
-        $this->request = new AuthorizeRequest($this->getHttpClient(), $this->getHttpRequest());
-        $this->request->initialize([
-            'amount' => '1.00',
-            'currency' => 'USD',
-        ]);
-
-        $this->request = $this->setTestGateway($this->request);
-    }
-
-    public function testGetData()
+    public function testRequestGetData()
     {
         $mockRequest = $this->mockHttpRequest('AuthorizeRequest.txt');
 
-        $card = new CreditCard([
+        $request = new AuthorizeRequest($this->getHttpClient(), $this->getHttpRequest());
+        $request->initialize([
+            'amount' => '1.00',
+            'currency' => 'USD',
+        ]);
+        $request = $this->setTestGateway($request);
+        $request->setCard(new CreditCard([
             'firstName' => 'Joe',
             'lastName' => 'Smith',
             'number' => '4111111111111111',
             'expiryMonth' => 12,
             'expiryYear' => 2018,
             'cvv' => 123,
-        ]);
+        ]));
 
-        $this->request->setCard($card);
+        $this->assertSame($request->getData(), json_decode($mockRequest->getBody(), true));
+        $this->assertContains($request->getEndpoint(), $mockRequest->getUrl());
+    }
 
-        $data = $this->request->getData();
+    public function testRequestResponse()
+    {
+        $this->setMockHttpResponse('AuthorizeSuccess.txt');
 
-        $mockData = json_decode($mockRequest->getBody(), true);
+        $response = $this->gateway->authorize([
+            'amount' => '1.00',
+            'currency' => 'USD',
+            'card' => new CreditCard([
+                'firstName' => 'Example',
+                'lastName' => 'User',
+                'number' => '4111111111111111',
+                'expiryMonth' => '12',
+                'expiryYear' => '2020',
+                'cvv' => '123',
+            ]),
+        ])->send();
 
-        $this->assertSame($data, $mockData);
+        $this->assertTrue($response->isSuccessful());
+        $this->assertEquals('RAK67yYv2ZRUyBRcYxLkh3PalNj', $response->getTransactionReference());
+        $this->assertEquals('succeeded', $response->getCode());
+        $this->assertEquals('1.00', $response->getAmount());
     }
 }
