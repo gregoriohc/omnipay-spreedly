@@ -218,9 +218,9 @@ abstract class AbstractRequest extends BaseAbstractRequest
                 'first_name' => $card->getFirstName(),
                 'last_name' => $card->getLastName(),
                 'number' => $card->getNumber(),
-                'verification_value' => $card->getCvv(),
-                'month' => $card->getExpiryMonth(),
-                'year' => $card->getExpiryYear(),
+                'verification_value' => (string) $card->getCvv(),
+                'month' => (string) $card->getExpiryMonth(),
+                'year' => (string) $card->getExpiryYear(),
             ];
         } elseif ($this->parameters->has('bank_account')) {
             $bankAccount = $this->getBankAccount();
@@ -229,8 +229,8 @@ abstract class AbstractRequest extends BaseAbstractRequest
             $data['bank_account'] = [
                 'first_name' => $bankAccount->getFirstName(),
                 'last_name' => $bankAccount->getLastName(),
-                'bank_account_number' => $bankAccount->getNumber(),
-                'bank_routing_number' => $bankAccount->getRoutingNumber(),
+                'bank_account_number' => (string) $bankAccount->getNumber(),
+                'bank_routing_number' => (string) $bankAccount->getRoutingNumber(),
                 'bank_account_type' => $bankAccount->getType(),
                 'bank_account_holder_type' => $bankAccount->getHolderType(),
             ];

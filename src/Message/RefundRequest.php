@@ -9,7 +9,7 @@ class RefundRequest extends AbstractRequest
 {
     public function getData()
     {
-        $this->validate('token');
+        $this->validate('transactionReference');
 
         if ($this->parameters->has('amount')) {
             $this->validate('amount', 'currency');
@@ -27,6 +27,6 @@ class RefundRequest extends AbstractRequest
 
     public function getEndpoint()
     {
-        return $this->endpoint . 'transactions/' . $this->getToken() . '/credit';
+        return $this->endpoint . 'transactions/' . $this->getTransactionReference() . '/credit';
     }
 }

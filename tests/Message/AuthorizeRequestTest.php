@@ -3,14 +3,14 @@
 namespace Omnipay\Spreedly\Message;
 
 use Omnipay\Common\CreditCard;
-use Omnipay\Tests\TestCase;
+use Omnipay\Spreedly\Arr;
 
-class AuthorizeRequestTest extends TestCase
+class AuthorizeRequestTest extends TestCaseMessage
 {
     /**
      * @var AuthorizeRequest
      */
-    private $request;
+    protected $request;
 
     public function setUp()
     {
@@ -18,27 +18,32 @@ class AuthorizeRequestTest extends TestCase
 
         $this->request = new AuthorizeRequest($this->getHttpClient(), $this->getHttpRequest());
         $this->request->initialize([
-            'amount' => '10.00',
+            'amount' => '1.00',
             'currency' => 'USD',
         ]);
+
+        $this->request = $this->setTestGateway($this->request);
     }
 
     public function testGetData()
     {
-        $card = new CreditCard($this->getValidCard());
+        $mockRequest = $this->mockHttpRequest('AuthorizeRequest.txt');
+
+        $card = new CreditCard([
+            'firstName' => 'Joe',
+            'lastName' => 'Smith',
+            'number' => '4111111111111111',
+            'expiryMonth' => 12,
+            'expiryYear' => 2018,
+            'cvv' => 123,
+        ]);
 
         $this->request->setCard($card);
 
         $data = $this->request->getData();
 
-        $this->assertSame(1000, $data['transaction']['amount']);
-        $this->assertSame('USD', $data['transaction']['currency_code']);
+        $mockData = json_decode($mockRequest->getBody(), true);
 
-        $this->assertSame($card->getFirstName(), $data['transaction']['credit_card']['first_name']);
-        $this->assertSame($card->getLastName(), $data['transaction']['credit_card']['last_name']);
-        $this->assertSame($card->getNumber(), $data['transaction']['credit_card']['number']);
-        $this->assertSame($card->getCvv(), $data['transaction']['credit_card']['verification_value']);
-        $this->assertSame($card->getExpiryMonth(), $data['transaction']['credit_card']['month']);
-        $this->assertSame($card->getExpiryYear(), $data['transaction']['credit_card']['year']);
+        $this->assertSame($data, $mockData);
     }
 }

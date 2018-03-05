@@ -53,7 +53,7 @@ class GatewayTest extends GatewayTestCase
         $this->setMockHttpResponse('CaptureFullSuccess.txt');
 
         $response = $this->gateway->capture([
-            'token' => '1234',
+            'transactionReference' => '1234',
         ])->send();
 
         $this->assertTrue($response->isSuccessful());
@@ -68,7 +68,7 @@ class GatewayTest extends GatewayTestCase
         $this->setMockHttpResponse('CapturePartialSuccess.txt');
 
         $response = $this->gateway->capture([
-            'token' => '1234',
+            'transactionReference' => '1234',
             'amount' => '0.50',
             'currency' => 'USD',
         ])->send();
@@ -293,7 +293,7 @@ class GatewayTest extends GatewayTestCase
         $this->setMockHttpResponse('RefundFullSuccess.txt');
 
         $response = $this->gateway->refund([
-            'token' => '1234',
+            'transactionReference' => '1234',
         ])->send();
 
         $this->assertTrue($response->isSuccessful());
@@ -308,7 +308,7 @@ class GatewayTest extends GatewayTestCase
         $this->setMockHttpResponse('RefundPartialSuccess.txt');
 
         $response = $this->gateway->refund([
-            'token' => '1234',
+            'transactionReference' => '1234',
             'amount' => '0.50',
             'currency' => 'USD',
         ])->send();
@@ -325,7 +325,7 @@ class GatewayTest extends GatewayTestCase
         $this->setMockHttpResponse('VoidSuccess.txt');
 
         $response = $this->gateway->void([
-            'token' => '1234',
+            'transactionReference' => '1234',
         ])->send();
 
         $this->assertTrue($response->isSuccessful());
@@ -339,7 +339,7 @@ class GatewayTest extends GatewayTestCase
         $this->setMockHttpResponse('VoidError.txt');
 
         $response = $this->gateway->void([
-            'token' => '1234',
+            'transactionReference' => '1234',
         ])->send();
 
         $this->assertFalse($response->isSuccessful());

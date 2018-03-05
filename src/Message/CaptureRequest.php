@@ -9,7 +9,7 @@ class CaptureRequest extends AbstractRequest
 {
     public function getData()
     {
-        $this->validate('token');
+        $this->validate('transactionReference');
 
         if ($this->parameters->has('amount')) {
             $this->validate('amount', 'currency');
@@ -27,6 +27,6 @@ class CaptureRequest extends AbstractRequest
 
     public function getEndpoint()
     {
-        return $this->endpoint . 'transactions/' . $this->getToken() . '/capture';
+        return $this->endpoint . 'transactions/' . $this->getTransactionReference() . '/capture';
     }
 }

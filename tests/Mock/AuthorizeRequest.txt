@@ -1,0 +1,19 @@
+POST /v1/gateways/<gateway_token>/authorize.json HTTPS/1.1
+Host: core.spreedly.com
+Authorization: Basic QWxhZGRpbjpvcGVuIHNlc2FtZQ==
+Content-Type: application/<format>
+
+{
+  "transaction": {
+    "credit_card": {
+      "first_name": "Joe",
+      "last_name": "Smith",
+      "number": "4111111111111111",
+      "verification_value": "123",
+      "month": "12",
+      "year": "2018"
+    },
+    "amount": 100,
+    "currency_code": "USD"
+  }
+}

@@ -9,13 +9,13 @@ class VoidRequest extends AbstractRequest
 {
     public function getData()
     {
-        $this->validate('token');
+        $this->validate('transactionReference');
 
         return null;
     }
 
     public function getEndpoint()
     {
-        return $this->endpoint . 'transactions/' . $this->getToken() . '/void';
+        return $this->endpoint . 'transactions/' . $this->getTransactionReference() . '/void';
     }
 }
