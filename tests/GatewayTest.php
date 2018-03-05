@@ -95,6 +95,20 @@ class GatewayTest extends GatewayTestCase
         $this->assertEquals('FT6P5qwEI1MArhD8nydJpnHP1uV', $response->getPaymentMethodToken());
     }
 
+    public function testRetainCard()
+    {
+        $this->setMockHttpResponse('RetainCardSuccess.txt');
+
+        $response = $this->gateway->retainCard([
+            'payment_method_token' => '1rpKvP8zOUhj4Y9EDrIoIYQzzD5',
+        ])->send();
+
+        $this->assertTrue($response->isSuccessful());
+        $this->assertEquals('7Mod2PL9OM7AuHBmlPSRvKa02fE', $response->getTransactionReference());
+        $this->assertEquals('succeeded', $response->getCode());
+        $this->assertEquals('1rpKvP8zOUhj4Y9EDrIoIYQzzD5', $response->getPaymentMethodToken());
+    }
+
     public function testFetchCard()
     {
         $this->setMockHttpResponse('FetchCardSuccess.txt');
@@ -185,6 +199,20 @@ class GatewayTest extends GatewayTestCase
         $this->assertEquals('XN5Lm2COxcqP7xFKaZIWDI0CVuh', $response->getTransactionReference());
         $this->assertEquals('succeeded', $response->getCode());
         $this->assertEquals('FT6P5qwEI1MArhD8nydJpnHP1uV', $response->getPaymentMethodToken());
+    }
+
+    public function testRetainPaymentMethod()
+    {
+        $this->setMockHttpResponse('RetainPaymentMethodSuccess.txt');
+
+        $response = $this->gateway->retainPaymentMethod([
+            'payment_method_token' => '1rpKvP8zOUhj4Y9EDrIoIYQzzD5',
+        ])->send();
+
+        $this->assertTrue($response->isSuccessful());
+        $this->assertEquals('7Mod2PL9OM7AuHBmlPSRvKa02fE', $response->getTransactionReference());
+        $this->assertEquals('succeeded', $response->getCode());
+        $this->assertEquals('1rpKvP8zOUhj4Y9EDrIoIYQzzD5', $response->getPaymentMethodToken());
     }
 
     public function testFetchPaymentMethod()

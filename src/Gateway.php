@@ -152,6 +152,15 @@ class Gateway extends AbstractGateway
 
     /**
      * @param array $options
+     * @return Message\RetainCardRequest
+     */
+    public function retainCard(array $options = array())
+    {
+        return $this->createRequest(Message\RetainCardRequest::class, $options);
+    }
+
+    /**
+     * @param array $options
      * @return Message\DeleteCardRequest
      */
     public function deleteCard(array $options = array())
@@ -193,6 +202,15 @@ class Gateway extends AbstractGateway
     public function updatePaymentMethod(array $options = array())
     {
         return $this->createRequest(Message\UpdatePaymentMethodRequest::class, $options);
+    }
+
+    /**
+     * @param array $options
+     * @return Message\RetainPaymentMethodRequest
+     */
+    public function retainPaymentMethod(array $options = array())
+    {
+        return $this->createRequest(Message\RetainPaymentMethodRequest::class, $options);
     }
 
     /**
