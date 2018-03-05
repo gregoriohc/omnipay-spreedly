@@ -7,6 +7,10 @@ namespace Omnipay\Spreedly\Message;
  */
 class DeletePaymentMethodRequest extends AbstractRequest
 {
+    /**
+     * @return null
+     * @throws \Omnipay\Common\Exception\InvalidRequestException
+     */
     public function getData()
     {
         $this->validate('payment_method_token');
@@ -14,6 +18,9 @@ class DeletePaymentMethodRequest extends AbstractRequest
         return null;
     }
 
+    /**
+     * @return string
+     */
     public function getEndpoint()
     {
         return $this->endpoint . 'payment_methods/' . $this->getPaymentMethodToken() . '/redact';

@@ -19,7 +19,7 @@ class TestCaseMessage extends TestCase
 
     protected function setTestGateway($request)
     {
-        $this->request->setGatewaysTokens(['test' => new GatewayToken(['type' => 'test', 'token' => '1234'])]);
+        $this->request->setGatewaysTokens([['type' => 'test', 'token' => '1234']]);
         $this->request->setGateway('test');
 
         return $request;

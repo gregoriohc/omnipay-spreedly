@@ -7,6 +7,10 @@ namespace Omnipay\Spreedly\Message;
  */
 class VoidRequest extends AbstractRequest
 {
+    /**
+     * @return null
+     * @throws \Omnipay\Common\Exception\InvalidRequestException
+     */
     public function getData()
     {
         $this->validate('transactionReference');
@@ -14,6 +18,9 @@ class VoidRequest extends AbstractRequest
         return null;
     }
 
+    /**
+     * @return string
+     */
     public function getEndpoint()
     {
         return $this->endpoint . 'transactions/' . $this->getTransactionReference() . '/void';

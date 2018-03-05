@@ -7,6 +7,10 @@ namespace Omnipay\Spreedly\Message;
  */
 class UpdatePaymentMethodRequest extends AbstractRequest
 {
+    /**
+     * @return array
+     * @throws \Omnipay\Common\Exception\InvalidRequestException
+     */
     public function getData()
     {
         $this->validate('payment_method_token');
@@ -20,11 +24,17 @@ class UpdatePaymentMethodRequest extends AbstractRequest
         return ['payment_method' => $data];
     }
 
+    /**
+     * @return string
+     */
     public function getEndpoint()
     {
         return $this->endpoint . 'payment_methods/' . $this->getPaymentMethodToken();
     }
 
+    /**
+     * @return string
+     */
     public function getHttpMethod()
     {
         return 'PUT';

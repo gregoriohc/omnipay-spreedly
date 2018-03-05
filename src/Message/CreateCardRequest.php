@@ -7,6 +7,10 @@ namespace Omnipay\Spreedly\Message;
  */
 class CreateCardRequest extends CreatePaymentMethodRequest
 {
+    /**
+     * @return array
+     * @throws \Omnipay\Common\Exception\InvalidRequestException
+     */
     public function getData()
     {
         $this->validate('card');

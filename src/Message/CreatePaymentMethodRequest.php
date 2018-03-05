@@ -7,6 +7,12 @@ namespace Omnipay\Spreedly\Message;
  */
 class CreatePaymentMethodRequest extends AbstractRequest
 {
+    /**
+     * @return array
+     * @throws \Omnipay\Common\Exception\InvalidCreditCardException
+     * @throws \Omnipay\Common\Exception\InvalidRequestException
+     * @throws \Omnipay\Spreedly\Exception\InvalidPaymentMethodException
+     */
     public function getData()
     {
         $data = $this->validateAndGetPaymentMethodData();
@@ -22,6 +28,9 @@ class CreatePaymentMethodRequest extends AbstractRequest
         return ['payment_method' => $data];
     }
 
+    /**
+     * @return string
+     */
     public function getEndpoint()
     {
         return $this->endpoint . 'payment_methods';

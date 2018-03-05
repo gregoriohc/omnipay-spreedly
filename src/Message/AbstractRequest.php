@@ -7,7 +7,6 @@ use Omnipay\Common\Helper;
 use Omnipay\Common\Message\AbstractRequest as BaseAbstractRequest;
 use Omnipay\Spreedly\Arr;
 use Omnipay\Spreedly\BankAccount;
-use Omnipay\Spreedly\GatewayToken;
 
 /**
  * Abstract Request
@@ -16,6 +15,29 @@ use Omnipay\Spreedly\GatewayToken;
 abstract class AbstractRequest extends BaseAbstractRequest
 {
     protected $endpoint = 'https://core.spreedly.com/v1/';
+
+    protected $gatewaySpecificFieldsConfig = [
+        'test' => [
+            'required' => [],
+            'optional' => [],
+        ],
+        'fake' => [
+            'required' => [
+                'foo',
+            ],
+            'optional' => [
+                'bar',
+            ],
+        ],
+        'conekta' => [
+            'required' => [],
+            'optional' => [
+                'device_fingerprint',
+                'customer',
+                'phone',
+            ],
+        ],
+    ];
 
     public function getApiKey()
     {
@@ -57,6 +79,16 @@ abstract class AbstractRequest extends BaseAbstractRequest
         return $this->setParameter('gateways_tokens', $value);
     }
 
+    public function getGatewaySpecificFields()
+    {
+        return $this->getParameter('gateways_specific_fields');
+    }
+
+    public function setGatewaySpecificFields($value)
+    {
+        return $this->setParameter('gateways_specific_fields', $value);
+    }
+
     public function getTimeout()
     {
         return $this->getParameter('timeout');
@@ -79,7 +111,17 @@ abstract class AbstractRequest extends BaseAbstractRequest
 
     public function getGateway()
     {
-        return $this->getParameter('gateway');
+        $gateway = $this->getParameter('gateway');
+
+        if (is_null($this->getParameter('gateway'))) {
+            $gateway = $this->getDefaultGateway();
+        }
+
+        if ($this->getTestMode()) {
+            $gateway = 'test';
+        }
+
+        return $gateway;
     }
 
     public function setGateway($value)
@@ -139,20 +181,13 @@ abstract class AbstractRequest extends BaseAbstractRequest
     public function getGatewayToken()
     {
         $gateway = $this->getGateway();
-        if (empty($gateway)) {
-            $gateway = $this->getDefaultGateway();
-        }
 
-        if ($this->getTestMode()) {
-            $gateway = 'test';
-        }
+        $gatewaysTokens = $this->getGatewaysTokens();
 
-        $tokens = $this->getParameter('gateways_tokens');
-
-        $gatewayToken = Arr::get($tokens, $gateway);
-        if ($gatewayToken) {
-            /** @var GatewayToken $gatewayToken */
-            return $gatewayToken->getToken();
+        foreach ($gatewaysTokens as $gatewayToken) {
+            if (Arr::get($gatewayToken, 'type') == $gateway) {
+                return Arr::get($gatewayToken, 'token');
+            }
         }
 
         throw new InvalidRequestException("Missing '$gateway' gateway token.");
@@ -208,9 +243,12 @@ abstract class AbstractRequest extends BaseAbstractRequest
     {
         $data = [];
 
+        // Set data depending on payment method
         if ($this->parameters->has('token')) {
+            // Token payment method
             $data['payment_method_token'] = $this->getToken();
         } elseif ($this->parameters->has('card')) {
+            // Card payment method
             $card = $this->getCard();
             $card->validate();
 
@@ -223,6 +261,7 @@ abstract class AbstractRequest extends BaseAbstractRequest
                 'year' => (string) $card->getExpiryYear(),
             ];
         } elseif ($this->parameters->has('bank_account')) {
+            // Bank Account payment method
             $bankAccount = $this->getBankAccount();
             $bankAccount->validate();
 
@@ -235,8 +274,38 @@ abstract class AbstractRequest extends BaseAbstractRequest
                 'bank_account_holder_type' => $bankAccount->getHolderType(),
             ];
         } else {
-            // ToDo: Implement Android and Apple Pay
+            // ToDo: Implement other payment methods (Android and Apple Pay...)
             throw new InvalidRequestException("Missing payment method.");
+        }
+
+        return $data;
+    }
+
+    /**
+     * @param array $data
+     * @return array
+     * @throws InvalidRequestException
+     */
+    protected function fillGatewaySpecificFields($data)
+    {
+        $gateway = $this->getGateway();
+        $gatewaySpecificFieldsData = $this->getGatewaySpecificFields();
+        $gatewaySpecificFieldsConfig = Arr::get($this->gatewaySpecificFieldsConfig, $gateway);
+        if ($gatewaySpecificFieldsData && $gatewaySpecificFieldsConfig) {
+            foreach ($gatewaySpecificFieldsConfig['required'] as $field) {
+                $value = Arr::get($gatewaySpecificFieldsData, $field);
+                if (!is_null($value)) {
+                    Arr::set($data, 'gateway_specific_fields.' . $gateway . '.' . $field, $value);
+                } else {
+                    throw new InvalidRequestException("Missing gateway specific field: $field.");
+                }
+            }
+            foreach ($gatewaySpecificFieldsConfig['optional'] as $field) {
+                $value = Arr::get($gatewaySpecificFieldsData, $field);
+                if (!is_null($value)) {
+                    Arr::set($data, 'gateway_specific_fields.' . $gateway . '.' . $field, $value);
+                }
+            }
         }
 
         return $data;

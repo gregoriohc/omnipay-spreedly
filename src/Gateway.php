@@ -64,14 +64,6 @@ class Gateway extends AbstractGateway
 
     public function setGatewaysTokens($value)
     {
-        $value = (array) $value;
-
-        foreach ($value as $key => $gatewayToken) {
-            if (is_array($gatewayToken)) {
-                $value[$key] = new GatewayToken($gatewayToken);
-            }
-        }
-
         return $this->setParameter('gateways_tokens', $value);
     }
 
@@ -249,21 +241,21 @@ class Gateway extends AbstractGateway
     }
 
     /**
-     * @param GatewayToken|array $gatewayToken
+     * @param array $gatewayToken
      * @return $this
      */
     public function addGatewayToken($gatewayToken)
     {
         $tokens = $this->getGatewaysTokens();
 
-        $tokens[$gatewayToken['type']] = $gatewayToken;
+        $tokens[] = $gatewayToken;
 
         return $this->setGatewaysTokens($tokens);
     }
 
     /**
      * @param array $options
-     * @return GatewayToken|null
+     * @return array|null
      */
     public function addGateway(array $options = array())
     {
@@ -276,10 +268,10 @@ class Gateway extends AbstractGateway
         if ($response->isSuccessful()) {
             $data = $response->getData();
 
-            $gatewayToken = new GatewayToken([
+            $gatewayToken = [
                 'type' => $data['gateway_type'],
                 'token' => $data['token'],
-            ]);
+            ];
 
             $this->addGatewayToken($gatewayToken);
 

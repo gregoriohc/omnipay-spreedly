@@ -9,11 +9,19 @@ namespace Omnipay\Spreedly\Message;
  */
 class AuthorizeRequest extends AbstractRequest
 {
+    /**
+     * @return array
+     * @throws \Omnipay\Common\Exception\InvalidCreditCardException
+     * @throws \Omnipay\Common\Exception\InvalidRequestException
+     * @throws \Omnipay\Spreedly\Exception\InvalidPaymentMethodException
+     */
     public function getData()
     {
         $this->validate('amount', 'currency');
 
         $data = $this->validateAndGetPaymentMethodData();
+
+        $data = $this->fillGatewaySpecificFields($data);
 
         $data = $this->fillExistingParameters($data, [
             'amount' => 'amount_integer',
@@ -23,6 +31,10 @@ class AuthorizeRequest extends AbstractRequest
         return ['transaction' => $data];
     }
 
+    /**
+     * @return string
+     * @throws \Omnipay\Common\Exception\InvalidRequestException
+     */
     public function getEndpoint()
     {
         return $this->getGatewayEndpoint() . 'authorize';

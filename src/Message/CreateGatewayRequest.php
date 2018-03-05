@@ -28,6 +28,10 @@ class CreateGatewayRequest extends AbstractRequest
         return $this->setParameter('config', $value);
     }
 
+    /**
+     * @return array
+     * @throws \Omnipay\Common\Exception\InvalidRequestException
+     */
     public function getData()
     {
         $this->validate('type');
@@ -40,6 +44,9 @@ class CreateGatewayRequest extends AbstractRequest
         ];
     }
 
+    /**
+     * @return string
+     */
     public function getEndpoint()
     {
         return $this->endpoint . 'gateways';

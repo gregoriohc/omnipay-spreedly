@@ -3,6 +3,7 @@
 namespace Omnipay\Spreedly\Tests;
 
 use Guzzle\Http\Exception\ClientErrorResponseException;
+use Omnipay\Spreedly\Arr;
 use Omnipay\Spreedly\BankAccount;
 use Omnipay\Spreedly\Gateway;
 use Omnipay\Tests\GatewayTestCase;
@@ -23,8 +24,19 @@ class GatewayTest extends GatewayTestCase
         $this->gateway->setApiKey('API_KEY');
         $this->gateway->setApiSecret('API_SECRET');
         $this->gateway->setDefaultGateway('test');
-        $this->gateway->addGatewayToken([
-            'type' => 'test',
+        $this->gateway->setGatewaysTokens([
+            [
+                'type' => 'test',
+                'token' => '1234',
+            ],
+            [
+                'type' => 'fake',
+                'token' => '1234',
+            ],
+            [
+                'type' => 'conekta',
+                'token' => '1234',
+            ],
         ]);
     }
 
@@ -81,6 +93,26 @@ class GatewayTest extends GatewayTestCase
         $this->assertEquals('succeeded', $response->getCode());
         $this->assertEquals('0.50', $response->getAmount());
         $this->assertEquals(50, $response->getAmountInteger());
+    }
+
+    public function testCaptureWithGatewaySpecificFields()
+    {
+        $this->setMockHttpResponse('CaptureFullSuccess.txt');
+
+        $response = $this->gateway->capture([
+            'gateway' => 'fake',
+            'transactionReference' => '1234',
+            'gateway_specific_fields' => [
+                'foo' => '123',
+                'bar' => 'abc',
+            ],
+        ])->send();
+
+        $this->assertTrue($response->isSuccessful());
+        $this->assertEquals('UAooev0WJDbSyuh0CqwHGi8WDML', $response->getTransactionReference());
+        $this->assertEquals('succeeded', $response->getCode());
+        $this->assertEquals('1.00', $response->getAmount());
+        $this->assertEquals(100, $response->getAmountInteger());
     }
 
     public function testCreateCard()
@@ -371,8 +403,8 @@ class GatewayTest extends GatewayTestCase
             'config' => [],
         ]);
 
-        $this->assertEquals('test', $gatewayToken->getType());
-        $this->assertEquals('6DqX57I6fHgIuUkVN2HGszjDSu1', $gatewayToken->getToken());
+        $this->assertEquals('test', Arr::get($gatewayToken, 'type'));
+        $this->assertEquals('6DqX57I6fHgIuUkVN2HGszjDSu1', Arr::get($gatewayToken, 'token'));
     }
 
     public function testListGateways()
@@ -404,7 +436,10 @@ class GatewayTest extends GatewayTestCase
 
         $this->gateway->loadGateways();
 
-        $this->assertEquals('7NTzuQfnaNU2Jr4cVgOt7jfTVGq', $this->gateway->getGatewaysTokens()['test']->getToken());
+        $gatewaysTokens = $this->gateway->getGatewaysTokens();
+        $lastGatewayToken = array_pop($gatewaysTokens);
+
+        $this->assertEquals('7NTzuQfnaNU2Jr4cVgOt7jfTVGq', $lastGatewayToken['token']);
     }
 
     public function testTooManyRequestsError()
