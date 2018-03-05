@@ -26,6 +26,14 @@ class DeletePaymentMethodRequest extends AbstractRequest
         return $this->endpoint . 'payment_methods/' . $this->getPaymentMethodToken() . '/redact';
     }
 
+    /**
+     * @return string
+     */
+    public function getHttpMethod()
+    {
+        return 'PUT';
+    }
+
     public function getPaymentMethodToken()
     {
         return $this->getParameter('payment_method_token');
