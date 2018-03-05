@@ -31,7 +31,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Omnipay\\Spreedly\\": "tests"
+            "Omnipay\\Spreedly\\Tests\\": "tests"
         }
     },
     "scripts": {

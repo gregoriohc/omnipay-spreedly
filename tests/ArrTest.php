@@ -1,7 +1,8 @@
 <?php
 
-namespace Omnipay\Spreedly;
+namespace Omnipay\Spreedly\Tests;
 
+use Omnipay\Spreedly\Arr;
 use Omnipay\Tests\TestCase;
 
 class ResponseTest extends TestCase

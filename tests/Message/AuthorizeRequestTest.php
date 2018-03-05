@@ -1,9 +1,9 @@
 <?php
 
-namespace Omnipay\Spreedly\Message;
+namespace Omnipay\Spreedly\Tests\Message;
 
 use Omnipay\Common\CreditCard;
-use Omnipay\Spreedly\Arr;
+use Omnipay\Spreedly\Message\AuthorizeRequest;
 
 class AuthorizeRequestTest extends TestCaseMessage
 {

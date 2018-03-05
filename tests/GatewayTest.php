@@ -1,7 +1,10 @@
 <?php
 
-namespace Omnipay\Spreedly;
+namespace Omnipay\Spreedly\Tests;
 
+use Guzzle\Http\Exception\ClientErrorResponseException;
+use Omnipay\Spreedly\BankAccount;
+use Omnipay\Spreedly\Gateway;
 use Omnipay\Tests\GatewayTestCase;
 use Omnipay\Common\CreditCard;
 
@@ -151,7 +154,7 @@ class GatewayTest extends GatewayTestCase
     {
         $this->setMockHttpResponse('ListCardsSuccess.txt');
 
-        /** @var Message\Response $response */
+        /** @var \Omnipay\Spreedly\Message\Response $response */
         $response = $this->gateway->listCards([
             'order' => 'asc',
         ])->send();
@@ -160,7 +163,7 @@ class GatewayTest extends GatewayTestCase
 
         $this->setMockHttpResponse('ListCardsPage2Success.txt');
 
-        /** @var Message\Response $response */
+        /** @var \Omnipay\Spreedly\Message\Response $response */
         $response = $this->gateway->listGateways([
             'order' => 'asc',
             'since_token' => $response->getSinceToken(),
@@ -243,7 +246,7 @@ class GatewayTest extends GatewayTestCase
     {
         $this->setMockHttpResponse('ListPaymentMethodsSuccess.txt');
 
-        /** @var Message\Response $response */
+        /** @var \Omnipay\Spreedly\Message\Response $response */
         $response = $this->gateway->listPaymentMethods([
             'order' => 'asc',
         ])->send();
@@ -252,7 +255,7 @@ class GatewayTest extends GatewayTestCase
 
         $this->setMockHttpResponse('ListPaymentMethodsPage2Success.txt');
 
-        /** @var Message\Response $response */
+        /** @var \Omnipay\Spreedly\Message\Response $response */
         $response = $this->gateway->listGateways([
             'order' => 'asc',
             'since_token' => $response->getSinceToken(),
@@ -376,7 +379,7 @@ class GatewayTest extends GatewayTestCase
     {
         $this->setMockHttpResponse('ListGatewaysSuccess.txt');
 
-        /** @var Message\Response $response */
+        /** @var \Omnipay\Spreedly\Message\Response $response */
         $response = $this->gateway->listGateways([
             'order' => 'asc',
         ])->send();
@@ -385,7 +388,7 @@ class GatewayTest extends GatewayTestCase
 
         $this->setMockHttpResponse('ListGatewaysPage2Success.txt');
 
-        /** @var Message\Response $response */
+        /** @var \Omnipay\Spreedly\Message\Response $response */
         $response = $this->gateway->listGateways([
             'order' => 'asc',
             'since_token' => $response->getSinceToken(),
@@ -408,7 +411,7 @@ class GatewayTest extends GatewayTestCase
     {
         $this->setMockHttpResponse('TooManyRequestsError.txt');
 
-        $this->setExpectedException(\Guzzle\Http\Exception\ClientErrorResponseException::class);
+        $this->setExpectedException(ClientErrorResponseException::class);
 
         $this->gateway->listGateways()->send();
     }

@@ -1,12 +1,13 @@
 <?php
 
-namespace Omnipay\Spreedly\Message;
+namespace Omnipay\Spreedly\Tests\Message;
 
 use Guzzle\Http\Message\EntityEnclosingRequest;
 use Guzzle\Http\QueryString;
 use Guzzle\Http\Url;
 use Guzzle\Parser\ParserRegistry;
 use Omnipay\Spreedly\GatewayToken;
+use Omnipay\Spreedly\Message\AbstractRequest;
 use Omnipay\Tests\TestCase;
 
 class TestCaseMessage extends TestCase
