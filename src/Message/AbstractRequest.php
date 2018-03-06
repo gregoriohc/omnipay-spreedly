@@ -4,73 +4,16 @@ namespace Omnipay\Spreedly\Message;
 
 use Omnipay\Common\Helper;
 use Omnipay\Common\Message\AbstractRequest as BaseAbstractRequest;
+use Omnipay\Spreedly\Concerns\HasSpreedlyConfig;
 
 abstract class AbstractRequest extends BaseAbstractRequest
 {
+    use HasSpreedlyConfig;
+
     /**
      * @var string
      */
     protected $endpoint = 'https://core.spreedly.com/v1/';
-
-    public function getApiKey()
-    {
-        return $this->getParameter('api_key');
-    }
-
-    public function setApiKey($value)
-    {
-        return $this->setParameter('api_key', $value);
-    }
-
-    public function getApiSecret()
-    {
-        return $this->getParameter('api_secret');
-    }
-
-    public function setApiSecret($value)
-    {
-        return $this->setParameter('api_secret', $value);
-    }
-
-    public function getTimeout()
-    {
-        return $this->getParameter('timeout');
-    }
-
-    public function setTimeout($value)
-    {
-        return $this->setParameter('timeout', $value);
-    }
-
-    public function getConnectTimeout()
-    {
-        return $this->getParameter('connect_timeout');
-    }
-
-    public function setConnectTimeout($value)
-    {
-        return $this->setParameter('connect_timeout', $value);
-    }
-
-    public function getDefaultGateway()
-    {
-        return $this->getParameter('default_gateway');
-    }
-
-    public function setDefaultGateway($value)
-    {
-        return $this->setParameter('default_gateway', $value);
-    }
-
-    public function getGatewaysTokens()
-    {
-        return $this->getParameter('gateways_tokens');
-    }
-
-    public function setGatewaysTokens($value)
-    {
-        return $this->setParameter('gateways_tokens', $value);
-    }
 
     /**
      * Get HTTP Method.
