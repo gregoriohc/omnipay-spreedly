@@ -4,7 +4,6 @@ namespace Omnipay\Spreedly\Tests;
 
 use Guzzle\Http\Exception\ClientErrorResponseException;
 use Omnipay\Spreedly\Arr;
-use Omnipay\Spreedly\BankAccount;
 use Omnipay\Spreedly\Gateway;
 use Omnipay\Spreedly\Message\AuthorizeRequest;
 use Omnipay\Spreedly\Message\CaptureRequest;
@@ -15,6 +14,9 @@ use Omnipay\Spreedly\Message\DeleteCardRequest;
 use Omnipay\Spreedly\Message\DeletePaymentMethodRequest;
 use Omnipay\Spreedly\Message\FetchCardRequest;
 use Omnipay\Spreedly\Message\FetchPaymentMethodRequest;
+use Omnipay\Spreedly\Message\ListCardsRequest;
+use Omnipay\Spreedly\Message\ListGatewaysRequest;
+use Omnipay\Spreedly\Message\ListPaymentMethodsRequest;
 use Omnipay\Tests\GatewayTestCase;
 use Omnipay\Common\CreditCard;
 
@@ -112,6 +114,27 @@ class GatewayTest extends GatewayTestCase
         $this->assertInstanceOf(FetchPaymentMethodRequest::class, $request);
     }
 
+    public function testListCards()
+    {
+        $request = $this->gateway->listCards();
+
+        $this->assertInstanceOf(ListCardsRequest::class, $request);
+    }
+
+    public function testListGateways()
+    {
+        $request = $this->gateway->listGateways();
+
+        $this->assertInstanceOf(ListGatewaysRequest::class, $request);
+    }
+
+    public function testListPaymentMethods()
+    {
+        $request = $this->gateway->listPaymentMethods();
+
+        $this->assertInstanceOf(ListPaymentMethodsRequest::class, $request);
+    }
+
     public function testRetainCard()
     {
         $this->setMockHttpResponse('RetainCardSuccess.txt');
@@ -141,29 +164,6 @@ class GatewayTest extends GatewayTestCase
         $this->assertEquals('1rpKvP8zOUhj4Y9EDrIoIYQzzD5', $response->getTransactionReference());
     }
 
-    public function testListCards()
-    {
-        $this->setMockHttpResponse('ListCardsSuccess.txt');
-
-        /** @var \Omnipay\Spreedly\Message\Response $response */
-        $response = $this->gateway->listCards([
-            'order' => 'asc',
-        ])->send();
-
-        $this->assertCount(2, $response->getData());
-
-        $this->setMockHttpResponse('ListCardsPage2Success.txt');
-
-        /** @var \Omnipay\Spreedly\Message\Response $response */
-        $response = $this->gateway->listGateways([
-            'order' => 'asc',
-            'since_token' => $response->getSinceToken(),
-        ])->send();
-
-        $this->assertCount(0, $response->getData());
-        $this->assertNull($response->getSinceToken());
-    }
-
     public function testRetainPaymentMethod()
     {
         $this->setMockHttpResponse('RetainPaymentMethodSuccess.txt');
@@ -191,29 +191,6 @@ class GatewayTest extends GatewayTestCase
 
         $this->assertTrue($response->isSuccessful());
         $this->assertEquals('1rpKvP8zOUhj4Y9EDrIoIYQzzD5', $response->getTransactionReference());
-    }
-
-    public function testListPaymentMethods()
-    {
-        $this->setMockHttpResponse('ListPaymentMethodsSuccess.txt');
-
-        /** @var \Omnipay\Spreedly\Message\Response $response */
-        $response = $this->gateway->listPaymentMethods([
-            'order' => 'asc',
-        ])->send();
-
-        $this->assertCount(2, $response->getData());
-
-        $this->setMockHttpResponse('ListPaymentMethodsPage2Success.txt');
-
-        /** @var \Omnipay\Spreedly\Message\Response $response */
-        $response = $this->gateway->listGateways([
-            'order' => 'asc',
-            'since_token' => $response->getSinceToken(),
-        ])->send();
-
-        $this->assertCount(0, $response->getData());
-        $this->assertNull($response->getSinceToken());
     }
 
     public function testPurchase()
@@ -310,29 +287,6 @@ class GatewayTest extends GatewayTestCase
 
         $this->assertEquals('test', Arr::get($gatewayToken, 'type'));
         $this->assertEquals('6DqX57I6fHgIuUkVN2HGszjDSu1', Arr::get($gatewayToken, 'token'));
-    }
-
-    public function testListGateways()
-    {
-        $this->setMockHttpResponse('ListGatewaysSuccess.txt');
-
-        /** @var \Omnipay\Spreedly\Message\Response $response */
-        $response = $this->gateway->listGateways([
-            'order' => 'asc',
-        ])->send();
-
-        $this->assertCount(2, $response->getData());
-
-        $this->setMockHttpResponse('ListGatewaysPage2Success.txt');
-
-        /** @var \Omnipay\Spreedly\Message\Response $response */
-        $response = $this->gateway->listGateways([
-            'order' => 'asc',
-            'since_token' => $response->getSinceToken(),
-        ])->send();
-
-        $this->assertCount(0, $response->getData());
-        $this->assertNull($response->getSinceToken());
     }
 
     public function testLoadGateways()

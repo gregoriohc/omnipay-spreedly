@@ -12,7 +12,9 @@ class ListPaymentMethodsRequest extends AbstractRequest
      */
     public function getData()
     {
-        return $this->fillPaginationParameters([]);
+        $data = $this->fillPaginationParameters([]);
+
+        return count($data) ? $data : null;
     }
 
     /**
