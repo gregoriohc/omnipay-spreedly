@@ -1,0 +1,11 @@
+POST /v1/transactions/1234/credit.json HTTPS/1.1
+Host: core.spreedly.com
+Authorization: Basic QWxhZGRpbjpvcGVuIHNlc2FtZQ==
+Content-Type: application/json
+
+{
+  "transaction": {
+    "amount": 50,
+    "currency_code": "USD"
+  }
+}

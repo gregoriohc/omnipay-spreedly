@@ -19,6 +19,8 @@ class UpdatePaymentMethodRequest extends AbstractRequest
             'allow_blank_name' => 'allow_blank_name',
             'allow_expired_date' => 'allow_expired_date',
             'allow_blank_date' => 'allow_blank_date',
+            'first_name' => 'first_name',
+            'last_name' => 'last_name',
         ]);
 
         return ['payment_method' => $data];
@@ -78,5 +80,25 @@ class UpdatePaymentMethodRequest extends AbstractRequest
     public function setAllowBlankDate($value)
     {
         return $this->setParameter('allow_blank_date', $value);
+    }
+
+    public function getFirstName()
+    {
+        return $this->getParameter('first_name');
+    }
+
+    public function setFirstName($value)
+    {
+        return $this->setParameter('first_name', $value);
+    }
+
+    public function getLastName()
+    {
+        return $this->getParameter('last_name');
+    }
+
+    public function setLastName($value)
+    {
+        return $this->setParameter('last_name', $value);
     }
 }

@@ -1,0 +1,5 @@
+POST /v1/transactions/9IstHnD1haMTBWkIjlYWb5TwuO0/void.json HTTPS/1.1
+Host: core.spreedly.com
+Authorization: Basic QWxhZGRpbjpvcGVuIHNlc2FtZQ==
+Content-Type: application/json
+

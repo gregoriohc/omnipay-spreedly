@@ -17,6 +17,13 @@ use Omnipay\Spreedly\Message\FetchPaymentMethodRequest;
 use Omnipay\Spreedly\Message\ListCardsRequest;
 use Omnipay\Spreedly\Message\ListGatewaysRequest;
 use Omnipay\Spreedly\Message\ListPaymentMethodsRequest;
+use Omnipay\Spreedly\Message\PurchaseRequest;
+use Omnipay\Spreedly\Message\RefundRequest;
+use Omnipay\Spreedly\Message\RetainCardRequest;
+use Omnipay\Spreedly\Message\RetainPaymentMethodRequest;
+use Omnipay\Spreedly\Message\UpdateCardRequest;
+use Omnipay\Spreedly\Message\UpdatePaymentMethodRequest;
+use Omnipay\Spreedly\Message\VoidRequest;
 use Omnipay\Tests\GatewayTestCase;
 use Omnipay\Common\CreditCard;
 
@@ -135,145 +142,53 @@ class GatewayTest extends GatewayTestCase
         $this->assertInstanceOf(ListPaymentMethodsRequest::class, $request);
     }
 
-    public function testRetainCard()
+    public function testPurchase()
     {
-        $this->setMockHttpResponse('RetainCardSuccess.txt');
+        $request = $this->gateway->purchase();
 
-        $response = $this->gateway->retainCard([
-            'payment_method_token' => '1rpKvP8zOUhj4Y9EDrIoIYQzzD5',
-        ])->send();
-
-        $this->assertTrue($response->isSuccessful());
-        $this->assertEquals('7Mod2PL9OM7AuHBmlPSRvKa02fE', $response->getTransactionReference());
-        $this->assertEquals('succeeded', $response->getCode());
-        $this->assertEquals('1rpKvP8zOUhj4Y9EDrIoIYQzzD5', $response->getPaymentMethodToken());
+        $this->assertInstanceOf(PurchaseRequest::class, $request);
     }
 
-    public function testUpdateCard()
+    public function testRefund()
     {
-        $this->setMockHttpResponse('UpdateCardSuccess.txt');
+        $request = $this->gateway->refund();
 
-        $response = $this->gateway->updateCard([
-            'payment_method_token' => '1rpKvP8zOUhj4Y9EDrIoIYQzzD5',
-            'allow_blank_name' => false,
-            'allow_expired_date' => false,
-            'allow_blank_date' => false,
-        ])->send();
+        $this->assertInstanceOf(RefundRequest::class, $request);
+    }
 
-        $this->assertTrue($response->isSuccessful());
-        $this->assertEquals('1rpKvP8zOUhj4Y9EDrIoIYQzzD5', $response->getTransactionReference());
+    public function testRetainCard()
+    {
+        $request = $this->gateway->retainCard();
+
+        $this->assertInstanceOf(RetainCardRequest::class, $request);
     }
 
     public function testRetainPaymentMethod()
     {
-        $this->setMockHttpResponse('RetainPaymentMethodSuccess.txt');
+        $request = $this->gateway->retainPaymentMethod();
 
-        $response = $this->gateway->retainPaymentMethod([
-            'payment_method_token' => '1rpKvP8zOUhj4Y9EDrIoIYQzzD5',
-        ])->send();
+        $this->assertInstanceOf(RetainPaymentMethodRequest::class, $request);
+    }
 
-        $this->assertTrue($response->isSuccessful());
-        $this->assertEquals('7Mod2PL9OM7AuHBmlPSRvKa02fE', $response->getTransactionReference());
-        $this->assertEquals('succeeded', $response->getCode());
-        $this->assertEquals('1rpKvP8zOUhj4Y9EDrIoIYQzzD5', $response->getPaymentMethodToken());
+    public function testUpdateCard()
+    {
+        $request = $this->gateway->updateCard();
+
+        $this->assertInstanceOf(UpdateCardRequest::class, $request);
     }
 
     public function testUpdatePaymentMethod()
     {
-        $this->setMockHttpResponse('UpdatePaymentMethodSuccess.txt');
+        $request = $this->gateway->updatePaymentMethod();
 
-        $response = $this->gateway->updatePaymentMethod([
-            'payment_method_token' => '1rpKvP8zOUhj4Y9EDrIoIYQzzD5',
-            'allow_blank_name' => false,
-            'allow_expired_date' => false,
-            'allow_blank_date' => false,
-        ])->send();
-
-        $this->assertTrue($response->isSuccessful());
-        $this->assertEquals('1rpKvP8zOUhj4Y9EDrIoIYQzzD5', $response->getTransactionReference());
-    }
-
-    public function testPurchase()
-    {
-        $this->setMockHttpResponse('PurchaseSuccess.txt');
-
-        $response = $this->gateway->purchase([
-            'amount' => '1.00',
-            'currency' => 'USD',
-            'card' => new CreditCard([
-                'firstName' => 'Example',
-                'lastName' => 'User',
-                'number' => '4111111111111111',
-                'expiryMonth' => '12',
-                'expiryYear' => '2020',
-                'cvv' => '123',
-            ]),
-        ])->send();
-
-        $this->assertTrue($response->isSuccessful());
-        $this->assertEquals('8I4jCc5E0UR6MkO3zs8I88ERUHq', $response->getTransactionReference());
-        $this->assertEquals('succeeded', $response->getCode());
-        $this->assertEquals('1.00', $response->getAmount());
-        $this->assertEquals(100, $response->getAmountInteger());
-        $this->assertNull($response->getTransactionId());
-        $this->assertArrayHasKey('transaction', $response->getRawData());
-    }
-
-    public function testRefundFull()
-    {
-        $this->setMockHttpResponse('RefundFullSuccess.txt');
-
-        $response = $this->gateway->refund([
-            'transactionReference' => '1234',
-        ])->send();
-
-        $this->assertTrue($response->isSuccessful());
-        $this->assertEquals('TBuWJz3OyvaDgcHyEhmY1hv9InB', $response->getTransactionReference());
-        $this->assertEquals('succeeded', $response->getCode());
-        $this->assertEquals('1.00', $response->getAmount());
-        $this->assertEquals(100, $response->getAmountInteger());
-    }
-
-    public function testRefundPartial()
-    {
-        $this->setMockHttpResponse('RefundPartialSuccess.txt');
-
-        $response = $this->gateway->refund([
-            'transactionReference' => '1234',
-            'amount' => '0.50',
-            'currency' => 'USD',
-        ])->send();
-
-        $this->assertTrue($response->isSuccessful());
-        $this->assertEquals('RpJnRjeZFxJyUVLmFJ7hQAqKntx', $response->getTransactionReference());
-        $this->assertEquals('succeeded', $response->getCode());
-        $this->assertEquals('0.50', $response->getAmount());
-        $this->assertEquals(50, $response->getAmountInteger());
+        $this->assertInstanceOf(UpdatePaymentMethodRequest::class, $request);
     }
 
     public function testVoid()
     {
-        $this->setMockHttpResponse('VoidSuccess.txt');
+        $request = $this->gateway->void();
 
-        $response = $this->gateway->void([
-            'transactionReference' => '1234',
-        ])->send();
-
-        $this->assertTrue($response->isSuccessful());
-        $this->assertEquals('9IstHnD1haMTBWkIjlYWb5TwuO0', $response->getTransactionReference());
-        $this->assertEquals('succeeded', $response->getCode());
-        $this->assertNull($response->getAmount());
-    }
-
-    public function testVoidError()
-    {
-        $this->setMockHttpResponse('VoidError.txt');
-
-        $response = $this->gateway->void([
-            'transactionReference' => '1234',
-        ])->send();
-
-        $this->assertFalse($response->isSuccessful());
+        $this->assertInstanceOf(VoidRequest::class, $request);
     }
 
     public function testAddGateway()
