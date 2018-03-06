@@ -6,9 +6,6 @@ use Omnipay\Common\Message\AbstractResponse;
 use Omnipay\Common\Message\RequestInterface;
 use Omnipay\Spreedly\Arr;
 
-/**
- * Response
- */
 class Response extends AbstractResponse
 {
     /**

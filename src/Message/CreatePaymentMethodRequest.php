@@ -1,12 +1,16 @@
 <?php
+
 namespace Omnipay\Spreedly\Message;
+
+use Omnipay\Spreedly\Message\Concerns\HasPaymentMethodData;
+
 /**
- * Authorize Request
- *
  * @method Response send()
  */
 class CreatePaymentMethodRequest extends AbstractRequest
 {
+    use HasPaymentMethodData;
+
     /**
      * @return array
      * @throws \Omnipay\Common\Exception\InvalidCreditCardException

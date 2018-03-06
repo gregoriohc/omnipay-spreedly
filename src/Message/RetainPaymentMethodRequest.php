@@ -1,8 +1,8 @@
 <?php
+
 namespace Omnipay\Spreedly\Message;
+
 /**
- * Retain Payment Method Request
- *
  * @method Response send()
  */
 class RetainPaymentMethodRequest extends AbstractRequest

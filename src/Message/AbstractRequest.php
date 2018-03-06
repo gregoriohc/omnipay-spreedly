@@ -8,36 +8,9 @@ use Omnipay\Common\Message\AbstractRequest as BaseAbstractRequest;
 use Omnipay\Spreedly\Arr;
 use Omnipay\Spreedly\BankAccount;
 
-/**
- * Abstract Request
- *
- */
 abstract class AbstractRequest extends BaseAbstractRequest
 {
     protected $endpoint = 'https://core.spreedly.com/v1/';
-
-    protected $gatewaySpecificFieldsConfig = [
-        'test' => [
-            'required' => [],
-            'optional' => [],
-        ],
-        'fake' => [
-            'required' => [
-                'foo',
-            ],
-            'optional' => [
-                'bar',
-            ],
-        ],
-        'conekta' => [
-            'required' => [],
-            'optional' => [
-                'device_fingerprint',
-                'customer',
-                'phone',
-            ],
-        ],
-    ];
 
     public function getApiKey()
     {
@@ -79,16 +52,6 @@ abstract class AbstractRequest extends BaseAbstractRequest
         return $this->setParameter('gateways_tokens', $value);
     }
 
-    public function getGatewaySpecificFields()
-    {
-        return $this->getParameter('gateways_specific_fields');
-    }
-
-    public function setGatewaySpecificFields($value)
-    {
-        return $this->setParameter('gateways_specific_fields', $value);
-    }
-
     public function getTimeout()
     {
         return $this->getParameter('timeout');
@@ -127,51 +90,6 @@ abstract class AbstractRequest extends BaseAbstractRequest
     public function setGateway($value)
     {
         return $this->setParameter('gateway', $value);
-    }
-
-    public function getOrder()
-    {
-        return $this->getParameter('order');
-    }
-
-    public function setOrder($value)
-    {
-        return $this->setParameter('order', $value);
-    }
-
-    public function getSinceToken()
-    {
-        return $this->getParameter('since_token');
-    }
-
-    public function setSinceToken($value)
-    {
-        return $this->setParameter('since_token', $value);
-    }
-
-    /**
-     * Get the bank account.
-     *
-     * @return BankAccount
-     */
-    public function getBankAccount()
-    {
-        return $this->getParameter('bank_account');
-    }
-
-    /**
-     * Sets the card.
-     *
-     * @param BankAccount $value
-     * @return AbstractRequest Provides a fluent interface
-     */
-    public function setBankAccount($value)
-    {
-        if ($value && !$value instanceof BankAccount) {
-            $value = new BankAccount($value);
-        }
-
-        return $this->setParameter('bank_account', $value);
     }
 
     /**
@@ -234,84 +152,6 @@ abstract class AbstractRequest extends BaseAbstractRequest
     }
 
     /**
-     * @return array
-     * @throws InvalidRequestException
-     * @throws \Omnipay\Common\Exception\InvalidCreditCardException
-     * @throws \Omnipay\Spreedly\Exception\InvalidPaymentMethodException
-     */
-    protected function validateAndGetPaymentMethodData()
-    {
-        $data = [];
-
-        // Set data depending on payment method
-        if ($this->parameters->has('token')) {
-            // Token payment method
-            $data['payment_method_token'] = $this->getToken();
-        } elseif ($this->parameters->has('card')) {
-            // Card payment method
-            $card = $this->getCard();
-            $card->validate();
-
-            $data['credit_card'] = [
-                'first_name' => $card->getFirstName(),
-                'last_name' => $card->getLastName(),
-                'number' => $card->getNumber(),
-                'verification_value' => (string) $card->getCvv(),
-                'month' => (string) $card->getExpiryMonth(),
-                'year' => (string) $card->getExpiryYear(),
-            ];
-        } elseif ($this->parameters->has('bank_account')) {
-            // Bank Account payment method
-            $bankAccount = $this->getBankAccount();
-            $bankAccount->validate();
-
-            $data['bank_account'] = [
-                'first_name' => $bankAccount->getFirstName(),
-                'last_name' => $bankAccount->getLastName(),
-                'bank_account_number' => (string) $bankAccount->getNumber(),
-                'bank_routing_number' => (string) $bankAccount->getRoutingNumber(),
-                'bank_account_type' => $bankAccount->getType(),
-                'bank_account_holder_type' => $bankAccount->getHolderType(),
-            ];
-        } else {
-            // ToDo: Implement other payment methods (Android and Apple Pay...)
-            throw new InvalidRequestException("Missing payment method.");
-        }
-
-        return $data;
-    }
-
-    /**
-     * @param array $data
-     * @return array
-     * @throws InvalidRequestException
-     */
-    protected function fillGatewaySpecificFields($data)
-    {
-        $gateway = $this->getGateway();
-        $gatewaySpecificFieldsData = $this->getGatewaySpecificFields();
-        $gatewaySpecificFieldsConfig = Arr::get($this->gatewaySpecificFieldsConfig, $gateway);
-        if ($gatewaySpecificFieldsData && $gatewaySpecificFieldsConfig) {
-            foreach ($gatewaySpecificFieldsConfig['required'] as $field) {
-                $value = Arr::get($gatewaySpecificFieldsData, $field);
-                if (!is_null($value)) {
-                    Arr::set($data, 'gateway_specific_fields.' . $gateway . '.' . $field, $value);
-                } else {
-                    throw new InvalidRequestException("Missing gateway specific field: $field.");
-                }
-            }
-            foreach ($gatewaySpecificFieldsConfig['optional'] as $field) {
-                $value = Arr::get($gatewaySpecificFieldsData, $field);
-                if (!is_null($value)) {
-                    Arr::set($data, 'gateway_specific_fields.' . $gateway . '.' . $field, $value);
-                }
-            }
-        }
-
-        return $data;
-    }
-
-    /**
      * Map data with existing parameters
      *
      * @param array $data
@@ -331,25 +171,6 @@ abstract class AbstractRequest extends BaseAbstractRequest
             if (!is_null($value)) {
                 $data[$key] = $value;
             }
-        }
-
-        return $data;
-    }
-
-    /**
-     * Map data with existing parameters
-     *
-     * @param array $data
-     * @return array
-     */
-    protected function fillPaginationParameters($data)
-    {
-        if ($order = $this->getOrder()) {
-            $data['order'] = $order;
-        }
-
-        if ($sinceToken = $this->getSinceToken()) {
-            $data['since_token'] = $sinceToken;
         }
 
         return $data;

@@ -2,13 +2,16 @@
 
 namespace Omnipay\Spreedly\Message;
 
+use Omnipay\Spreedly\Message\Concerns\HasGatewaySpecificFields;
+use Omnipay\Spreedly\Message\Concerns\HasPaymentMethodData;
+
 /**
- * Authorize Request
- *
  * @method Response send()
  */
 class AuthorizeRequest extends AbstractRequest
 {
+    use HasPaymentMethodData, HasGatewaySpecificFields;
+
     /**
      * @return array
      * @throws \Omnipay\Common\Exception\InvalidCreditCardException

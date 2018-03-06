@@ -1,12 +1,16 @@
 <?php
+
 namespace Omnipay\Spreedly\Message;
+
+use Omnipay\Spreedly\Message\Concerns\HasGatewaySpecificFields;
+
 /**
- * Authorize Request
- *
  * @method Response send()
  */
 class CaptureRequest extends AbstractRequest
 {
+    use HasGatewaySpecificFields;
+
     /**
      * @return array|null
      * @throws \Omnipay\Common\Exception\InvalidRequestException

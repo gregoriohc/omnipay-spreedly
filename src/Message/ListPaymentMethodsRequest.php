@@ -1,12 +1,16 @@
 <?php
+
 namespace Omnipay\Spreedly\Message;
+
+use Omnipay\Spreedly\Message\Concerns\HasPagination;
+
 /**
- * Authorize Request
- *
  * @method Response send()
  */
 class ListPaymentMethodsRequest extends AbstractRequest
 {
+    use HasPagination;
+
     /**
      * @return array
      */
