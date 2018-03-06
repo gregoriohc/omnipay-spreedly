@@ -5,7 +5,7 @@ namespace Omnipay\Spreedly\Message;
 /**
  * @method Response send()
  */
-class FetchPaymentMethodRequest extends AbstractRequest
+class FetchPaymentMethodRequest extends AbstractPaymentMethodRequest
 {
     /**
      * @return null
@@ -26,18 +26,11 @@ class FetchPaymentMethodRequest extends AbstractRequest
         return $this->endpoint . 'payment_methods/' . $this->getPaymentMethodToken();
     }
 
+    /**
+     * @return string
+     */
     public function getHttpMethod()
     {
         return 'GET';
-    }
-
-    public function getPaymentMethodToken()
-    {
-        return $this->getParameter('payment_method_token');
-    }
-
-    public function setPaymentMethodToken($value)
-    {
-        return $this->setParameter('payment_method_token', $value);
     }
 }

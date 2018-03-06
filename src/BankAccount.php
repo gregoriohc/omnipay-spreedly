@@ -6,6 +6,7 @@
 namespace Omnipay\Spreedly;
 
 use Omnipay\Common\Helper;
+use Omnipay\Spreedly\Concerns\HasCustomerData;
 use Omnipay\Spreedly\Exception\InvalidPaymentMethodException;
 use Symfony\Component\HttpFoundation\ParameterBag;
 
@@ -46,6 +47,8 @@ use Symfony\Component\HttpFoundation\ParameterBag;
  */
 class BankAccount
 {
+    use HasCustomerData;
+
     const TYPE_CHECKING = 'checking';
 
     const HOLDER_TYPE_PERSONAL = 'personal';
@@ -145,48 +148,6 @@ class BankAccount
                 throw new InvalidPaymentMethodException("The $val is required");
             }
         }
-    }
-
-    /**
-     * Get Bank Account First Name.
-     *
-     * @return string
-     */
-    public function getFirstName()
-    {
-        return $this->getParameter('first_name');
-    }
-
-    /**
-     * Set Bank Account First Name.
-     *
-     * @param string $value Parameter value
-     * @return BankAccount provides a fluent interface.
-     */
-    public function setFirstName($value)
-    {
-        return $this->setParameter('first_name', $value);
-    }
-
-    /**
-     * Get Bank Account Last Name.
-     *
-     * @return string
-     */
-    public function getLastName()
-    {
-        return $this->getParameter('last_name');
-    }
-
-    /**
-     * Set Bank Account Last Name.
-     *
-     * @param string $value Parameter value
-     * @return BankAccount provides a fluent interface.
-     */
-    public function setLastName($value)
-    {
-        return $this->setParameter('last_name', $value);
     }
 
     /**

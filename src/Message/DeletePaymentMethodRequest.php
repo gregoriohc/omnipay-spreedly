@@ -5,7 +5,7 @@ namespace Omnipay\Spreedly\Message;
 /**
  * @method Response send()
  */
-class DeletePaymentMethodRequest extends AbstractRequest
+class DeletePaymentMethodRequest extends AbstractPaymentMethodRequest
 {
     /**
      * @return null
@@ -32,15 +32,5 @@ class DeletePaymentMethodRequest extends AbstractRequest
     public function getHttpMethod()
     {
         return 'PUT';
-    }
-
-    public function getPaymentMethodToken()
-    {
-        return $this->getParameter('payment_method_token');
-    }
-
-    public function setPaymentMethodToken($value)
-    {
-        return $this->setParameter('payment_method_token', $value);
     }
 }

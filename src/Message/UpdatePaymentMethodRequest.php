@@ -1,12 +1,15 @@
 <?php
 
 namespace Omnipay\Spreedly\Message;
+use Omnipay\Spreedly\Concerns\HasCustomerData;
 
 /**
  * @method Response send()
  */
-class UpdatePaymentMethodRequest extends AbstractRequest
+class UpdatePaymentMethodRequest extends AbstractPaymentMethodRequest
 {
+    use HasCustomerData;
+
     /**
      * @return array
      * @throws \Omnipay\Common\Exception\InvalidRequestException
@@ -21,6 +24,8 @@ class UpdatePaymentMethodRequest extends AbstractRequest
             'allow_blank_date' => 'allow_blank_date',
             'first_name' => 'first_name',
             'last_name' => 'last_name',
+            'email' => 'email',
+            'data' => 'extra',
         ]);
 
         return ['payment_method' => $data];
@@ -40,65 +45,5 @@ class UpdatePaymentMethodRequest extends AbstractRequest
     public function getHttpMethod()
     {
         return 'PUT';
-    }
-
-    public function getPaymentMethodToken()
-    {
-        return $this->getParameter('payment_method_token');
-    }
-
-    public function setPaymentMethodToken($value)
-    {
-        return $this->setParameter('payment_method_token', $value);
-    }
-
-    public function getAllowBlankName()
-    {
-        return $this->getParameter('allow_blank_name');
-    }
-
-    public function setAllowBlankName($value)
-    {
-        return $this->setParameter('allow_blank_name', $value);
-    }
-
-    public function getAllowExpiredDate()
-    {
-        return $this->getParameter('allow_expired_date');
-    }
-
-    public function setAllowExpiredDate($value)
-    {
-        return $this->setParameter('allow_expired_date', $value);
-    }
-
-    public function getAllowBlankDate()
-    {
-        return $this->getParameter('allow_blank_date');
-    }
-
-    public function setAllowBlankDate($value)
-    {
-        return $this->setParameter('allow_blank_date', $value);
-    }
-
-    public function getFirstName()
-    {
-        return $this->getParameter('first_name');
-    }
-
-    public function setFirstName($value)
-    {
-        return $this->setParameter('first_name', $value);
-    }
-
-    public function getLastName()
-    {
-        return $this->getParameter('last_name');
-    }
-
-    public function setLastName($value)
-    {
-        return $this->setParameter('last_name', $value);
     }
 }
