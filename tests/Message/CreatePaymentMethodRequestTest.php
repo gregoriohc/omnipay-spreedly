@@ -2,6 +2,7 @@
 
 namespace Omnipay\Spreedly\Tests\Message;
 
+use Omnipay\Common\CreditCard;
 use Omnipay\Spreedly\BankAccount;
 use Omnipay\Spreedly\Message\CreatePaymentMethodRequest;
 
@@ -28,6 +29,25 @@ class CreatePaymentMethodRequestTest extends TestCaseMessage
                     'some_other_things' => 'Can be anything really',
                 ]
             ],
+        ]);
+
+        $this->assertArrayAssocSame($request->getData(), json_decode($mockRequest->getBody(), true));
+        $this->assertContains($request->getEndpoint(), $mockRequest->getUrl());
+
+
+        $mockRequest = $this->mockHttpRequest('CreateCardRequest.txt');
+
+        $request = new CreatePaymentMethodRequest($this->getHttpClient(), $this->getHttpRequest());
+        $request->initialize([
+            'card' => new CreditCard([
+                'firstName' => 'Joe',
+                'lastName' => 'Jones',
+                'number' => '5555555555554444',
+                'cvv' => '423',
+                'expiryMonth' => '3',
+                'expiryYear' => '2032',
+            ]),
+            'email' => 'joey@example.com',
         ]);
 
         $this->assertArrayAssocSame($request->getData(), json_decode($mockRequest->getBody(), true));
@@ -59,5 +79,28 @@ class CreatePaymentMethodRequestTest extends TestCaseMessage
         $this->assertEquals('succeeded', $response->getCode());
         $this->assertEquals('QzbtsFbvQdzHbJDuDUJ9itBr7jP', $response->getPaymentMethodToken());
         $this->assertEquals('bank_account', $response->getPaymentMethodType());
+
+
+        $this->setMockHttpResponse('CreateCardSuccess.txt');
+
+        $response = $this->gateway->createCard([
+            'card' => new CreditCard([
+                'firstName' => 'Example',
+                'lastName' => 'User',
+                'number' => '4111111111111111',
+                'expiryMonth' => '12',
+                'expiryYear' => '2020',
+                'cvv' => '123',
+            ]),
+            'email' => 'user@example.com',
+            'retained' => false,
+            'allow_blank_name' => false,
+            'allow_expired_date' => false,
+            'allow_blank_date' => false,
+        ])->send();
+
+        $this->assertTrue($response->isSuccessful());
+        $this->assertEquals('MsTBXc7aXHVnnTeIJX2LfgtfPqh', $response->getTransactionReference());
+        $this->assertEquals('succeeded', $response->getCode());
     }
 }

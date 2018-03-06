@@ -134,56 +134,56 @@ class Gateway extends AbstractGateway
 
     /**
      * @param array $options
-     * @return Message\CreateCardRequest
+     * @return Message\CreatePaymentMethodRequest
      */
     public function createCard(array $options = array())
     {
-        return $this->createRequest(Message\CreateCardRequest::class, $options);
+        return $this->createRequest(Message\CreatePaymentMethodRequest::class, $options);
     }
 
     /**
      * @param array $options
-     * @return Message\UpdateCardRequest
+     * @return Message\UpdatePaymentMethodRequest
      */
     public function updateCard(array $options = array())
     {
-        return $this->createRequest(Message\UpdateCardRequest::class, $options);
+        return $this->createRequest(Message\UpdatePaymentMethodRequest::class, $options);
     }
 
     /**
      * @param array $options
-     * @return Message\RetainCardRequest
+     * @return Message\RetainPaymentMethodRequest
      */
     public function retainCard(array $options = array())
     {
-        return $this->createRequest(Message\RetainCardRequest::class, $options);
+        return $this->createRequest(Message\RetainPaymentMethodRequest::class, $options);
     }
 
     /**
      * @param array $options
-     * @return Message\DeleteCardRequest
+     * @return Message\DeletePaymentMethodRequest
      */
     public function deleteCard(array $options = array())
     {
-        return $this->createRequest(Message\DeleteCardRequest::class, $options);
+        return $this->createRequest(Message\DeletePaymentMethodRequest::class, $options);
     }
 
     /**
      * @param array $options
-     * @return Message\FetchCardRequest
+     * @return Message\FetchPaymentMethodRequest
      */
     public function fetchCard(array $options = array())
     {
-        return $this->createRequest(Message\FetchCardRequest::class, $options);
+        return $this->createRequest(Message\FetchPaymentMethodRequest::class, $options);
     }
 
     /**
      * @param array $options
-     * @return Message\ListCardsRequest
+     * @return Message\ListPaymentMethodsRequest
      */
     public function listCards(array $options = array())
     {
-        return $this->createRequest(Message\ListCardsRequest::class, $options);
+        return $this->createRequest(Message\ListPaymentMethodsRequest::class, $options);
     }
 
     /**

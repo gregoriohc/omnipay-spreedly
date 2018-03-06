@@ -7,25 +7,18 @@ use Omnipay\Spreedly\Arr;
 use Omnipay\Spreedly\Gateway;
 use Omnipay\Spreedly\Message\AuthorizeRequest;
 use Omnipay\Spreedly\Message\CaptureRequest;
-use Omnipay\Spreedly\Message\CreateCardRequest;
 use Omnipay\Spreedly\Message\CreateGatewayRequest;
 use Omnipay\Spreedly\Message\CreatePaymentMethodRequest;
-use Omnipay\Spreedly\Message\DeleteCardRequest;
 use Omnipay\Spreedly\Message\DeletePaymentMethodRequest;
-use Omnipay\Spreedly\Message\FetchCardRequest;
 use Omnipay\Spreedly\Message\FetchPaymentMethodRequest;
-use Omnipay\Spreedly\Message\ListCardsRequest;
 use Omnipay\Spreedly\Message\ListGatewaysRequest;
 use Omnipay\Spreedly\Message\ListPaymentMethodsRequest;
 use Omnipay\Spreedly\Message\PurchaseRequest;
 use Omnipay\Spreedly\Message\RefundRequest;
-use Omnipay\Spreedly\Message\RetainCardRequest;
 use Omnipay\Spreedly\Message\RetainPaymentMethodRequest;
-use Omnipay\Spreedly\Message\UpdateCardRequest;
 use Omnipay\Spreedly\Message\UpdatePaymentMethodRequest;
 use Omnipay\Spreedly\Message\VoidRequest;
 use Omnipay\Tests\GatewayTestCase;
-use Omnipay\Common\CreditCard;
 
 class GatewayTest extends GatewayTestCase
 {
@@ -76,7 +69,7 @@ class GatewayTest extends GatewayTestCase
     {
         $request = $this->gateway->createCard();
 
-        $this->assertInstanceOf(CreateCardRequest::class, $request);
+        $this->assertInstanceOf(CreatePaymentMethodRequest::class, $request);
     }
 
     public function testCreateGateway()
@@ -97,7 +90,7 @@ class GatewayTest extends GatewayTestCase
     {
         $request = $this->gateway->deleteCard();
 
-        $this->assertInstanceOf(DeleteCardRequest::class, $request);
+        $this->assertInstanceOf(DeletePaymentMethodRequest::class, $request);
     }
 
     public function testDeletePaymentMethod()
@@ -111,7 +104,7 @@ class GatewayTest extends GatewayTestCase
     {
         $request = $this->gateway->fetchCard();
 
-        $this->assertInstanceOf(FetchCardRequest::class, $request);
+        $this->assertInstanceOf(FetchPaymentMethodRequest::class, $request);
     }
 
     public function testFetchPaymentMethod()
@@ -125,7 +118,7 @@ class GatewayTest extends GatewayTestCase
     {
         $request = $this->gateway->listCards();
 
-        $this->assertInstanceOf(ListCardsRequest::class, $request);
+        $this->assertInstanceOf(ListPaymentMethodsRequest::class, $request);
     }
 
     public function testListGateways()
@@ -160,7 +153,7 @@ class GatewayTest extends GatewayTestCase
     {
         $request = $this->gateway->retainCard();
 
-        $this->assertInstanceOf(RetainCardRequest::class, $request);
+        $this->assertInstanceOf(RetainPaymentMethodRequest::class, $request);
     }
 
     public function testRetainPaymentMethod()
@@ -174,7 +167,7 @@ class GatewayTest extends GatewayTestCase
     {
         $request = $this->gateway->updateCard();
 
-        $this->assertInstanceOf(UpdateCardRequest::class, $request);
+        $this->assertInstanceOf(UpdatePaymentMethodRequest::class, $request);
     }
 
     public function testUpdatePaymentMethod()

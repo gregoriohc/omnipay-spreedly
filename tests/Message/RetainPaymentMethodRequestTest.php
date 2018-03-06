@@ -32,5 +32,17 @@ class RetainPaymentMethodRequestTest extends TestCaseMessage
         $this->assertEquals('7Mod2PL9OM7AuHBmlPSRvKa02fE', $response->getTransactionReference());
         $this->assertEquals('succeeded', $response->getCode());
         $this->assertEquals('1rpKvP8zOUhj4Y9EDrIoIYQzzD5', $response->getPaymentMethodToken());
+
+
+        $this->setMockHttpResponse('RetainPaymentMethodSuccess.txt');
+
+        $response = $this->gateway->retainCard([
+            'payment_method_token' => '1rpKvP8zOUhj4Y9EDrIoIYQzzD5',
+        ])->send();
+
+        $this->assertTrue($response->isSuccessful());
+        $this->assertEquals('7Mod2PL9OM7AuHBmlPSRvKa02fE', $response->getTransactionReference());
+        $this->assertEquals('succeeded', $response->getCode());
+        $this->assertEquals('1rpKvP8zOUhj4Y9EDrIoIYQzzD5', $response->getPaymentMethodToken());
     }
 }

@@ -30,7 +30,28 @@ class ListPaymentMethodsRequestTest extends TestCaseMessage
         $this->setMockHttpResponse('ListPaymentMethodsPage2Success.txt');
 
         /** @var \Omnipay\Spreedly\Message\Response $response */
-        $response = $this->gateway->listGateways([
+        $response = $this->gateway->listPaymentMethods([
+            'order' => 'asc',
+            'since_token' => $response->getSinceToken(),
+        ])->send();
+
+        $this->assertCount(0, $response->getData());
+        $this->assertNull($response->getSinceToken());
+
+
+        $this->setMockHttpResponse('ListPaymentMethodsSuccess.txt');
+
+        /** @var \Omnipay\Spreedly\Message\Response $response */
+        $response = $this->gateway->listCards([
+            'order' => 'asc',
+        ])->send();
+
+        $this->assertCount(2, $response->getData());
+
+        $this->setMockHttpResponse('ListPaymentMethodsPage2Success.txt');
+
+        /** @var \Omnipay\Spreedly\Message\Response $response */
+        $response = $this->gateway->listCards([
             'order' => 'asc',
             'since_token' => $response->getSinceToken(),
         ])->send();

@@ -30,5 +30,16 @@ class FetchPaymentMethodRequestTest extends TestCaseMessage
         $this->assertTrue($response->isSuccessful());
         $this->assertEquals('1rpKvP8zOUhj4Y9EDrIoIYQzzD5', $response->getTransactionReference());
         $this->assertEquals('1rpKvP8zOUhj4Y9EDrIoIYQzzD5', $response->getPaymentMethodToken());
+
+
+        $this->setMockHttpResponse('FetchPaymentMethodSuccess.txt');
+
+        $response = $this->gateway->fetchCard([
+            'payment_method_token' => '1rpKvP8zOUhj4Y9EDrIoIYQzzD5',
+        ])->send();
+
+        $this->assertTrue($response->isSuccessful());
+        $this->assertEquals('1rpKvP8zOUhj4Y9EDrIoIYQzzD5', $response->getTransactionReference());
+        $this->assertEquals('1rpKvP8zOUhj4Y9EDrIoIYQzzD5', $response->getPaymentMethodToken());
     }
 }

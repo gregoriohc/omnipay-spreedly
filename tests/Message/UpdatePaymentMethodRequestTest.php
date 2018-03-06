@@ -35,5 +35,18 @@ class UpdatePaymentMethodRequestTest extends TestCaseMessage
 
         $this->assertTrue($response->isSuccessful());
         $this->assertEquals('1rpKvP8zOUhj4Y9EDrIoIYQzzD5', $response->getTransactionReference());
+
+
+        $this->setMockHttpResponse('UpdatePaymentMethodSuccess.txt');
+
+        $response = $this->gateway->updateCard([
+            'payment_method_token' => '1rpKvP8zOUhj4Y9EDrIoIYQzzD5',
+            'allow_blank_name' => false,
+            'allow_expired_date' => false,
+            'allow_blank_date' => false,
+        ])->send();
+
+        $this->assertTrue($response->isSuccessful());
+        $this->assertEquals('1rpKvP8zOUhj4Y9EDrIoIYQzzD5', $response->getTransactionReference());
     }
 }

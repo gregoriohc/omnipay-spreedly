@@ -31,5 +31,17 @@ class DeletePaymentMethodRequestTest extends TestCaseMessage
         $this->assertEquals('XN5Lm2COxcqP7xFKaZIWDI0CVuh', $response->getTransactionReference());
         $this->assertEquals('succeeded', $response->getCode());
         $this->assertEquals('FT6P5qwEI1MArhD8nydJpnHP1uV', $response->getPaymentMethodToken());
+
+
+        $this->setMockHttpResponse('DeletePaymentMethodSuccess.txt');
+
+        $response = $this->gateway->deleteCard([
+            'payment_method_token' => 'FT6P5qwEI1MArhD8nydJpnHP1uV',
+        ])->send();
+
+        $this->assertTrue($response->isSuccessful());
+        $this->assertEquals('XN5Lm2COxcqP7xFKaZIWDI0CVuh', $response->getTransactionReference());
+        $this->assertEquals('succeeded', $response->getCode());
+        $this->assertEquals('FT6P5qwEI1MArhD8nydJpnHP1uV', $response->getPaymentMethodToken());
     }
 }
