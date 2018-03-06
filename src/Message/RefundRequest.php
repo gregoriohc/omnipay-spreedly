@@ -2,6 +2,7 @@
 
 namespace Omnipay\Spreedly\Message;
 
+use Omnipay\Spreedly\Message\Concerns\HasGateway;
 use Omnipay\Spreedly\Message\Concerns\HasGatewaySpecificFields;
 
 /**
@@ -9,7 +10,7 @@ use Omnipay\Spreedly\Message\Concerns\HasGatewaySpecificFields;
  */
 class RefundRequest extends AbstractRequest
 {
-    use HasGatewaySpecificFields;
+    use HasGateway, HasGatewaySpecificFields;
 
     /**
      * @return array|null

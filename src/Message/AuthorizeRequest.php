@@ -2,6 +2,7 @@
 
 namespace Omnipay\Spreedly\Message;
 
+use Omnipay\Spreedly\Message\Concerns\HasGateway;
 use Omnipay\Spreedly\Message\Concerns\HasGatewaySpecificFields;
 use Omnipay\Spreedly\Message\Concerns\HasPaymentMethodData;
 
@@ -10,7 +11,7 @@ use Omnipay\Spreedly\Message\Concerns\HasPaymentMethodData;
  */
 class AuthorizeRequest extends AbstractRequest
 {
-    use HasPaymentMethodData, HasGatewaySpecificFields;
+    use HasGateway, HasPaymentMethodData, HasGatewaySpecificFields;
 
     /**
      * @return array

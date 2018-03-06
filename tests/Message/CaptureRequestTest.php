@@ -15,7 +15,6 @@ class CaptureRequestTest extends TestCaseMessage
             'amount' => '0.50',
             'currency' => 'USD',
         ]);
-        $request = $this->setTestGateway($request);
         $request->setTransactionReference('UAooev0WJDbSyuh0CqwHGi8WDML');
 
         $this->assertArrayAssocSame($request->getData(), json_decode($mockRequest->getBody(), true));

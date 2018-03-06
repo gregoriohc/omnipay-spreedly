@@ -2,14 +2,14 @@
 
 namespace Omnipay\Spreedly\Message;
 
-use Omnipay\Common\Exception\InvalidRequestException;
 use Omnipay\Common\Helper;
 use Omnipay\Common\Message\AbstractRequest as BaseAbstractRequest;
-use Omnipay\Spreedly\Arr;
-use Omnipay\Spreedly\BankAccount;
 
 abstract class AbstractRequest extends BaseAbstractRequest
 {
+    /**
+     * @var string
+     */
     protected $endpoint = 'https://core.spreedly.com/v1/';
 
     public function getApiKey()
@@ -32,26 +32,6 @@ abstract class AbstractRequest extends BaseAbstractRequest
         return $this->setParameter('api_secret', $value);
     }
 
-    public function getDefaultGateway()
-    {
-        return $this->getParameter('default_gateway');
-    }
-
-    public function setDefaultGateway($value)
-    {
-        return $this->setParameter('default_gateway', $value);
-    }
-
-    public function getGatewaysTokens()
-    {
-        return $this->getParameter('gateways_tokens');
-    }
-
-    public function setGatewaysTokens($value)
-    {
-        return $this->setParameter('gateways_tokens', $value);
-    }
-
     public function getTimeout()
     {
         return $this->getParameter('timeout');
@@ -72,43 +52,24 @@ abstract class AbstractRequest extends BaseAbstractRequest
         return $this->setParameter('connect_timeout', $value);
     }
 
-    public function getGateway()
+    public function getDefaultGateway()
     {
-        $gateway = $this->getParameter('gateway');
-
-        if (is_null($this->getParameter('gateway'))) {
-            $gateway = $this->getDefaultGateway();
-        }
-
-        if ($this->getTestMode()) {
-            $gateway = 'test';
-        }
-
-        return $gateway;
+        return $this->getParameter('default_gateway');
     }
 
-    public function setGateway($value)
+    public function setDefaultGateway($value)
     {
-        return $this->setParameter('gateway', $value);
+        return $this->setParameter('default_gateway', $value);
     }
 
-    /**
-     * @return string
-     * @throws InvalidRequestException
-     */
-    public function getGatewayToken()
+    public function getGatewaysTokens()
     {
-        $gateway = $this->getGateway();
+        return $this->getParameter('gateways_tokens');
+    }
 
-        $gatewaysTokens = $this->getGatewaysTokens();
-
-        foreach ($gatewaysTokens as $gatewayToken) {
-            if (Arr::get($gatewayToken, 'type') == $gateway) {
-                return Arr::get($gatewayToken, 'token');
-            }
-        }
-
-        throw new InvalidRequestException("Missing '$gateway' gateway token.");
+    public function setGatewaysTokens($value)
+    {
+        return $this->setParameter('gateways_tokens', $value);
     }
 
     /**
@@ -135,6 +96,15 @@ abstract class AbstractRequest extends BaseAbstractRequest
         return $headers;
     }
 
+    /**
+     * @return string
+     */
+    abstract public function getEndpoint();
+
+    /**
+     * @param array|null $data
+     * @return \Omnipay\Common\Message\ResponseInterface|Response
+     */
     public function sendData($data)
     {
         $httpRequest = $this->httpClient->createRequest(
@@ -174,17 +144,6 @@ abstract class AbstractRequest extends BaseAbstractRequest
         }
 
         return $data;
-    }
-
-    abstract public function getEndpoint();
-
-    /**
-     * @return string
-     * @throws InvalidRequestException
-     */
-    protected function getGatewayEndpoint()
-    {
-        return $this->endpoint . 'gateways/' . $this->getGatewayToken() . '/';
     }
 
     protected function createResponse($data)
