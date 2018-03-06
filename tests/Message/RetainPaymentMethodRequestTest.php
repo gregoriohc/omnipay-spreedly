@@ -12,9 +12,9 @@ class RetainPaymentMethodRequestTest extends TestCaseMessage
         $mockRequest = $this->mockHttpRequest('RetainPaymentMethodRequest.txt');
 
         $request = new RetainPaymentMethodRequest($this->getHttpClient(), $this->getHttpRequest());
-        $request->initialize([
+        $request->initialize(array(
             'payment_method_token' => '56wyNnSmuA6CWYP7w0MiYCVIbW6',
-        ]);
+        ));
 
         $this->assertArrayAssocSame($request->getData(), json_decode($mockRequest->getBody(), true));
         $this->assertContains($request->getEndpoint(), $mockRequest->getUrl());
@@ -24,9 +24,9 @@ class RetainPaymentMethodRequestTest extends TestCaseMessage
     {
         $this->setMockHttpResponse('RetainPaymentMethodSuccess.txt');
 
-        $response = $this->gateway->retainPaymentMethod([
+        $response = $this->gateway->retainPaymentMethod(array(
             'payment_method_token' => '1rpKvP8zOUhj4Y9EDrIoIYQzzD5',
-        ])->send();
+        ))->send();
 
         $this->assertTrue($response->isSuccessful());
         $this->assertEquals('7Mod2PL9OM7AuHBmlPSRvKa02fE', $response->getTransactionReference());
@@ -36,9 +36,9 @@ class RetainPaymentMethodRequestTest extends TestCaseMessage
 
         $this->setMockHttpResponse('RetainPaymentMethodSuccess.txt');
 
-        $response = $this->gateway->retainCard([
+        $response = $this->gateway->retainCard(array(
             'payment_method_token' => '1rpKvP8zOUhj4Y9EDrIoIYQzzD5',
-        ])->send();
+        ))->send();
 
         $this->assertTrue($response->isSuccessful());
         $this->assertEquals('7Mod2PL9OM7AuHBmlPSRvKa02fE', $response->getTransactionReference());

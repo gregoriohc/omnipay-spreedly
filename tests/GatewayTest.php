@@ -21,20 +21,20 @@ class GatewayTest extends GatewayTestCase
         $this->gateway->setApiKey('API_KEY');
         $this->gateway->setApiSecret('API_SECRET');
         $this->gateway->setDefaultGateway('test');
-        $this->gateway->setGatewaysTokens([
-            [
+        $this->gateway->setGatewaysTokens(array(
+            array(
                 'type' => 'test',
                 'token' => '1234',
-            ],
-            [
+            ),
+            array(
                 'type' => 'fake',
                 'token' => '1234',
-            ],
-            [
+            ),
+            array(
                 'type' => 'conekta',
                 'token' => '1234',
-            ],
-        ]);
+            ),
+        ));
     }
 
     public function testAuthorize()
@@ -174,10 +174,10 @@ class GatewayTest extends GatewayTestCase
     {
         $this->setMockHttpResponse('CreateGatewaySuccess.txt');
 
-        $gatewayToken = $this->gateway->addGateway([
+        $gatewayToken = $this->gateway->addGateway(array(
             'type' => 'test',
-            'config' => [],
-        ]);
+            'config' => array(),
+        ));
 
         $this->assertEquals('test', Arr::get($gatewayToken, 'type'));
         $this->assertEquals('6DqX57I6fHgIuUkVN2HGszjDSu1', Arr::get($gatewayToken, 'token'));

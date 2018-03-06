@@ -18,7 +18,7 @@ class UpdatePaymentMethodRequest extends AbstractPaymentMethodRequest
     {
         $this->validate('payment_method_token');
 
-        $data = $this->fillExistingParameters([], [
+        $data = $this->fillExistingParameters(array(), array(
             'allow_blank_name' => 'allow_blank_name',
             'allow_expired_date' => 'allow_expired_date',
             'allow_blank_date' => 'allow_blank_date',
@@ -26,9 +26,9 @@ class UpdatePaymentMethodRequest extends AbstractPaymentMethodRequest
             'last_name' => 'last_name',
             'email' => 'email',
             'data' => 'extra',
-        ]);
+        ));
 
-        return ['payment_method' => $data];
+        return array('payment_method' => $data);
     }
 
     /**

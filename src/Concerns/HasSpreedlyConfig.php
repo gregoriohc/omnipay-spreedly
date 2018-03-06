@@ -10,7 +10,7 @@ trait HasSpreedlyConfig
             'api_key' => '', // (required) Environment key
             'api_secret' => '', // (required) Signing Secret
             'default_gateway' => '', // (required) Default gateway
-            'gateways_tokens' => [], // (required) Default gateway
+            'gateways_tokens' => array(), // (required) Default gateway
             'timeout' => 64, // (optional) Default 64 seconds (recommended by Spreedly)
             'connect_timeout' => 10, // (optional) Default 10 seconds
             'testMode' => false,

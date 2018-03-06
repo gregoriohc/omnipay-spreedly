@@ -41,7 +41,7 @@ trait HasPaymentMethodData
      */
     protected function validateAndGetPaymentMethodData()
     {
-        $data = [];
+        $data = array();
 
         // Set data depending on payment method
         if ($this->parameters->has('token')) {
@@ -53,28 +53,28 @@ trait HasPaymentMethodData
             $card = $this->getCard();
             $card->validate();
 
-            $data['credit_card'] = [
+            $data['credit_card'] = array(
                 'first_name' => $card->getFirstName(),
                 'last_name' => $card->getLastName(),
                 'number' => $card->getNumber(),
                 'verification_value' => (string) $card->getCvv(),
                 'month' => (string) $card->getExpiryMonth(),
                 'year' => (string) $card->getExpiryYear(),
-            ];
+            );
         } elseif ($this->parameters->has('bank_account')) {
             // Bank Account payment method
             /** @var BankAccount $bankAccount */
             $bankAccount = $this->getBankAccount();
             $bankAccount->validate();
 
-            $data['bank_account'] = [
+            $data['bank_account'] = array(
                 'first_name' => $bankAccount->getFirstName(),
                 'last_name' => $bankAccount->getLastName(),
                 'bank_account_number' => (string) $bankAccount->getNumber(),
                 'bank_routing_number' => (string) $bankAccount->getRoutingNumber(),
                 'bank_account_type' => $bankAccount->getType(),
                 'bank_account_holder_type' => $bankAccount->getHolderType(),
-            ];
+            );
         } else {
             // ToDo: Implement other payment methods (Android and Apple Pay...)
             throw new InvalidRequestException("Missing payment method.");

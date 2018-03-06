@@ -27,12 +27,12 @@ class PurchaseRequest extends AbstractRequest
 
         $data = $this->fillGatewaySpecificFields($data);
 
-        $data = $this->fillExistingParameters($data, [
+        $data = $this->fillExistingParameters($data, array(
             'amount' => 'amount_integer',
             'currency_code' => 'currency',
-        ]);
+        ));
 
-        return ['transaction' => $data];
+        return array('transaction' => $data);
     }
 
     /**

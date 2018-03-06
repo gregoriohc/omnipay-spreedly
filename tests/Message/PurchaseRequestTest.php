@@ -12,11 +12,11 @@ class PurchaseRequestTest extends TestCaseMessage
         $mockRequest = $this->mockHttpRequest('PurchaseRequest.txt');
 
         $request = new PurchaseRequest($this->getHttpClient(), $this->getHttpRequest());
-        $request->initialize([
+        $request->initialize(array(
             'token' => '56wyNnSmuA6CWYP7w0MiYCVIbW6',
             'amount' => 1.00,
             'currency' => 'USD'
-        ]);
+        ));
         $request = $this->setTestGateway($request);
 
         $this->assertArrayAssocSame($request->getData(), json_decode($mockRequest->getBody(), true));
@@ -27,18 +27,18 @@ class PurchaseRequestTest extends TestCaseMessage
     {
         $this->setMockHttpResponse('PurchaseSuccess.txt');
 
-        $response = $this->gateway->purchase([
+        $response = $this->gateway->purchase(array(
             'amount' => '1.00',
             'currency' => 'USD',
-            'card' => new CreditCard([
+            'card' => new CreditCard(array(
                 'firstName' => 'Example',
                 'lastName' => 'User',
                 'number' => '4111111111111111',
                 'expiryMonth' => '12',
                 'expiryYear' => '2020',
                 'cvv' => '123',
-            ]),
-        ])->send();
+            )),
+        ))->send();
 
         $this->assertTrue($response->isSuccessful());
         $this->assertEquals('8I4jCc5E0UR6MkO3zs8I88ERUHq', $response->getTransactionReference());

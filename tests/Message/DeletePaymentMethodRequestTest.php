@@ -11,9 +11,9 @@ class DeletePaymentMethodRequestTest extends TestCaseMessage
         $mockRequest = $this->mockHttpRequest('DeletePaymentMethodRequest.txt');
 
         $request = new DeletePaymentMethodRequest($this->getHttpClient(), $this->getHttpRequest());
-        $request->initialize([
+        $request->initialize(array(
             'payment_method_token' => 'FT6P5qwEI1MArhD8nydJpnHP1uV',
-        ]);
+        ));
 
         $this->assertArrayAssocSame($request->getData(), json_decode($mockRequest->getBody(), true));
         $this->assertContains($request->getEndpoint(), $mockRequest->getUrl());
@@ -23,9 +23,9 @@ class DeletePaymentMethodRequestTest extends TestCaseMessage
     {
         $this->setMockHttpResponse('DeletePaymentMethodSuccess.txt');
 
-        $response = $this->gateway->deletePaymentMethod([
+        $response = $this->gateway->deletePaymentMethod(array(
             'payment_method_token' => 'FT6P5qwEI1MArhD8nydJpnHP1uV',
-        ])->send();
+        ))->send();
 
         $this->assertTrue($response->isSuccessful());
         $this->assertEquals('XN5Lm2COxcqP7xFKaZIWDI0CVuh', $response->getTransactionReference());
@@ -35,9 +35,9 @@ class DeletePaymentMethodRequestTest extends TestCaseMessage
 
         $this->setMockHttpResponse('DeletePaymentMethodSuccess.txt');
 
-        $response = $this->gateway->deleteCard([
+        $response = $this->gateway->deleteCard(array(
             'payment_method_token' => 'FT6P5qwEI1MArhD8nydJpnHP1uV',
-        ])->send();
+        ))->send();
 
         $this->assertTrue($response->isSuccessful());
         $this->assertEquals('XN5Lm2COxcqP7xFKaZIWDI0CVuh', $response->getTransactionReference());

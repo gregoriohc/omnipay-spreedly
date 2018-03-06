@@ -36,12 +36,12 @@ class CreateGatewayRequest extends AbstractRequest
     {
         $this->validate('type');
 
-        $config = (array) ($this->getConfig() ?: []);
+        $config = (array) ($this->getConfig() ?: array());
         $config['gateway_type'] = $this->getType();
 
-        return [
+        return array(
             'gateway' => $config,
-        ];
+        );
     }
 
     /**

@@ -20,14 +20,14 @@ use Symfony\Component\HttpFoundation\ParameterBag;
  *
  * <code>
  *   // Define bank account parameters, which should look like this
- *   $parameters = [
+ *   $parameters = array(
  *       'firstName' => 'Bobby',
  *       'lastName' => 'Tables',
  *       'number' => '9876543210',
  *       'routingNumber' => '021000021',
  *       'type' => 'checking',
  *       'holderType' => 'personal',
- *   ];
+ *   );
  *
  *   // Create a bank account object
  *   $bankAccount = new BankAcount($parameters);

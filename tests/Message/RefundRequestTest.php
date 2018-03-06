@@ -12,9 +12,9 @@ class RefundRequestTest extends TestCaseMessage
         $mockRequest = $this->mockHttpRequest('RefundFullRequest.txt');
 
         $request = new RefundRequest($this->getHttpClient(), $this->getHttpRequest());
-        $request->initialize([
+        $request->initialize(array(
             'transactionReference' => '1234',
-        ]);
+        ));
 
         $this->assertArrayAssocSame($request->getData(), json_decode($mockRequest->getBody(), true));
         $this->assertContains($request->getEndpoint(), $mockRequest->getUrl());
@@ -22,11 +22,11 @@ class RefundRequestTest extends TestCaseMessage
         $mockRequest = $this->mockHttpRequest('RefundPartialRequest.txt');
 
         $request = new RefundRequest($this->getHttpClient(), $this->getHttpRequest());
-        $request->initialize([
+        $request->initialize(array(
             'transactionReference' => '1234',
             'amount' => 0.50,
             'currency' => 'USD'
-        ]);
+        ));
 
         $this->assertArrayAssocSame($request->getData(), json_decode($mockRequest->getBody(), true));
         $this->assertContains($request->getEndpoint(), $mockRequest->getUrl());
@@ -36,9 +36,9 @@ class RefundRequestTest extends TestCaseMessage
     {
         $this->setMockHttpResponse('RefundFullSuccess.txt');
 
-        $response = $this->gateway->refund([
+        $response = $this->gateway->refund(array(
             'transactionReference' => '1234',
-        ])->send();
+        ))->send();
 
         $this->assertTrue($response->isSuccessful());
         $this->assertEquals('TBuWJz3OyvaDgcHyEhmY1hv9InB', $response->getTransactionReference());
@@ -48,11 +48,11 @@ class RefundRequestTest extends TestCaseMessage
 
         $this->setMockHttpResponse('RefundPartialSuccess.txt');
 
-        $response = $this->gateway->refund([
+        $response = $this->gateway->refund(array(
             'transactionReference' => '1234',
             'amount' => '0.50',
             'currency' => 'USD',
-        ])->send();
+        ))->send();
 
         $this->assertTrue($response->isSuccessful());
         $this->assertEquals('RpJnRjeZFxJyUVLmFJ7hQAqKntx', $response->getTransactionReference());

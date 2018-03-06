@@ -11,10 +11,10 @@ class CaptureRequestTest extends TestCaseMessage
         $mockRequest = $this->mockHttpRequest('CaptureRequest.txt');
 
         $request = new CaptureRequest($this->getHttpClient(), $this->getHttpRequest());
-        $request->initialize([
+        $request->initialize(array(
             'amount' => '0.50',
             'currency' => 'USD',
-        ]);
+        ));
         $request->setTransactionReference('UAooev0WJDbSyuh0CqwHGi8WDML');
 
         $this->assertArrayAssocSame($request->getData(), json_decode($mockRequest->getBody(), true));
@@ -25,9 +25,9 @@ class CaptureRequestTest extends TestCaseMessage
     {
         $this->setMockHttpResponse('CaptureFullSuccess.txt');
 
-        $response = $this->gateway->capture([
+        $response = $this->gateway->capture(array(
             'transactionReference' => '1234',
-        ])->send();
+        ))->send();
 
         $this->assertTrue($response->isSuccessful());
         $this->assertEquals('UAooev0WJDbSyuh0CqwHGi8WDML', $response->getTransactionReference());
@@ -37,11 +37,11 @@ class CaptureRequestTest extends TestCaseMessage
 
         $this->setMockHttpResponse('CapturePartialSuccess.txt');
 
-        $response = $this->gateway->capture([
+        $response = $this->gateway->capture(array(
             'transactionReference' => '1234',
             'amount' => '0.50',
             'currency' => 'USD',
-        ])->send();
+        ))->send();
 
         $this->assertTrue($response->isSuccessful());
         $this->assertEquals('S3VrIobz0gC0AI771ml1CndOLs5', $response->getTransactionReference());
@@ -51,14 +51,14 @@ class CaptureRequestTest extends TestCaseMessage
 
         $this->setMockHttpResponse('CaptureFullSuccess.txt');
 
-        $response = $this->gateway->capture([
+        $response = $this->gateway->capture(array(
             'gateway' => 'fake',
             'transactionReference' => '1234',
-            'gateway_specific_fields' => [
+            'gateway_specific_fields' => array(
                 'foo' => '123',
                 'bar' => 'abc',
-            ],
-        ])->send();
+            ),
+        ))->send();
 
         $this->assertTrue($response->isSuccessful());
         $this->assertEquals('UAooev0WJDbSyuh0CqwHGi8WDML', $response->getTransactionReference());

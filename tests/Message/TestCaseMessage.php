@@ -24,20 +24,20 @@ class TestCaseMessage extends TestCase
         $this->gateway->setApiKey('API_KEY');
         $this->gateway->setApiSecret('API_SECRET');
         $this->gateway->setDefaultGateway('test');
-        $this->gateway->setGatewaysTokens([
-            [
+        $this->gateway->setGatewaysTokens(array(
+            array(
                 'type' => 'test',
                 'token' => '1234',
-            ],
-            [
+            ),
+            array(
                 'type' => 'fake',
                 'token' => '1234',
-            ],
-            [
+            ),
+            array(
                 'type' => 'conekta',
                 'token' => '1234',
-            ],
-        ]);
+            ),
+        ));
     }
 
     /**
@@ -46,7 +46,7 @@ class TestCaseMessage extends TestCase
      */
     protected function setTestGateway($request)
     {
-        $request->setGatewaysTokens([['type' => 'test', 'token' => '1234']]);
+        $request->setGatewaysTokens(array(array('type' => 'test', 'token' => '1234')));
         $request->setGateway('test');
 
         return $request;

@@ -7,28 +7,28 @@ use Omnipay\Spreedly\Arr;
 
 trait HasGatewaySpecificFields
 {
-    protected $gatewaySpecificFieldsConfig = [
-        'test' => [
-            'required' => [],
-            'optional' => [],
-        ],
-        'fake' => [
-            'required' => [
+    protected $gatewaySpecificFieldsConfig = array(
+        'test' => array(
+            'required' => array(),
+            'optional' => array(),
+        ),
+        'fake' => array(
+            'required' => array(
                 'foo',
-            ],
-            'optional' => [
+            ),
+            'optional' => array(
                 'bar',
-            ],
-        ],
-        'conekta' => [
-            'required' => [],
-            'optional' => [
+            ),
+        ),
+        'conekta' => array(
+            'required' => array(),
+            'optional' => array(
                 'device_fingerprint',
                 'customer',
                 'phone',
-            ],
-        ],
-    ];
+            ),
+        ),
+    );
 
     public function getGatewaySpecificFields()
     {

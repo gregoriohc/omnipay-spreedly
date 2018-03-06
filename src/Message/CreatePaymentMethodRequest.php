@@ -22,16 +22,16 @@ class CreatePaymentMethodRequest extends AbstractPaymentMethodRequest
     {
         $data = $this->validateAndGetPaymentMethodData();
 
-        $data = $this->fillExistingParameters($data, [
+        $data = $this->fillExistingParameters($data, array(
             'email' => 'email',
             'retained' => 'retained',
             'allow_blank_name' => 'allow_blank_name',
             'allow_expired_date' => 'allow_expired_date',
             'allow_blank_date' => 'allow_blank_date',
             'data' => 'extra',
-        ]);
+        ));
 
-        return ['payment_method' => $data];
+        return array('payment_method' => $data);
     }
 
     /**

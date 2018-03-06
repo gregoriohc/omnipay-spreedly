@@ -12,19 +12,19 @@ class AuthorizeRequestTest extends TestCaseMessage
         $mockRequest = $this->mockHttpRequest('AuthorizeRequest.txt');
 
         $request = new AuthorizeRequest($this->getHttpClient(), $this->getHttpRequest());
-        $request->initialize([
+        $request->initialize(array(
             'amount' => '1.00',
             'currency' => 'USD',
-        ]);
+        ));
         $request = $this->setTestGateway($request);
-        $request->setCard(new CreditCard([
+        $request->setCard(new CreditCard(array(
             'firstName' => 'Joe',
             'lastName' => 'Smith',
             'number' => '4111111111111111',
             'expiryMonth' => 12,
             'expiryYear' => 2018,
             'cvv' => 123,
-        ]));
+        )));
 
         $this->assertArrayAssocSame($request->getData(), json_decode($mockRequest->getBody(), true));
         $this->assertContains($request->getEndpoint(), $mockRequest->getUrl());
@@ -34,18 +34,18 @@ class AuthorizeRequestTest extends TestCaseMessage
     {
         $this->setMockHttpResponse('AuthorizeSuccess.txt');
 
-        $response = $this->gateway->authorize([
+        $response = $this->gateway->authorize(array(
             'amount' => '1.00',
             'currency' => 'USD',
-            'card' => new CreditCard([
+            'card' => new CreditCard(array(
                 'firstName' => 'Example',
                 'lastName' => 'User',
                 'number' => '4111111111111111',
                 'expiryMonth' => '12',
                 'expiryYear' => '2020',
                 'cvv' => '123',
-            ]),
-        ])->send();
+            )),
+        ))->send();
 
         $this->assertTrue($response->isSuccessful());
         $this->assertEquals('RAK67yYv2ZRUyBRcYxLkh3PalNj', $response->getTransactionReference());

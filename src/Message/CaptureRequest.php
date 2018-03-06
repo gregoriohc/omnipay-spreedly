@@ -18,7 +18,7 @@ class CaptureRequest extends AbstractRequest
      */
     public function getData()
     {
-        $data = [];
+        $data = array();
 
         $this->validate('transactionReference');
 
@@ -27,12 +27,12 @@ class CaptureRequest extends AbstractRequest
         if ($this->parameters->has('amount')) {
             $this->validate('amount', 'currency');
 
-            $data = $this->fillExistingParameters($data, [
+            $data = $this->fillExistingParameters($data, array(
                 'amount' => 'amount_integer',
                 'currency_code' => 'currency',
-            ]);
+            ));
 
-            return ['transaction' => $data];
+            return array('transaction' => $data);
         }
 
         return count($data) ? $data : null;

@@ -30,7 +30,7 @@ class Arr {
      */
     public static function divide($array)
     {
-        return [array_keys($array), array_values($array)];
+        return array(array_keys($array), array_values($array));
     }
 
     /**
@@ -42,7 +42,7 @@ class Arr {
      */
     public static function dot($array, $prepend = '')
     {
-        $results = [];
+        $results = array();
 
         foreach ($array as $key => $value)
         {
@@ -112,7 +112,7 @@ class Arr {
      */
     public static function flatten($array)
     {
-        $return = [];
+        $return = array();
 
         array_walk_recursive($array, function($x) use (&$return) { $return[] = $x; });
 
@@ -145,7 +145,7 @@ class Arr {
                 if (isset($array[$part]) && is_array($array[$part])) {
                     $array = &$array[$part];
                 } else {
-                    $parts = [];
+                    $parts = array();
                 }
             }
 
@@ -263,7 +263,7 @@ class Arr {
             // values at the correct depth. Then we'll keep digging into the array.
             if ( ! isset($array[$key]) || ! is_array($array[$key]))
             {
-                $array[$key] = [];
+                $array[$key] = array();
             }
 
             $array =& $array[$key];
@@ -283,7 +283,7 @@ class Arr {
      */
     public static function where($array, callable $callback)
     {
-        $filtered = [];
+        $filtered = array();
 
         foreach ($array as $key => $value)
         {

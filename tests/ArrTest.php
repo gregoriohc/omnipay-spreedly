@@ -9,33 +9,33 @@ class ResponseTest extends TestCase
 {
     public function testAdd()
     {
-        $array = Arr::add(['name' => 'Desk'], 'price', 100);
-        $this->assertEquals(['name' => 'Desk', 'price' => 100], $array);
+        $array = Arr::add(array('name' => 'Desk'), 'price', 100);
+        $this->assertEquals(array('name' => 'Desk', 'price' => 100), $array);
     }
 
     public function testDivide()
     {
-        list($keys, $values) = Arr::divide(['name' => 'Desk']);
-        $this->assertEquals(['name'], $keys);
-        $this->assertEquals(['Desk'], $values);
+        list($keys, $values) = Arr::divide(array('name' => 'Desk'));
+        $this->assertEquals(array('name'), $keys);
+        $this->assertEquals(array('Desk'), $values);
     }
 
     public function testDot()
     {
-        $array = Arr::dot(['foo' => ['bar' => 'baz']]);
-        $this->assertEquals(['foo.bar' => 'baz'], $array);
+        $array = Arr::dot(array('foo' => array('bar' => 'baz')));
+        $this->assertEquals(array('foo.bar' => 'baz'), $array);
     }
 
     public function testExcept()
     {
-        $array = ['name' => 'Desk', 'price' => 100];
-        $array = Arr::except($array, ['price']);
-        $this->assertEquals(['name' => 'Desk'], $array);
+        $array = array('name' => 'Desk', 'price' => 100);
+        $array = Arr::except($array, array('price'));
+        $this->assertEquals(array('name' => 'Desk'), $array);
     }
 
     public function testFirst()
     {
-        $array = [100, 200, 300];
+        $array = array(100, 200, 300);
 
         $value = Arr::first($array, function ($key, $value) {
             return $value >= 150;
@@ -43,7 +43,7 @@ class ResponseTest extends TestCase
 
         $this->assertEquals(200, $value);
 
-        $array = [100, 200, 300];
+        $array = array(100, 200, 300);
 
         $value = Arr::first($array, function ($key, $value) {
             return $value == 150;
@@ -54,7 +54,7 @@ class ResponseTest extends TestCase
 
     public function testLast()
     {
-        $array = [100, 200, 300];
+        $array = array(100, 200, 300);
         $last = Arr::last($array, function () {
             return true;
         });
@@ -63,21 +63,21 @@ class ResponseTest extends TestCase
 
     public function testFlatten()
     {
-        $array = ['name' => 'Joe', 'languages' => ['PHP', 'Ruby']];
+        $array = array('name' => 'Joe', 'languages' => array('PHP', 'Ruby'));
         $array = Arr::flatten($array);
-        $this->assertEquals(['Joe', 'PHP', 'Ruby'], $array);
+        $this->assertEquals(array('Joe', 'PHP', 'Ruby'), $array);
     }
 
     public function testGet()
     {
-        $array = ['products' => ['desk' => ['price' => 100]]];
+        $array = array('products' => array('desk' => array('price' => 100)));
         $value = Arr::get($array, 'products.desk');
-        $this->assertEquals(['price' => 100], $value);
+        $this->assertEquals(array('price' => 100), $value);
     }
 
     public function testHas()
     {
-        $array = ['products' => ['desk' => ['price' => 100]]];
+        $array = array('products' => array('desk' => array('price' => 100)));
         $this->assertTrue(Arr::has($array, 'products.desk'));
         $this->assertTrue(Arr::has($array, 'products.desk.price'));
         $this->assertFalse(Arr::has($array, 'products.foo'));
@@ -86,71 +86,71 @@ class ResponseTest extends TestCase
 
     public function testOnly()
     {
-        $array = ['name' => 'Desk', 'price' => 100, 'orders' => 10];
-        $array = Arr::only($array, ['name', 'price']);
-        $this->assertEquals(['name' => 'Desk', 'price' => 100], $array);
+        $array = array('name' => 'Desk', 'price' => 100, 'orders' => 10);
+        $array = Arr::only($array, array('name', 'price'));
+        $this->assertEquals(array('name' => 'Desk', 'price' => 100), $array);
     }
 
     public function testPull()
     {
-        $array = ['name' => 'Desk', 'price' => 100];
+        $array = array('name' => 'Desk', 'price' => 100);
         $name = Arr::pull($array, 'name');
         $this->assertEquals('Desk', $name);
-        $this->assertEquals(['price' => 100], $array);
+        $this->assertEquals(array('price' => 100), $array);
     }
 
     public function testSet()
     {
-        $array = ['products' => ['desk' => ['price' => 100]]];
+        $array = array('products' => array('desk' => array('price' => 100)));
         Arr::set($array, 'products.desk.price', 200);
         Arr::set($array, 'products.desk.name', 'Magnum');
         Arr::set($array, 'foo.bar', 'test');
-        $this->assertEquals(['products' => ['desk' => ['price' => 200, 'name' => 'Magnum']], 'foo' => ['bar' => 'test']], $array);
+        $this->assertEquals(array('products' => array('desk' => array('price' => 200, 'name' => 'Magnum')), 'foo' => array('bar' => 'test')), $array);
     }
 
     public function testWhere()
     {
-        $array = [100, '200', 300, '400', 500];
+        $array = array(100, '200', 300, '400', 500);
 
         $array = Arr::where($array, function ($key, $value) {
             return is_string($value);
         });
 
-        $this->assertEquals([1 => 200, 3 => 400], $array);
+        $this->assertEquals(array(1 => 200, 3 => 400), $array);
     }
 
     public function testForget()
     {
-        $array = ['products' => ['desk' => ['price' => 100]]];
+        $array = array('products' => array('desk' => array('price' => 100)));
         Arr::forget($array, null);
-        $this->assertEquals(['products' => ['desk' => ['price' => 100]]], $array);
+        $this->assertEquals(array('products' => array('desk' => array('price' => 100))), $array);
 
-        $array = ['products' => ['desk' => ['price' => 100]]];
-        Arr::forget($array, []);
-        $this->assertEquals(['products' => ['desk' => ['price' => 100]]], $array);
+        $array = array('products' => array('desk' => array('price' => 100)));
+        Arr::forget($array, array());
+        $this->assertEquals(array('products' => array('desk' => array('price' => 100))), $array);
 
-        $array = ['products' => ['desk' => ['price' => 100]]];
+        $array = array('products' => array('desk' => array('price' => 100)));
         Arr::forget($array, 'products.desk');
-        $this->assertEquals(['products' => []], $array);
+        $this->assertEquals(array('products' => array()), $array);
 
-        $array = ['products' => ['desk' => ['price' => 100]]];
+        $array = array('products' => array('desk' => array('price' => 100)));
         Arr::forget($array, 'products.desk.price');
-        $this->assertEquals(['products' => ['desk' => []]], $array);
+        $this->assertEquals(array('products' => array('desk' => array())), $array);
 
-        $array = ['products' => ['desk' => ['price' => 100]]];
+        $array = array('products' => array('desk' => array('price' => 100)));
         Arr::forget($array, 'products.final.price');
-        $this->assertEquals(['products' => ['desk' => ['price' => 100]]], $array);
+        $this->assertEquals(array('products' => array('desk' => array('price' => 100))), $array);
 
-        $array = ['shop' => ['cart' => [150 => 0]]];
+        $array = array('shop' => array('cart' => array(150 => 0)));
         Arr::forget($array, 'shop.final.cart');
-        $this->assertEquals(['shop' => ['cart' => [150 => 0]]], $array);
+        $this->assertEquals(array('shop' => array('cart' => array(150 => 0))), $array);
 
-        $array = ['products' => ['desk' => ['price' => ['original' => 50, 'taxes' => 60]]]];
+        $array = array('products' => array('desk' => array('price' => array('original' => 50, 'taxes' => 60))));
         Arr::forget($array, 'products.desk.price.taxes');
-        $this->assertEquals(['products' => ['desk' => ['price' => ['original' => 50]]]], $array);
+        $this->assertEquals(array('products' => array('desk' => array('price' => array('original' => 50)))), $array);
 
-        $array = ['products' => ['desk' => ['price' => ['original' => 50, 'taxes' => 60]]]];
+        $array = array('products' => array('desk' => array('price' => array('original' => 50, 'taxes' => 60))));
         Arr::forget($array, 'products.desk.final.taxes');
-        $this->assertEquals(['products' => ['desk' => ['price' => ['original' => 50, 'taxes' => 60]]]], $array);
+        $this->assertEquals(array('products' => array('desk' => array('price' => array('original' => 50, 'taxes' => 60)))), $array);
     }
 }

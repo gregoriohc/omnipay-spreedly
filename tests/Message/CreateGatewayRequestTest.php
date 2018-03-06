@@ -11,12 +11,12 @@ class CreateGatewayRequestTest extends TestCaseMessage
         $mockRequest = $this->mockHttpRequest('CreateGatewayRequest.txt');
 
         $request = new CreateGatewayRequest($this->getHttpClient(), $this->getHttpRequest());
-        $request->initialize([
+        $request->initialize(array(
             'type' => 'stripe',
-            'config' => [
+            'config' => array(
                 'login' => 'your Stripe API secret',
-            ],
-        ]);
+            ),
+        ));
 
         $this->assertArrayAssocSame($request->getData(), json_decode($mockRequest->getBody(), true));
         $this->assertContains($request->getEndpoint(), $mockRequest->getUrl());
@@ -26,10 +26,10 @@ class CreateGatewayRequestTest extends TestCaseMessage
     {
         $this->setMockHttpResponse('CreateGatewaySuccess.txt');
 
-        $response = $this->gateway->createGateway([
+        $response = $this->gateway->createGateway(array(
             'type' => 'test',
-            'config' => [],
-        ])->send();
+            'config' => array(),
+        ))->send();
 
         $this->assertTrue($response->isSuccessful());
         $this->assertEquals('6DqX57I6fHgIuUkVN2HGszjDSu1', $response->getTransactionReference());

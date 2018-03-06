@@ -216,10 +216,10 @@ class Gateway extends AbstractGateway
         if ($response->isSuccessful()) {
             $data = $response->getData();
 
-            $gatewayToken = [
+            $gatewayToken = array(
                 'type' => $data['gateway_type'],
                 'token' => $data['token'],
-            ];
+            );
 
             $this->addGatewayToken($gatewayToken);
 
@@ -238,10 +238,10 @@ class Gateway extends AbstractGateway
 
         if ($response->isSuccessful()) {
             foreach ($response->getData() as $gateway) {
-                $this->addGatewayToken([
+                $this->addGatewayToken(array(
                     'type' => $gateway['gateway_type'],
                     'token' => $gateway['token'],
-                ]);
+                ));
             }
         }
 

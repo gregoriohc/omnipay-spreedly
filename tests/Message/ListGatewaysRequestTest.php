@@ -21,19 +21,19 @@ class ListGatewaysRequestTest extends TestCaseMessage
         $this->setMockHttpResponse('ListGatewaysSuccess.txt');
 
         /** @var \Omnipay\Spreedly\Message\Response $response */
-        $response = $this->gateway->listGateways([
+        $response = $this->gateway->listGateways(array(
             'order' => 'asc',
-        ])->send();
+        ))->send();
 
         $this->assertCount(2, $response->getData());
 
         $this->setMockHttpResponse('ListGatewaysPage2Success.txt');
 
         /** @var \Omnipay\Spreedly\Message\Response $response */
-        $response = $this->gateway->listGateways([
+        $response = $this->gateway->listGateways(array(
             'order' => 'asc',
             'since_token' => $response->getSinceToken(),
-        ])->send();
+        ))->send();
 
         $this->assertCount(0, $response->getData());
         $this->assertNull($response->getSinceToken());
