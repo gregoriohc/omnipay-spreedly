@@ -26,7 +26,7 @@ class AuthorizeRequestTest extends TestCaseMessage
             'cvv' => 123,
         ]));
 
-        $this->assertSame($request->getData(), json_decode($mockRequest->getBody(), true));
+        $this->assertArrayAssocSame($request->getData(), json_decode($mockRequest->getBody(), true));
         $this->assertContains($request->getEndpoint(), $mockRequest->getUrl());
     }
 

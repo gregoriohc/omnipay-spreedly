@@ -8,6 +8,9 @@ use Omnipay\Spreedly\BankAccount;
 use Omnipay\Spreedly\Gateway;
 use Omnipay\Spreedly\Message\AuthorizeRequest;
 use Omnipay\Spreedly\Message\CaptureRequest;
+use Omnipay\Spreedly\Message\CreateCardRequest;
+use Omnipay\Spreedly\Message\CreateGatewayRequest;
+use Omnipay\Spreedly\Message\CreatePaymentMethodRequest;
 use Omnipay\Tests\GatewayTestCase;
 use Omnipay\Common\CreditCard;
 
@@ -58,27 +61,23 @@ class GatewayTest extends GatewayTestCase
 
     public function testCreateCard()
     {
-        $this->setMockHttpResponse('CreateCardSuccess.txt');
+        $request = $this->gateway->createCard();
 
-        $response = $this->gateway->createCard([
-            'card' => new CreditCard([
-                'firstName' => 'Example',
-                'lastName' => 'User',
-                'number' => '4111111111111111',
-                'expiryMonth' => '12',
-                'expiryYear' => '2020',
-                'cvv' => '123',
-            ]),
-            'email' => 'user@example.com',
-            'retained' => false,
-            'allow_blank_name' => false,
-            'allow_expired_date' => false,
-            'allow_blank_date' => false,
-        ])->send();
+        $this->assertInstanceOf(CreateCardRequest::class, $request);
+    }
 
-        $this->assertTrue($response->isSuccessful());
-        $this->assertEquals('MsTBXc7aXHVnnTeIJX2LfgtfPqh', $response->getTransactionReference());
-        $this->assertEquals('succeeded', $response->getCode());
+    public function testCreateGateway()
+    {
+        $request = $this->gateway->createGateway();
+
+        $this->assertInstanceOf(CreateGatewayRequest::class, $request);
+    }
+
+    public function testCreatePaymentMethod()
+    {
+        $request = $this->gateway->createPaymentMethod();
+
+        $this->assertInstanceOf(CreatePaymentMethodRequest::class, $request);
     }
 
     public function testDeleteCard()
@@ -158,33 +157,6 @@ class GatewayTest extends GatewayTestCase
 
         $this->assertCount(0, $response->getData());
         $this->assertNull($response->getSinceToken());
-    }
-
-    public function testCreatePaymentMethod()
-    {
-        $this->setMockHttpResponse('CreatePaymentMethodBankAccountSuccess.txt');
-
-        $response = $this->gateway->createPaymentMethod([
-            'bank_account' => [
-                'first_name' => 'Jon',
-                'last_name' => 'Doe',
-                'number' => '9876543210',
-                'routing_number' => '021000021',
-                'type' => BankAccount::TYPE_CHECKING,
-                'holder_type' => BankAccount::HOLDER_TYPE_PERSONAL,
-            ],
-            'email' => 'user@example.com',
-            'retained' => false,
-            'allow_blank_name' => false,
-            'allow_expired_date' => false,
-            'allow_blank_date' => false,
-        ])->send();
-
-        $this->assertTrue($response->isSuccessful());
-        $this->assertEquals('7cndznvjrSZ8BF7EmgHQVN3TRKL', $response->getTransactionReference());
-        $this->assertEquals('succeeded', $response->getCode());
-        $this->assertEquals('QzbtsFbvQdzHbJDuDUJ9itBr7jP', $response->getPaymentMethodToken());
-        $this->assertEquals('bank_account', $response->getPaymentMethodType());
     }
 
     public function testDeletePaymentMethod()
@@ -347,20 +319,6 @@ class GatewayTest extends GatewayTestCase
         ])->send();
 
         $this->assertFalse($response->isSuccessful());
-    }
-
-    public function testCreateGateway()
-    {
-        $this->setMockHttpResponse('CreateGatewaySuccess.txt');
-
-        $response = $this->gateway->createGateway([
-            'type' => 'test',
-            'config' => [],
-        ])->send();
-
-        $this->assertTrue($response->isSuccessful());
-        $this->assertEquals('6DqX57I6fHgIuUkVN2HGszjDSu1', $response->getTransactionReference());
-        $this->assertNull($response->getMessage());
     }
 
     public function testAddGateway()

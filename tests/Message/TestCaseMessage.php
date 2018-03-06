@@ -81,4 +81,32 @@ class TestCaseMessage extends TestCase
 
         return $request;
     }
+
+    /**
+     * Asserts that two assoc arrays are equal
+     *
+     * @param  mixed $expected
+     * @param  mixed $actual
+     * @param  string $message
+     */
+    protected static function assertArrayAssocSame($expected, $actual, $message = '')
+    {
+        self::ksortRecursive($expected);
+        self::ksortRecursive($actual);
+
+        self::assertSame($expected, $actual, $message);
+    }
+
+    protected static function ksortRecursive(&$array, $sort_flags = SORT_REGULAR)
+    {
+        if (!is_array($array)) return false;
+
+        ksort($array, $sort_flags);
+
+        foreach ($array as &$arr) {
+            self::ksortRecursive($arr, $sort_flags);
+        }
+
+        return true;
+    }
 }

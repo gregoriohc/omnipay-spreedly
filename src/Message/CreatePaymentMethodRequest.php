@@ -23,6 +23,7 @@ class CreatePaymentMethodRequest extends AbstractRequest
             'allow_blank_name' => 'allow_blank_name',
             'allow_expired_date' => 'allow_expired_date',
             'allow_blank_date' => 'allow_blank_date',
+            'data' => 'extra',
         ]);
 
         return ['payment_method' => $data];
@@ -84,5 +85,15 @@ class CreatePaymentMethodRequest extends AbstractRequest
     public function setAllowBlankDate($value)
     {
         return $this->setParameter('allow_blank_date', $value);
+    }
+
+    public function getExtra()
+    {
+        return $this->getParameter('extra');
+    }
+
+    public function setExtra($value)
+    {
+        return $this->setParameter('extra', $value);
     }
 }

@@ -1,0 +1,18 @@
+POST /v1/payment_methods.json HTTPS/1.1
+Host: core.spreedly.com
+Authorization: Basic QWxhZGRpbjpvcGVuIHNlc2FtZQ==
+Content-Type: application/json
+
+{
+  "payment_method": {
+    "credit_card": {
+      "first_name": "Joe",
+      "last_name": "Jones",
+      "number": "5555555555554444",
+      "verification_value": "423",
+      "month": "3",
+      "year": "2032"
+    },
+    "email": "joey@example.com"
+  }
+}

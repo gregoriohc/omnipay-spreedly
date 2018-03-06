@@ -1,0 +1,11 @@
+POST /v1/gateways.json HTTPS/1.1
+Host: core.spreedly.com
+Authorization: Basic QWxhZGRpbjpvcGVuIHNlc2FtZQ==
+Content-Type: application/json
+
+{
+  "gateway": {
+    "gateway_type": "stripe",
+    "login": "your Stripe API secret"
+  }
+}

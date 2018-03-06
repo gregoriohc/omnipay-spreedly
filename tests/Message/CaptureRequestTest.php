@@ -18,7 +18,7 @@ class CaptureRequestTest extends TestCaseMessage
         $request = $this->setTestGateway($request);
         $request->setTransactionReference('UAooev0WJDbSyuh0CqwHGi8WDML');
 
-        $this->assertSame($request->getData(), json_decode($mockRequest->getBody(), true));
+        $this->assertArrayAssocSame($request->getData(), json_decode($mockRequest->getBody(), true));
         $this->assertContains($request->getEndpoint(), $mockRequest->getUrl());
     }
 
