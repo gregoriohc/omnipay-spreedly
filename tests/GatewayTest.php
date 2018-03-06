@@ -2,22 +2,8 @@
 
 namespace Omnipay\Spreedly\Tests;
 
-use Guzzle\Http\Exception\ClientErrorResponseException;
 use Omnipay\Spreedly\Arr;
 use Omnipay\Spreedly\Gateway;
-use Omnipay\Spreedly\Message\AuthorizeRequest;
-use Omnipay\Spreedly\Message\CaptureRequest;
-use Omnipay\Spreedly\Message\CreateGatewayRequest;
-use Omnipay\Spreedly\Message\CreatePaymentMethodRequest;
-use Omnipay\Spreedly\Message\DeletePaymentMethodRequest;
-use Omnipay\Spreedly\Message\FetchPaymentMethodRequest;
-use Omnipay\Spreedly\Message\ListGatewaysRequest;
-use Omnipay\Spreedly\Message\ListPaymentMethodsRequest;
-use Omnipay\Spreedly\Message\PurchaseRequest;
-use Omnipay\Spreedly\Message\RefundRequest;
-use Omnipay\Spreedly\Message\RetainPaymentMethodRequest;
-use Omnipay\Spreedly\Message\UpdatePaymentMethodRequest;
-use Omnipay\Spreedly\Message\VoidRequest;
 use Omnipay\Tests\GatewayTestCase;
 
 class GatewayTest extends GatewayTestCase
@@ -55,133 +41,133 @@ class GatewayTest extends GatewayTestCase
     {
         $request = $this->gateway->authorize();
 
-        $this->assertInstanceOf(AuthorizeRequest::class, $request);
+        $this->assertInstanceOf('Omnipay\Spreedly\Message\AuthorizeRequest', $request);
     }
 
     public function testCapture()
     {
         $request = $this->gateway->capture();
 
-        $this->assertInstanceOf(CaptureRequest::class, $request);
+        $this->assertInstanceOf('Omnipay\Spreedly\Message\CaptureRequest', $request);
     }
 
     public function testCreateCard()
     {
         $request = $this->gateway->createCard();
 
-        $this->assertInstanceOf(CreatePaymentMethodRequest::class, $request);
+        $this->assertInstanceOf('Omnipay\Spreedly\Message\CreatePaymentMethodRequest', $request);
     }
 
     public function testCreateGateway()
     {
         $request = $this->gateway->createGateway();
 
-        $this->assertInstanceOf(CreateGatewayRequest::class, $request);
+        $this->assertInstanceOf('Omnipay\Spreedly\Message\CreateGatewayRequest', $request);
     }
 
     public function testCreatePaymentMethod()
     {
         $request = $this->gateway->createPaymentMethod();
 
-        $this->assertInstanceOf(CreatePaymentMethodRequest::class, $request);
+        $this->assertInstanceOf('Omnipay\Spreedly\Message\CreatePaymentMethodRequest', $request);
     }
 
     public function testDeleteCard()
     {
         $request = $this->gateway->deleteCard();
 
-        $this->assertInstanceOf(DeletePaymentMethodRequest::class, $request);
+        $this->assertInstanceOf('Omnipay\Spreedly\Message\DeletePaymentMethodRequest', $request);
     }
 
     public function testDeletePaymentMethod()
     {
         $request = $this->gateway->deletePaymentMethod();
 
-        $this->assertInstanceOf(DeletePaymentMethodRequest::class, $request);
+        $this->assertInstanceOf('Omnipay\Spreedly\Message\DeletePaymentMethodRequest', $request);
     }
 
     public function testFetchCard()
     {
         $request = $this->gateway->fetchCard();
 
-        $this->assertInstanceOf(FetchPaymentMethodRequest::class, $request);
+        $this->assertInstanceOf('Omnipay\Spreedly\Message\FetchPaymentMethodRequest', $request);
     }
 
     public function testFetchPaymentMethod()
     {
         $request = $this->gateway->fetchPaymentMethod();
 
-        $this->assertInstanceOf(FetchPaymentMethodRequest::class, $request);
+        $this->assertInstanceOf('Omnipay\Spreedly\Message\FetchPaymentMethodRequest', $request);
     }
 
     public function testListCards()
     {
         $request = $this->gateway->listCards();
 
-        $this->assertInstanceOf(ListPaymentMethodsRequest::class, $request);
+        $this->assertInstanceOf('Omnipay\Spreedly\Message\ListPaymentMethodsRequest', $request);
     }
 
     public function testListGateways()
     {
         $request = $this->gateway->listGateways();
 
-        $this->assertInstanceOf(ListGatewaysRequest::class, $request);
+        $this->assertInstanceOf('Omnipay\Spreedly\Message\ListGatewaysRequest', $request);
     }
 
     public function testListPaymentMethods()
     {
         $request = $this->gateway->listPaymentMethods();
 
-        $this->assertInstanceOf(ListPaymentMethodsRequest::class, $request);
+        $this->assertInstanceOf('Omnipay\Spreedly\Message\ListPaymentMethodsRequest', $request);
     }
 
     public function testPurchase()
     {
         $request = $this->gateway->purchase();
 
-        $this->assertInstanceOf(PurchaseRequest::class, $request);
+        $this->assertInstanceOf('Omnipay\Spreedly\Message\PurchaseRequest', $request);
     }
 
     public function testRefund()
     {
         $request = $this->gateway->refund();
 
-        $this->assertInstanceOf(RefundRequest::class, $request);
+        $this->assertInstanceOf('Omnipay\Spreedly\Message\RefundRequest', $request);
     }
 
     public function testRetainCard()
     {
         $request = $this->gateway->retainCard();
 
-        $this->assertInstanceOf(RetainPaymentMethodRequest::class, $request);
+        $this->assertInstanceOf('Omnipay\Spreedly\Message\RetainPaymentMethodRequest', $request);
     }
 
     public function testRetainPaymentMethod()
     {
         $request = $this->gateway->retainPaymentMethod();
 
-        $this->assertInstanceOf(RetainPaymentMethodRequest::class, $request);
+        $this->assertInstanceOf('Omnipay\Spreedly\Message\RetainPaymentMethodRequest', $request);
     }
 
     public function testUpdateCard()
     {
         $request = $this->gateway->updateCard();
 
-        $this->assertInstanceOf(UpdatePaymentMethodRequest::class, $request);
+        $this->assertInstanceOf('Omnipay\Spreedly\Message\UpdatePaymentMethodRequest', $request);
     }
 
     public function testUpdatePaymentMethod()
     {
         $request = $this->gateway->updatePaymentMethod();
 
-        $this->assertInstanceOf(UpdatePaymentMethodRequest::class, $request);
+        $this->assertInstanceOf('Omnipay\Spreedly\Message\UpdatePaymentMethodRequest', $request);
     }
 
     public function testVoid()
     {
         $request = $this->gateway->void();
 
-        $this->assertInstanceOf(VoidRequest::class, $request);
+        $this->assertInstanceOf('Omnipay\Spreedly\Message\VoidRequest', $request);
     }
 
     public function testAddGateway()
@@ -213,7 +199,7 @@ class GatewayTest extends GatewayTestCase
     {
         $this->setMockHttpResponse('TooManyRequestsError.txt');
 
-        $this->setExpectedException(ClientErrorResponseException::class);
+        $this->setExpectedException('Guzzle\Http\Exception\ClientErrorResponseException');
 
         $this->gateway->listGateways()->send();
     }
