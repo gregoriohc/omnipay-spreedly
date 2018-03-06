@@ -6,7 +6,7 @@
 namespace Omnipay\Spreedly;
 
 use Omnipay\Common\Helper;
-use Omnipay\Spreedly\Concerns\HasCustomerData;
+use Omnipay\Spreedly\Concerns\HasOwnerData;
 use Omnipay\Spreedly\Exception\InvalidPaymentMethodException;
 use Symfony\Component\HttpFoundation\ParameterBag;
 
@@ -47,7 +47,7 @@ use Symfony\Component\HttpFoundation\ParameterBag;
  */
 class BankAccount
 {
-    use HasCustomerData;
+    use HasOwnerData;
 
     const TYPE_CHECKING = 'checking';
 

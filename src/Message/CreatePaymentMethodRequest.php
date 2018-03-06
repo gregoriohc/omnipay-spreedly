@@ -2,7 +2,7 @@
 
 namespace Omnipay\Spreedly\Message;
 
-use Omnipay\Spreedly\Concerns\HasCustomerData;
+use Omnipay\Spreedly\Concerns\HasOwnerData;
 use Omnipay\Spreedly\Message\Concerns\HasPaymentMethodData;
 
 /**
@@ -10,7 +10,7 @@ use Omnipay\Spreedly\Message\Concerns\HasPaymentMethodData;
  */
 class CreatePaymentMethodRequest extends AbstractPaymentMethodRequest
 {
-    use HasCustomerData, HasPaymentMethodData;
+    use HasOwnerData, HasPaymentMethodData;
 
     /**
      * @return array

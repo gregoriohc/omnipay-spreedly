@@ -1,14 +1,14 @@
 <?php
 
 namespace Omnipay\Spreedly\Message;
-use Omnipay\Spreedly\Concerns\HasCustomerData;
+use Omnipay\Spreedly\Concerns\HasOwnerData;
 
 /**
  * @method Response send()
  */
 class UpdatePaymentMethodRequest extends AbstractPaymentMethodRequest
 {
-    use HasCustomerData;
+    use HasOwnerData;
 
     /**
      * @return array

@@ -2,7 +2,7 @@
 
 namespace Omnipay\Spreedly\Concerns;
 
-trait HasCustomerData
+trait HasOwnerData
 {
     public function getFirstName()
     {
