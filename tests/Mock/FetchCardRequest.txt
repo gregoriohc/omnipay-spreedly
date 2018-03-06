@@ -1,0 +1,4 @@
+GET /v1/payment_methods/1rpKvP8zOUhj4Y9EDrIoIYQzzD5.json HTTPS/1.1
+Host: core.spreedly.com
+Authorization: Basic QWxhZGRpbjpvcGVuIHNlc2FtZQ==
+

@@ -11,6 +11,10 @@ use Omnipay\Spreedly\Message\CaptureRequest;
 use Omnipay\Spreedly\Message\CreateCardRequest;
 use Omnipay\Spreedly\Message\CreateGatewayRequest;
 use Omnipay\Spreedly\Message\CreatePaymentMethodRequest;
+use Omnipay\Spreedly\Message\DeleteCardRequest;
+use Omnipay\Spreedly\Message\DeletePaymentMethodRequest;
+use Omnipay\Spreedly\Message\FetchCardRequest;
+use Omnipay\Spreedly\Message\FetchPaymentMethodRequest;
 use Omnipay\Tests\GatewayTestCase;
 use Omnipay\Common\CreditCard;
 
@@ -82,16 +86,30 @@ class GatewayTest extends GatewayTestCase
 
     public function testDeleteCard()
     {
-        $this->setMockHttpResponse('DeleteCardSuccess.txt');
+        $request = $this->gateway->deleteCard();
 
-        $response = $this->gateway->deleteCard([
-            'payment_method_token' => 'FT6P5qwEI1MArhD8nydJpnHP1uV',
-        ])->send();
+        $this->assertInstanceOf(DeleteCardRequest::class, $request);
+    }
 
-        $this->assertTrue($response->isSuccessful());
-        $this->assertEquals('XN5Lm2COxcqP7xFKaZIWDI0CVuh', $response->getTransactionReference());
-        $this->assertEquals('succeeded', $response->getCode());
-        $this->assertEquals('FT6P5qwEI1MArhD8nydJpnHP1uV', $response->getPaymentMethodToken());
+    public function testDeletePaymentMethod()
+    {
+        $request = $this->gateway->deletePaymentMethod();
+
+        $this->assertInstanceOf(DeletePaymentMethodRequest::class, $request);
+    }
+
+    public function testFetchCard()
+    {
+        $request = $this->gateway->fetchCard();
+
+        $this->assertInstanceOf(FetchCardRequest::class, $request);
+    }
+
+    public function testFetchPaymentMethod()
+    {
+        $request = $this->gateway->fetchPaymentMethod();
+
+        $this->assertInstanceOf(FetchPaymentMethodRequest::class, $request);
     }
 
     public function testRetainCard()
@@ -105,19 +123,6 @@ class GatewayTest extends GatewayTestCase
         $this->assertTrue($response->isSuccessful());
         $this->assertEquals('7Mod2PL9OM7AuHBmlPSRvKa02fE', $response->getTransactionReference());
         $this->assertEquals('succeeded', $response->getCode());
-        $this->assertEquals('1rpKvP8zOUhj4Y9EDrIoIYQzzD5', $response->getPaymentMethodToken());
-    }
-
-    public function testFetchCard()
-    {
-        $this->setMockHttpResponse('FetchCardSuccess.txt');
-
-        $response = $this->gateway->fetchCard([
-            'payment_method_token' => '1rpKvP8zOUhj4Y9EDrIoIYQzzD5',
-        ])->send();
-
-        $this->assertTrue($response->isSuccessful());
-        $this->assertEquals('1rpKvP8zOUhj4Y9EDrIoIYQzzD5', $response->getTransactionReference());
         $this->assertEquals('1rpKvP8zOUhj4Y9EDrIoIYQzzD5', $response->getPaymentMethodToken());
     }
 
@@ -159,20 +164,6 @@ class GatewayTest extends GatewayTestCase
         $this->assertNull($response->getSinceToken());
     }
 
-    public function testDeletePaymentMethod()
-    {
-        $this->setMockHttpResponse('DeletePaymentMethodSuccess.txt');
-
-        $response = $this->gateway->deletePaymentMethod([
-            'payment_method_token' => 'FT6P5qwEI1MArhD8nydJpnHP1uV',
-        ])->send();
-
-        $this->assertTrue($response->isSuccessful());
-        $this->assertEquals('XN5Lm2COxcqP7xFKaZIWDI0CVuh', $response->getTransactionReference());
-        $this->assertEquals('succeeded', $response->getCode());
-        $this->assertEquals('FT6P5qwEI1MArhD8nydJpnHP1uV', $response->getPaymentMethodToken());
-    }
-
     public function testRetainPaymentMethod()
     {
         $this->setMockHttpResponse('RetainPaymentMethodSuccess.txt');
@@ -184,19 +175,6 @@ class GatewayTest extends GatewayTestCase
         $this->assertTrue($response->isSuccessful());
         $this->assertEquals('7Mod2PL9OM7AuHBmlPSRvKa02fE', $response->getTransactionReference());
         $this->assertEquals('succeeded', $response->getCode());
-        $this->assertEquals('1rpKvP8zOUhj4Y9EDrIoIYQzzD5', $response->getPaymentMethodToken());
-    }
-
-    public function testFetchPaymentMethod()
-    {
-        $this->setMockHttpResponse('FetchPaymentMethodSuccess.txt');
-
-        $response = $this->gateway->fetchPaymentMethod([
-            'payment_method_token' => '1rpKvP8zOUhj4Y9EDrIoIYQzzD5',
-        ])->send();
-
-        $this->assertTrue($response->isSuccessful());
-        $this->assertEquals('1rpKvP8zOUhj4Y9EDrIoIYQzzD5', $response->getTransactionReference());
         $this->assertEquals('1rpKvP8zOUhj4Y9EDrIoIYQzzD5', $response->getPaymentMethodToken());
     }
 
