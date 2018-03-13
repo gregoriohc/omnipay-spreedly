@@ -2,6 +2,7 @@
 
 namespace Omnipay\Spreedly\Message;
 
+use Omnipay\Spreedly\Concerns\HasOwnerData;
 use Omnipay\Spreedly\Message\Concerns\HasGateway;
 use Omnipay\Spreedly\Message\Concerns\HasGatewaySpecificFields;
 use Omnipay\Spreedly\Message\Concerns\HasPaymentMethodData;
@@ -11,7 +12,7 @@ use Omnipay\Spreedly\Message\Concerns\HasPaymentMethodData;
  */
 class PurchaseRequest extends AbstractRequest
 {
-    use HasGateway, HasPaymentMethodData, HasGatewaySpecificFields;
+    use HasGateway, HasPaymentMethodData, HasGatewaySpecificFields, HasOwnerData;
 
     /**
      * @return array
@@ -30,6 +31,7 @@ class PurchaseRequest extends AbstractRequest
         $data = $this->fillExistingParameters($data, array(
             'amount' => 'amount_integer',
             'currency_code' => 'currency',
+            'email' => 'email',
         ));
 
         return array('transaction' => $data);
