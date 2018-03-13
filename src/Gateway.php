@@ -91,6 +91,15 @@ class Gateway extends AbstractGateway
 
     /**
      * @param array $options
+     * @return Message\StorePaymentMethodRequest
+     */
+    public function storeCard(array $options = array())
+    {
+        return $this->createRequest('Omnipay\Spreedly\Message\StorePaymentMethodRequest', $options);
+    }
+
+    /**
+     * @param array $options
      * @return Message\DeletePaymentMethodRequest
      */
     public function deleteCard(array $options = array())
@@ -141,6 +150,15 @@ class Gateway extends AbstractGateway
     public function retainPaymentMethod(array $options = array())
     {
         return $this->createRequest('Omnipay\Spreedly\Message\RetainPaymentMethodRequest', $options);
+    }
+
+    /**
+     * @param array $options
+     * @return Message\StorePaymentMethodRequest
+     */
+    public function storePaymentMethod(array $options = array())
+    {
+        return $this->createRequest('Omnipay\Spreedly\Message\StorePaymentMethodRequest', $options);
     }
 
     /**

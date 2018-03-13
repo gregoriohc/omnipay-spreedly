@@ -1,0 +1,10 @@
+POST /v1/gateways/1234/store.json HTTPS/1.1
+Host: core.spreedly.com
+Authorization: Basic QWxhZGRpbjpvcGVuIHNlc2FtZQ==
+Content-Type: application/json
+
+{
+  "transaction": {
+    "payment_method_token": "56wyNnSmuA6CWYP7w0MiYCVIbW6"
+  }
+}
