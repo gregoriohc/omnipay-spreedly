@@ -167,4 +167,12 @@ class Response extends AbstractResponse
         return null;
     }
 
+    /**
+     * @return array|null
+     */
+    public function getErrors()
+    {
+        return Arr::get($this->data, 'errors');
+    }
+
 }

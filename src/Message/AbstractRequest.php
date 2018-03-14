@@ -2,6 +2,8 @@
 
 namespace Omnipay\Spreedly\Message;
 
+use Guzzle\Common\Exception\RuntimeException;
+use Guzzle\Http\Exception\BadResponseException;
 use Omnipay\Common\Helper;
 use Omnipay\Common\Message\AbstractRequest as BaseAbstractRequest;
 use Omnipay\Spreedly\Concerns\HasSpreedlyConfig;
@@ -59,7 +61,14 @@ abstract class AbstractRequest extends BaseAbstractRequest
 
         $httpRequest->setAuth($this->getApiKey(), $this->getApiSecret());
 
-        $httpResponse = $httpRequest->send();
+        try {
+            $httpResponse = $httpRequest->send();
+        } catch (BadResponseException $e) {
+            if (false !== strstr($e->getMessage(), '422')) {
+                return $this->createResponse($e->getResponse()->json());
+            }
+            throw $e;
+        }
 
         return $this->createResponse($httpResponse->json());
     }
