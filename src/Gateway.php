@@ -68,7 +68,7 @@ class Gateway extends AbstractGateway
      */
     public function createCard(array $options = array())
     {
-        return $this->createRequest('Omnipay\Spreedly\Message\CreatePaymentMethodRequest', $options);
+        return $this->createPaymentMethod($options);
     }
 
     /**
@@ -77,7 +77,7 @@ class Gateway extends AbstractGateway
      */
     public function updateCard(array $options = array())
     {
-        return $this->createRequest('Omnipay\Spreedly\Message\UpdatePaymentMethodRequest', $options);
+        return $this->updatePaymentMethod($options);
     }
 
     /**
@@ -86,7 +86,7 @@ class Gateway extends AbstractGateway
      */
     public function retainCard(array $options = array())
     {
-        return $this->createRequest('Omnipay\Spreedly\Message\RetainPaymentMethodRequest', $options);
+        return $this->retainPaymentMethod($options);
     }
 
     /**
@@ -95,7 +95,7 @@ class Gateway extends AbstractGateway
      */
     public function storeCard(array $options = array())
     {
-        return $this->createRequest('Omnipay\Spreedly\Message\StorePaymentMethodRequest', $options);
+        return $this->storePaymentMethod($options);
     }
 
     /**
@@ -104,7 +104,7 @@ class Gateway extends AbstractGateway
      */
     public function verifyCard(array $options = array())
     {
-        return $this->createRequest('Omnipay\Spreedly\Message\VerifyPaymentMethodRequest', $options);
+        return $this->verifyPaymentMethod($options);
     }
 
     /**
@@ -113,7 +113,7 @@ class Gateway extends AbstractGateway
      */
     public function deleteCard(array $options = array())
     {
-        return $this->createRequest('Omnipay\Spreedly\Message\DeletePaymentMethodRequest', $options);
+        return $this->deletePaymentMethod($options);
     }
 
     /**
@@ -122,7 +122,7 @@ class Gateway extends AbstractGateway
      */
     public function fetchCard(array $options = array())
     {
-        return $this->createRequest('Omnipay\Spreedly\Message\FetchPaymentMethodRequest', $options);
+        return $this->fetchPaymentMethod($options);
     }
 
     /**
@@ -131,7 +131,7 @@ class Gateway extends AbstractGateway
      */
     public function listCards(array $options = array())
     {
-        return $this->createRequest('Omnipay\Spreedly\Message\ListPaymentMethodsRequest', $options);
+        return $this->listPaymentMethods($options);
     }
 
     /**
