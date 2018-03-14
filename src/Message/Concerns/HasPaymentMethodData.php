@@ -82,4 +82,14 @@ trait HasPaymentMethodData
 
         return $data;
     }
+
+    public function getRetainOnSuccess()
+    {
+        return $this->getParameter('retain_on_success');
+    }
+
+    public function setRetainOnSuccess($value)
+    {
+        return $this->setParameter('retain_on_success', $value);
+    }
 }
