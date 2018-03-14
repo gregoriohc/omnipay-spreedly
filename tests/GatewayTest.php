@@ -203,4 +203,22 @@ class GatewayTest extends GatewayTestCase
 
         $this->gateway->listGateways()->send();
     }
+
+    public function testEmulateVerifyPaymentMethod()
+    {
+        $this->setMockHttpResponse('AuthorizeSuccess.txt');
+
+        $response = $this->gateway->emulateVerifyPaymentMethod(array(
+            'token' => '56wyNnSmuA6CWYP7w0MiYCVIbW6',
+            'amount' => '1.00',
+            'currency' => 'USD',
+            'retain_on_success' => true,
+        ));
+
+        $this->assertTrue($response->isSuccessful());
+        $this->assertEquals('RAK67yYv2ZRUyBRcYxLkh3PalNj', $response->getTransactionReference());
+        $this->assertEquals('succeeded', $response->getCode());
+        $this->assertEquals('1.00', $response->getAmount());
+        $this->assertEquals('8YtLewbQEDe8RsIY4XCEjiEg1OB', $response->getPaymentMethodToken());
+    }
 }
