@@ -199,7 +199,7 @@ class Gateway extends AbstractGateway
         if ($authorizeResponse->isSuccessful()) {
             $this->void([
                 'transactionReference' => $authorizeResponse->getTransactionReference(),
-            ]);
+            ])->send();
         }
 
         return $authorizeResponse;
