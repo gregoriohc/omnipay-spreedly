@@ -32,6 +32,7 @@ class AuthorizeRequest extends AbstractRequest
             'amount' => 'amount_integer',
             'currency_code' => 'currency',
             'email' => 'email',
+            'retain_on_success' => 'retain_on_success',
         ));
 
         return array('transaction' => $data);
