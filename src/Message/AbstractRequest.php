@@ -65,7 +65,9 @@ abstract class AbstractRequest extends BaseAbstractRequest
             $httpResponse = $httpRequest->send();
         } catch (BadResponseException $e) {
             if (false !== strstr($e->getMessage(), '422')) {
-                return $this->createResponse($e->getResponse()->json());
+                return $this->createResponse([
+                    'exception' => $e->getResponse()->json()
+                ]);
             }
             throw $e;
         }

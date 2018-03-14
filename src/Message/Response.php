@@ -43,8 +43,8 @@ class Response extends AbstractResponse
 
         // Check for errors array
         $errors = Arr::get($this->data, 'errors');
-        if (!is_null($errors)) {
-            return is_array($errors) && !count($errors);
+        if (is_array($errors)) {
+            return !count($errors);
         }
 
         // Check if it's an indexed array (lists)
