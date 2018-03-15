@@ -206,7 +206,7 @@ class GatewayTest extends GatewayTestCase
 
     public function testEmulateVerifyPaymentMethod()
     {
-        $this->setMockHttpResponse('AuthorizeSuccess.txt');
+        $this->setMockHttpResponse(['AuthorizeSuccess.txt', 'VoidSuccess.txt']);
 
         $response = $this->gateway->emulateVerifyPaymentMethod(array(
             'token' => '56wyNnSmuA6CWYP7w0MiYCVIbW6',
